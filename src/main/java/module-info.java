@@ -6,6 +6,8 @@ module fr.greta.tpflottejavafx {
     requires org.apache.logging.log4j;
     requires jakarta.mail;
     requires tools.jackson.databind;
+    requires kernel;
+    requires layout;
 
     exports application;
     opens application to javafx.fxml;
