@@ -35,8 +35,7 @@ public final class ChiffrementAES {
      * Écrit la clé dans un fichier, en Base64.
      */
     public static void sauvegarderCle(SecretKey cle, Path fichier) throws IOException {
-        Files.writeString(fichier,
-                Base64.getEncoder().encodeToString(cle.getEncoded()));
+        Files.writeString(fichier, Base64.getEncoder().encodeToString(cle.getEncoded()));
     }
 
     /**
