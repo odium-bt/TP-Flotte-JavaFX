@@ -3,16 +3,15 @@ package controllers;
 import modeles.Reservations;
 import modeles.Salarie;
 import modeles.Vehicule;
-import service.RegleGestionException;
+import exceptions.RegleGestionException;
 import service.ReservationService;
 import vue.MenuConsole;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 public class ReservationController {
 
-    private ReservationService reservationService;
+    private final ReservationService reservationService;
     private MenuConsole vue;
 
     public ReservationController(ReservationService reservationService, MenuConsole vue) {

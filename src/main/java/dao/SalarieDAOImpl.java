@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.DAOException;
 import modeles.Salarie;
 
 import java.sql.PreparedStatement;

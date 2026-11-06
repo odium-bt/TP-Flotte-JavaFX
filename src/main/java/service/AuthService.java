@@ -1,8 +1,9 @@
 package service;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import exceptions.RegleGestionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mindrot.jbcrypt.BCrypt;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -51,7 +52,7 @@ public class AuthService {
             String login = json.get("login").asString();
             String pwHash = json.get("motDePasseHash").asString();
 
-            if ((inputLogin.equals(login) && BCrypt.checkpw(inputPw, pwHash))) {
+            if ((inputLogin.equals(login) && BCrypt.verifyer().verify(inputPw.toCharArray(), pwHash).verified)) {
                 setTentativesRestantes(3);
                 log.info("Authentification réussie");
                 return true;

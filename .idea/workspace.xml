@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="259f2055-3b9e-48f1-8b6c-10ed010aa494" name="Changes" comment="added logger dependency">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/auth-image.jpg" afterDir="false" />
+    <list default="true" id="259f2055-3b9e-48f1-8b6c-10ed010aa494" name="Changes" comment="ajouté lignes require des dépendances itext">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/vue/MenuConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vue/MenuConsole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/user.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/user.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ReservationDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ReservationDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SalarieDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/SalarieDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SalarieDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/SalarieDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/VehiculeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/VehiculeService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,18 +27,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "odium-bt"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;odium-bt&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/odium-bt/TP-Flotte-JavaFX.git",
-    "accountId": "2eda110d-7c1d-4b3f-b405-2d97843243d8"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/odium-bt/TP-Flotte-JavaFX.git&quot;,
+    &quot;accountId&quot;: &quot;2eda110d-7c1d-4b3f-b405-2d97843243d8&quot;
   }
-}]]></component>
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -45,10 +46,10 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7,
-  "fromUser": false
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3LjZv1unstIWn5bEy2epchNprEJ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -61,7 +62,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "zadig",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/CDAX23/exosJava/TP-Flotte-JavaFX/src/main/resources",
     "nodejs_package_manager_path": "npm"
@@ -99,6 +100,18 @@
     <MESSAGE value="ajouté fichiers javaFX" />
     <MESSAGE value="added bcrypt dependancy" />
     <MESSAGE value="added logger dependency" />
-    <option name="LAST_COMMIT_MESSAGE" value="added logger dependency" />
+    <MESSAGE value="moved classes" />
+    <MESSAGE value="adapted controller to javafx" />
+    <MESSAGE value="réparé la dépendance BCrypt" />
+    <MESSAGE value="changement mineur" />
+    <MESSAGE value="retiré classes redondantes" />
+    <MESSAGE value="bougé exceptions dans un nouveau package exceptions" />
+    <MESSAGE value="import de l'exception" />
+    <MESSAGE value="import d'une exception" />
+    <MESSAGE value="mis à jour du package" />
+    <MESSAGE value="importé exception" />
+    <MESSAGE value="ajouté dépendances itext pour le pdf" />
+    <MESSAGE value="ajouté lignes require des dépendances itext" />
+    <option name="LAST_COMMIT_MESSAGE" value="ajouté lignes require des dépendances itext" />
   </component>
 </project>

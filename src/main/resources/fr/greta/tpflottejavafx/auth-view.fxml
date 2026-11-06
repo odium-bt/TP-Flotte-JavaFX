@@ -27,7 +27,7 @@
     <PasswordField fx:id="pass" prefHeight="26.0" prefWidth="220.0" />
   </HBox>
   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-    <Text fx:id="errormsg" strokeType="OUTSIDE" strokeWidth="0.0" />
+    <Text fx:id="error_msg" strokeType="OUTSIDE" strokeWidth="0.0" />
   </HBox>
   <HBox alignment="BOTTOM_CENTER" prefHeight="27.0" prefWidth="439.0" spacing="25.0">
     <Button mnemonicParsing="false" onAction="#chkAuth" text="Valider" />

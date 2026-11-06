@@ -1,6 +1,8 @@
 package service;
 
 import dao.*;
+import exceptions.DAOException;
+import exceptions.RegleGestionException;
 import modeles.Salarie;
 import modeles.Vehicule;
 
