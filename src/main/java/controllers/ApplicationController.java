@@ -17,7 +17,7 @@ public class ApplicationController {
         this.reservationController = reservationController;
         this.etatController = etatController;
     }
-
+/*
     public void demarrer() {
 
         int choix;
@@ -72,5 +72,5 @@ public class ApplicationController {
                     vue.afficherRefus("Choix inconnu");
             }
         } while (choix != 0);
-    }
+    }*/
 }

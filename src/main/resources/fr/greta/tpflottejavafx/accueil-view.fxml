@@ -27,11 +27,11 @@
             </VBox>
             <VBox prefHeight="185.0" prefWidth="230.0" spacing="10.0">
                <children>
-                  <Button fx:id="choix1" mnemonicParsing="false" text="Afficher la flotte" />
-                  <Button fx:id="choix2" mnemonicParsing="false" text="Ajouter un véhicule" />
-                  <Button fx:id="choix3" mnemonicParsing="false" text="Retirer un véhicule" />
-                  <Button fx:id="choix4" mnemonicParsing="false" text="Rechercher par immatriculation" />
-                  <Button fx:id="choix5" mnemonicParsing="false" text="Trier la flotte" />
+                  <Button fx:id="choix1" mnemonicParsing="false" onAction="#onChoix1Click" text="Afficher la flotte" />
+                  <Button fx:id="choix2" mnemonicParsing="false" onAction="#onChoix2Click" text="Ajouter un véhicule" />
+                  <Button fx:id="choix3" mnemonicParsing="false" onAction="#onChoix3Click" text="Retirer un véhicule" />
+                  <Button fx:id="choix4" mnemonicParsing="false" onAction="#onChoix4Click" text="Rechercher par immatriculation" />
+                  <Button fx:id="choix5" mnemonicParsing="false" onAction="#onChoix5Click" text="Trier la flotte" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -53,11 +53,11 @@
             </VBox>
             <VBox prefHeight="185.0" prefWidth="233.0" spacing="10.0">
                <children>
-                  <Button fx:id="choix6" mnemonicParsing="false" text="Créer un salarié" />
-                  <Button fx:id="choix7" mnemonicParsing="false" text="Enregistrer un départ" />
-                  <Button fx:id="choix8" mnemonicParsing="false" text="Enregistrer un retour" />
-                  <Button fx:id="choix9" mnemonicParsing="false" text="Véhicules en déplacement" />
-                  <Button fx:id="choix10" mnemonicParsing="false" text="Historique d'un salarié" />
+                  <Button fx:id="choix6" mnemonicParsing="false" onAction="#onChoix6Click" text="Créer un salarié" />
+                  <Button fx:id="choix7" mnemonicParsing="false" onAction="#onChoix7Click" text="Enregistrer un départ" />
+                  <Button fx:id="choix8" mnemonicParsing="false" onAction="#onChoix8Click" text="Enregistrer un retour" />
+                  <Button fx:id="choix9" mnemonicParsing="false" onAction="#onChoix9Click" text="Véhicules en déplacement" />
+                  <Button fx:id="choix10" mnemonicParsing="false" onAction="#onChoix10Click" text="Historique d'un salarié" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -79,9 +79,9 @@
             </VBox>
             <VBox prefHeight="185.0" prefWidth="233.0" spacing="10.0">
                <children>
-                  <Button fx:id="choix11" mnemonicParsing="false" text="Générer l'état PDF et l'envoyer par courriel" />
-                  <Button fx:id="choix12" mnemonicParsing="false" text="Exposter salariés et réservations (AES)" />
-                  <Button fx:id="choix13" mnemonicParsing="false" text="Lire un fichier exporté" />
+                  <Button fx:id="choix11" mnemonicParsing="false" onAction="#onChoix11Click" text="Générer l'état PDF et l'envoyer par courriel" />
+                  <Button fx:id="choix12" mnemonicParsing="false" onAction="#onChoix12Click" text="Exposter salariés et réservations (AES)" />
+                  <Button fx:id="choix13" mnemonicParsing="false" onAction="#onChoix13Click" text="Lire un fichier exporté" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -5,19 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="259f2055-3b9e-48f1-8b6c-10ed010aa494" name="Changes" comment="ajouté lignes require des dépendances itext">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/flotte-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ReservationDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ReservationDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SalarieDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/SalarieDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SalarieDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/SalarieDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ReservationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/VehiculeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/VehiculeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/application/AuthApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/AuthApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/AccueilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/AccueilController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ApplicationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/FlotteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/FlotteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/accueil-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/accueil-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -57,12 +64,13 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.AuthApplication.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "zadig",
+    "git-widget-placeholder": "isabelle",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/CDAX23/exosJava/TP-Flotte-JavaFX/src/main/resources",
     "nodejs_package_manager_path": "npm"

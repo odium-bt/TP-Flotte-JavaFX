@@ -1,10 +1,15 @@
 package controllers;
 
 import exceptions.DAOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import vue.MenuConsole;
 import modeles.Vehicule;
 import service.VehiculeService;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -13,14 +18,23 @@ import java.util.List;
 public class FlotteController {
 
     private VehiculeService vehiculeEnService;
-    private MenuConsole vue;
 
-    public FlotteController(VehiculeService vehiculeEnService, MenuConsole vue) {
+    public FlotteController(VehiculeService vehiculeEnService) {
 
         this.vehiculeEnService = vehiculeEnService;
-        this.vue = vue;
     }
 
+    public void FlotteScene(Window w) throws IOException {
+        FXMLLoader loader= new FXMLLoader();
+        loader.setLocation(AccueilController.class.getResource("flotte-view.fxml"));
+        Scene scene= new Scene(loader.load(), 600,400);
+        Stage stage= (Stage) w;
+        stage.setTitle("Flotte de véhicules");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+/*
     public void ajouterVehicule() {
         String immatriculation = vue.saisieTexte("Immatriculation (AA-123-AA)").toUpperCase();
         String marque = vue.saisieTexte("Marque : ");
@@ -109,5 +123,5 @@ public class FlotteController {
         afficherFlotte();
     }
 
-
+*/
 }
