@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.DAOException;
 import modeles.Reservations;
 import modeles.Salarie;
 import modeles.Vehicule;

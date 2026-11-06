@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.DAOException;
 import modeles.Vehicule;
 
 import java.util.List;
