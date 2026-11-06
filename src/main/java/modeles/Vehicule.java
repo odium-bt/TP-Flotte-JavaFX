@@ -39,7 +39,7 @@ public class Vehicule {
             throw new IllegalArgumentException("Format d'immatriculation invalide");
         }
 
-        if (kilometrage < 0 ) {
+        if (kilometrage < 0) {
             throw new IllegalArgumentException("Le kilométrage ne peut être inférieur à 0!");
         }
     }

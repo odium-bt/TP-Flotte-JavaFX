@@ -3,7 +3,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
-logs/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -38,5 +37,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/src/main/resources/dao.properties
-/src/main/resources/dao.properties
