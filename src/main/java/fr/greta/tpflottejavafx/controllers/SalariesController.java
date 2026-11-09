@@ -13,12 +13,12 @@ import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/// Contrôleur gérant les salariés
 public class SalariesController {
     private final Logger log = LogManager.getLogger(String.valueOf(SalariesController.class));
 
     private SalariesService salariesService;
 
-    // Salariés
     @FXML
     private TextField matricule;
     @FXML

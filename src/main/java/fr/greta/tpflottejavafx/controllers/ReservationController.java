@@ -1,17 +1,10 @@
 package fr.greta.tpflottejavafx.controllers;
 
-import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.service.ReservationService;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/// Contrôleur gérant les réservations
 public class ReservationController {
     private final Logger log = LogManager.getLogger(String.valueOf(ReservationController.class));
 
@@ -21,9 +14,9 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-// TODO CRUD Réservations (créer, lister, modifier (inclure clôturation avec l'ajout du retour), supprimer (vérifier si le véhicule n'est pas en déplacement))
-
+    // TODO CRUD Réservations (créer, lister, modifier (inclure clôturation avec l'ajout du retour), supprimer (vérifier si le véhicule n'est pas en déplacement))
 }
+
 /*
 
 

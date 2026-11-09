@@ -15,8 +15,8 @@ import fr.greta.tpflottejavafx.service.VehiculeService;
 
 import java.io.IOException;
 
+/// Contrôleur gérant la fenêtre d'accueil
 public class AccueilController {
-
     VehiculeDAO vehiculeDAO = new VehiculeDAOImpl();
     SalarieDAO salarieDAO = new SalarieDAOImpl();
     ReservationDAO reservationDAO = new ReservationDAOImpl();
@@ -34,7 +34,7 @@ public class AccueilController {
     public void AccueilScene(Window w) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(AuthApplication.class.getResource("/fr/greta/tpflottejavafx/views/accueil-view.fxml"));
-        Scene scene = new Scene(loader.load() );
+        Scene scene = new Scene(loader.load());
         Stage stage = (Stage) w;
         stage.setTitle("Accueil");
         stage.setScene(scene);
