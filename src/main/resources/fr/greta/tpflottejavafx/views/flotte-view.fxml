@@ -14,70 +14,74 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="698.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="fr.greta.tpflottejavafx.controllers.FlotteController">
+<AnchorPane prefHeight="698.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.tpflottejavafx.controllers.FlotteController">
     <children>
-        <Label alignment="CENTER" prefHeight="31.0" prefWidth="729.0" style="-fx-background-color: blue;"
-               text="===============   GESTION DE LA FLOTTE   ===============" textFill="WHITE"/>
-        <GridPane layoutX="5.0" layoutY="307.0" prefHeight="310.0" prefWidth="720.0">
+        <Label alignment="CENTER" prefHeight="31.0" prefWidth="729.0" style="-fx-background-color: blue;" text="===============   GESTION DE LA FLOTTE   ===============" textFill="WHITE" />
+        <GridPane hgap="5.0" layoutX="5.0" layoutY="307.0" prefHeight="310.0" prefWidth="720.0" vgap="5.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 
             </rowConstraints>
             <children>
                 <VBox prefHeight="200.0" prefWidth="100.0">
-                    <TextField fx:id="imma" alignment="TOP_LEFT" promptText="Immatriculation"/>
-                    <TextField fx:id="marque" alignment="TOP_LEFT" promptText="Marque"/>
-                    <TextField fx:id="modele" alignment="TOP_LEFT" promptText="Modèle"/>
-                    <TextField fx:id="date" alignment="TOP_LEFT" promptText="Mise en circulation"/>
-                    <TextField fx:id="km" alignment="TOP_LEFT" promptText="Km"/>
+                    <TextField fx:id="imma" alignment="TOP_LEFT" promptText="Immatriculation" />
+                    <TextField fx:id="marque" alignment="TOP_LEFT" promptText="Marque" />
+                    <TextField fx:id="modele" alignment="TOP_LEFT" promptText="Modèle" />
+                    <TextField fx:id="date" alignment="TOP_LEFT" promptText="Mise en circulation" />
+                    <TextField fx:id="km" alignment="TOP_LEFT" promptText="Km" />
+                    <!--
                     <TextField fx:id="etat" alignment="TOP_LEFT" promptText="État"/>
+                    -->
                 </VBox>
-                <Button fx:id="add" mnemonicParsing="false" onAction="#onAdd" text="Ajout">
+                <Button fx:id="add" mnemonicParsing="false" text="Ajout">
                     <GridPane.margin>
-                        <Insets top="370.0"/>
+                        <Insets top="370.0" />
                     </GridPane.margin>
                 </Button>
-                <Button fx:id="update" mnemonicParsing="false" onAction="#onUpdate" text="Modifier">
+                <Button fx:id="update" mnemonicParsing="false" text="Modifier">
                     <GridPane.margin>
-                        <Insets left="50.0" top="370.0"/>
+                        <Insets left="50.0" top="370.0" />
                     </GridPane.margin>
                 </Button>
-                <Button fx:id="delete" mnemonicParsing="false" onAction="#onDelete" text="Supprimer">
+                <Button fx:id="delete" mnemonicParsing="false" text="Supprimer">
                     <GridPane.margin>
-                        <Insets left="120.0" top="370.0"/>
+                        <Insets left="120.0" top="370.0" />
                     </GridPane.margin>
                 </Button>
 
                 <ListView fx:id="list2" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
                 </ListView>
-                <TextFlow fx:id="message" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2"/>
+                <TextFlow fx:id="message" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
             </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
         </GridPane>
         <VBox layoutX="51.0" layoutY="60.0" prefHeight="230.0" prefWidth="626.0">
             <children>
-                <Label text="Label">
+                <Label text="Flotte de véhicules :">
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>
                 </Label>
-                <TableView fx:id="list" editable="true" maxHeight="-Infinity" prefHeight="213.0" prefWidth="693.0"
-                           tableMenuButtonVisible="true">
+                <TableView fx:id="list" editable="true" maxHeight="-Infinity" prefHeight="213.0" prefWidth="693.0" tableMenuButtonVisible="true">
                     <columns>
-                        <TableColumn fx:id="immaColumn" prefWidth="100.0" text="Imma."/>
-                        <TableColumn fx:id="marqueColumn" prefWidth="100.0" text="Marque"/>
-                        <TableColumn fx:id="modeleColumn" prefWidth="100.0" text="Modèle"/>
-                        <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Mise en circ."/>
-                        <TableColumn fx:id="kmColumn" prefWidth="100.0" text="Km"/>
+                        <TableColumn fx:id="immaColumn" prefWidth="100.0" text="Imma." />
+                        <TableColumn fx:id="marqueColumn" prefWidth="100.0" text="Marque" />
+                        <TableColumn fx:id="modeleColumn" prefWidth="100.0" text="Modèle" />
+                        <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Mise en circ." />
+                        <TableColumn fx:id="kmColumn" prefWidth="100.0" text="Km" />
+                        <!--
                         <TableColumn fx:id="etatColumn" prefWidth="100.0" text="État"/>
+                        -->
                     </columns>
                 </TableView>
             </children>

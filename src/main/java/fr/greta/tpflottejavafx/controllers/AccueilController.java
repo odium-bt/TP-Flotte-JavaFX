@@ -43,14 +43,14 @@ public class AccueilController {
 
     @FXML
     protected void onGestionFlotteClick() {
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
+        FlotteController flotteController = new FlotteController();
         try {
             flotteController.FlotteScene(gestionFlotte.getScene().getWindow());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     @FXML
     protected void onGestionReservationClick() {
