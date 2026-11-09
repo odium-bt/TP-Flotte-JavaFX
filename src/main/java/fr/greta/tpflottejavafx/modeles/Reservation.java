@@ -7,6 +7,7 @@ import java.sql.Timestamp;
  */
 public class Reservation {
     private int idReservation;
+    private Salarie salarie;
     private Vehicule vehicule;
     private Timestamp dateDepart;
     private Timestamp dateRetour;
