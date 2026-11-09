@@ -6,6 +6,7 @@ import fr.greta.tpflottejavafx.modeles.Vehicule;
 import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.service.ReservationService;
 import fr.greta.tpflottejavafx.vue.MenuConsole;
+import javafx.event.ActionEvent;
 
 import java.sql.Timestamp;
 
@@ -75,5 +76,14 @@ public class ReservationController {
         } else {
             vue.afficherHistorique(historique);
         }
+    }
+
+    public void onAdd(ActionEvent actionEvent) {
+    }
+
+    public void onUpdate(ActionEvent actionEvent) {
+    }
+
+    public void onDelete(ActionEvent actionEvent) {
     }
 }
