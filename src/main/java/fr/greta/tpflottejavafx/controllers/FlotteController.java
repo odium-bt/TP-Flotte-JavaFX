@@ -18,7 +18,7 @@ public class FlotteController {
     public void FlotteScene(Window w) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
-        loader.setLocation(AccueilController.class.getResource("flotte-view.fxml"));
+        loader.setLocation(AccueilController.class.getResource("/fr/greta/tpflottejavafx/views/flotte-view.fxml"));
 
         Scene scene = new Scene(loader.load(), 600, 400);
         Stage stage = (Stage) w;
