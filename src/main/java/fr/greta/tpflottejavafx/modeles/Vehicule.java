@@ -2,6 +2,9 @@ package fr.greta.tpflottejavafx.modeles;
 
 import java.time.LocalDate;
 
+/**
+ * Classe représentant un véhicule.
+ */
 public class Vehicule {
 
     private int id;
@@ -12,7 +15,6 @@ public class Vehicule {
     private int kilometrage;
 
     public Vehicule(int id, String immatriculation, String marque, String modele, LocalDate dateMiseEnCirculation, int kilometrage) {
-
         verification(immatriculation, kilometrage);
         this.id = id;
         this.immatriculation = immatriculation;
@@ -20,11 +22,9 @@ public class Vehicule {
         this.modele = modele;
         this.dateMiseEnCirculation = dateMiseEnCirculation;
         this.kilometrage = kilometrage;
-
     }
 
     public Vehicule(String immatriculation, String marque, String modele, LocalDate dateMiseEnCirculation, int kilometrage) {
-
         verification(immatriculation, kilometrage);
         this.immatriculation = immatriculation;
         this.marque = marque;
@@ -34,7 +34,6 @@ public class Vehicule {
     }
 
     private void verification(String immatriculation, int kilometrage) {
-
         if (!immatriculation.matches("[A-Z]{2}-\\d{3}-[A-Z]{2}")) {
             throw new IllegalArgumentException("Format d'immatriculation invalide");
         }
