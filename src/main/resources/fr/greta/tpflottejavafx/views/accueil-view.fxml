@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="683.0" prefWidth="548.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.tpflottejavafx.controllers.AccueilController">
+   <children>
+      <Label alignment="CENTER" prefHeight="31.0" prefWidth="548.0" style="-fx-background-color: blue;" text="==================   MENU PRINCIPAL   ==================" textFill="WHITE" />
+      <HBox layoutX="30.0" layoutY="60.0" prefHeight="185.0" prefWidth="476.0">
+         <children>
+            <VBox prefHeight="185.0" prefWidth="299.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="301.0" text="VÉHICULES" />
+                  <ImageView fitHeight="100.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../images/categories-de-voitures.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox prefHeight="185.0" prefWidth="230.0" spacing="10.0">
+               <children>
+                  <Button fx:id="choix1" mnemonicParsing="false" onAction="#onChoix1Click" text="Afficher la flotte" />
+                  <Button fx:id="choix2" mnemonicParsing="false" onAction="#onChoix2Click" text="Ajouter un véhicule" />
+                  <Button fx:id="choix3" mnemonicParsing="false" onAction="#onChoix3Click" text="Retirer un véhicule" />
+                  <Button fx:id="choix4" mnemonicParsing="false" onAction="#onChoix4Click" text="Rechercher par immatriculation" />
+                  <Button fx:id="choix5" mnemonicParsing="false" onAction="#onChoix5Click" text="Trier la flotte" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox layoutX="30.0" layoutY="280.0" prefHeight="185.0" prefWidth="476.0">
+         <children>
+            <VBox prefHeight="185.0" prefWidth="300.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="301.0" text="SALARIÉS ET RÉSERVATIONS" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../images/resa-vehicule.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox prefHeight="185.0" prefWidth="233.0" spacing="10.0">
+               <children>
+                  <Button fx:id="choix6" mnemonicParsing="false" onAction="#onChoix6Click" text="Créer un salarié" />
+                  <Button fx:id="choix7" mnemonicParsing="false" onAction="#onChoix7Click" text="Enregistrer un départ" />
+                  <Button fx:id="choix8" mnemonicParsing="false" onAction="#onChoix8Click" text="Enregistrer un retour" />
+                  <Button fx:id="choix9" mnemonicParsing="false" onAction="#onChoix9Click" text="Véhicules en déplacement" />
+                  <Button fx:id="choix10" mnemonicParsing="false" onAction="#onChoix10Click" text="Historique d'un salarié" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox layoutX="30.0" layoutY="493.0" prefHeight="120.0" prefWidth="476.0">
+         <children>
+            <VBox prefHeight="154.0" prefWidth="297.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="301.0" text="ÉTATS ET EXPORTS" />
+                  <ImageView fitHeight="117.0" fitWidth="187.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../images/dispo-véhicules.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox prefHeight="185.0" prefWidth="233.0" spacing="10.0">
+               <children>
+                  <Button fx:id="choix11" mnemonicParsing="false" onAction="#onChoix11Click" text="Générer l'état PDF et l'envoyer par courriel" />
+                  <Button fx:id="choix12" mnemonicParsing="false" onAction="#onChoix12Click" text="Exposter salariés et réservations (AES)" />
+                  <Button fx:id="choix13" mnemonicParsing="false" onAction="#onChoix13Click" text="Lire un fichier exporté" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
