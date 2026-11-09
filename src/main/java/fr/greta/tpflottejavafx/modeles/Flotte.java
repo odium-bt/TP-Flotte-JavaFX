@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Classe représentant la flotte de véhicules.
  */
 public class Flotte {
 
