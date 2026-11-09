@@ -21,7 +21,7 @@
             <Button fx:id="gestionFlotte" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onGestionFlotteClick" text="Gestion de la flotte" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="47.0" layoutY="276.0" prefHeight="195.0" prefWidth="219.0" spacing="20.0">
+      <VBox alignment="CENTER" layoutX="40.0" layoutY="275.0" prefHeight="202.0" prefWidth="227.0" spacing="20.0">
          <children>
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="SALARIÉS ET RÉSERVATIONS" />
             <ImageView fitHeight="119.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
@@ -29,7 +29,7 @@
                   <Image url="@../../../../images/resa-vehicule.jpg" />
                </image>
             </ImageView>
-            <Button fx:id="gestionReservation" mnemonicParsing="false" onAction="#onGestionReservationClick" text="Gestion des salariés et des résevations" />
+            <Button fx:id="gestionReservation" mnemonicParsing="false" onAction="#onGestionReservationClick" text="Gestion des salariés et des réservations" />
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutX="291.0" layoutY="276.0" prefHeight="201.0" prefWidth="219.0" spacing="20.0">
