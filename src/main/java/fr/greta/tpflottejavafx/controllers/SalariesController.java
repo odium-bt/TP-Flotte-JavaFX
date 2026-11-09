@@ -1,7 +1,6 @@
 package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.modeles.Salarie;
-import fr.greta.tpflottejavafx.service.ReservationService;
 import fr.greta.tpflottejavafx.service.SalariesService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
