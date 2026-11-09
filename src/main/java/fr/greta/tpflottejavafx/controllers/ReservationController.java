@@ -1,13 +1,6 @@
 package fr.greta.tpflottejavafx.controllers;
 
-import fr.greta.tpflottejavafx.modeles.Reservations;
-import fr.greta.tpflottejavafx.modeles.Salarie;
-import fr.greta.tpflottejavafx.modeles.Vehicule;
-import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.service.ReservationService;
-import fr.greta.tpflottejavafx.vue.MenuConsole;
-
-import java.sql.Timestamp;
 
 public class ReservationController {
 
@@ -15,9 +8,11 @@ public class ReservationController {
 
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
-
     }
+}
+
 /*
+
     public void ajouterSalarie() {
 
         String matricule = vue.saisieTexte("Matricule (6 chiffres) : ");
@@ -73,5 +68,4 @@ public class ReservationController {
         } else {
             vue.afficherHistorique(historique);
         }
-    }*/
-}
+    }
