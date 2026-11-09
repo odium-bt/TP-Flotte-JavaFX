@@ -13,4 +13,6 @@ module fr.greta.tpflottejavafx {
     opens application to javafx.fxml;
     exports controllers;
     opens controllers to javafx.fxml;
+    exports service;
+    opens service to javafx.fxml;
 }

@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="259f2055-3b9e-48f1-8b6c-10ed010aa494" name="Changes" comment="ajouté lignes require des dépendances itext">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/FlotteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/FlotteController.java" afterDir="false" />
+    <list default="true" id="259f2055-3b9e-48f1-8b6c-10ed010aa494" name="Changes" comment="formatté code">
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="zadig" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,6 +38,8 @@
         <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
       </MavenGeneralSettings>
     </option>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7,
@@ -51,13 +52,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.AuthApplication.executor": "Run",
+    "Application.Main.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "isabelle",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/exosJava/TP-Flotte-JavaFX",
     "nodejs_package_manager_path": "npm"
@@ -91,6 +93,9 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.cmd" />
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ajouté fichiers javaFX" />
     <MESSAGE value="added bcrypt dependancy" />
@@ -107,6 +112,9 @@
     <MESSAGE value="importé exception" />
     <MESSAGE value="ajouté dépendances itext pour le pdf" />
     <MESSAGE value="ajouté lignes require des dépendances itext" />
+    <MESSAGE value="import AuthApplication" />
+    <MESSAGE value="retiré ApplicationController" />
+    <MESSAGE value="formatté code" />
     <option name="LAST_COMMIT_MESSAGE" value="ajouté lignes require des dépendances itext" />
   </component>
 </project>
