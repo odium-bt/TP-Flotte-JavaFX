@@ -3,6 +3,7 @@ package fr.greta.tpflottejavafx.dao;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -123,5 +124,30 @@ public class SalarieDAOImpl implements SalarieDAO {
         } catch (SQLException e) {
             throw new DAOException("Erreur lors de la suppression du salarié");
         }
+    }
+
+    @Override
+    public List<Salarie> listerSalaries() {
+        String query = "select * from " + table;
+        List<Salarie> salaries = new ArrayList<>();
+
+        try (Connection connexion = DAOFactory.getInstance().getConnection();
+             PreparedStatement ps = connexion.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                Salarie s = new Salarie(
+                        rs.getString("matricule"),
+                        rs.getString("nom"),
+                        rs.getString("prenom")
+                );
+                salaries.add(s);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la récupération des salariés", e);
+        }
+        return salaries;
     }
 }

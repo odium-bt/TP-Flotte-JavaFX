@@ -6,6 +6,7 @@ import fr.greta.tpflottejavafx.dao.SalarieDAO;
 import fr.greta.tpflottejavafx.dao.VehiculeDAO;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
+import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
@@ -72,15 +73,13 @@ public class ReservationService {
      *
      * @return Une {@code List<String>} contenant chaque salarié sous forme de string
      */
-    public List<String> afficherSalaries() {
+    public List<Salarie> afficherSalaries() {
         log.info("Affichage des salariés");
 
-        List<String> res = new ArrayList<>();
+        List<Salarie> res = new ArrayList<>();
 
         try {
-            for (Salarie s : salarieDAO.lister()) {
-                res.add(s.toString());
-            }
+            salarieDAO.listerSalaries();
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
             log.trace(e.getStackTrace());
@@ -135,7 +134,7 @@ public class ReservationService {
      *
      * @return {@code List<String>} - Liste des réservations sous forme de string
      */
-    public List<String> afficherReservations() {
+    public List<Reservation> afficherReservations() {
         // TODO Afficher réservations
         return List.of();
     }
