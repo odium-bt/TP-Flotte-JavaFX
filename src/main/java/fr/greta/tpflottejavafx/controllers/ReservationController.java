@@ -1,13 +1,44 @@
 package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.service.ReservationService;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextField;
+import javafx.scene.text.TextFlow;
 
 public class ReservationController {
 
     private final ReservationService reservationService;
+    @FXML
+    private TextField matricule;
+    @FXML
+    private TextField name;
+    @FXML
+    private TextField surname;
+    @FXML
+    private TableColumn surnameColumn1;
+    @FXML
+    private TableColumn nameColumn;
+    @FXML
+    private TableColumn surnameColumn;
+    @FXML
+    private TextFlow message;
 
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
+    }
+
+    @FXML
+    private void onAdd(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    private void onUpdate(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    private void onDelete(ActionEvent actionEvent) {
     }
 }
 
@@ -68,4 +99,4 @@ public class ReservationController {
         } else {
             vue.afficherHistorique(historique);
         }
-    }
+    }*/
