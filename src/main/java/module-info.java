@@ -9,10 +9,10 @@ module fr.greta.tpflottejavafx {
     requires kernel;
     requires layout;
 
-    exports application;
-    opens application to javafx.fxml;
-    exports controllers;
-    opens controllers to javafx.fxml;
-    exports service;
-    opens service to javafx.fxml;
+    exports fr.greta.tpflottejavafx.application;
+    opens fr.greta.tpflottejavafx.application to javafx.fxml;
+    exports fr.greta.tpflottejavafx.controllers;
+    opens fr.greta.tpflottejavafx.controllers to javafx.fxml;
+    exports fr.greta.tpflottejavafx.service;
+    opens fr.greta.tpflottejavafx.service to javafx.fxml;
 }
