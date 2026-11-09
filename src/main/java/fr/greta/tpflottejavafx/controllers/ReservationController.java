@@ -12,14 +12,12 @@ import java.sql.Timestamp;
 public class ReservationController {
 
     private final ReservationService reservationService;
-    private MenuConsole vue;
 
-    public ReservationController(ReservationService reservationService, MenuConsole vue) {
-
+    public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
-        this.vue = vue;
-    }
 
+    }
+/*
     public void ajouterSalarie() {
 
         String matricule = vue.saisieTexte("Matricule (6 chiffres) : ");
@@ -75,5 +73,5 @@ public class ReservationController {
         } else {
             vue.afficherHistorique(historique);
         }
-    }
+    }*/
 }

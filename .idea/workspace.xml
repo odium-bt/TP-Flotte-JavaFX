@@ -5,50 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="259f2055-3b9e-48f1-8b6c-10ed010aa494" name="Changes" comment="formatté code">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/application/AuthApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/AccueilController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/service/EtatService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/etat-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/reservation-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/salarie-form-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/vehicule-form-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/application/AuthApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/application/Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/application/Launcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/application/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/application/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/AccueilController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/ApplicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/EtatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/EtatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/FlotteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/FlotteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/ReservationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DAOFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/dao/DAOFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ReservationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/dao/ReservationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ReservationDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/dao/ReservationDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SalarieDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/dao/SalarieDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SalarieDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/dao/SalarieDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/dao/VehiculeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/VehiculeDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/dao/VehiculeDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/exceptions/DAOException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/exceptions/DAOException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/exceptions/RegleGestionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/exceptions/RegleGestionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/modeles/Flotte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/modeles/Flotte.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/modeles/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/modeles/Reservation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/modeles/Reservations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/modeles/Reservations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/modeles/Salarie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/modeles/Salarie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/modeles/Vehicule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/modeles/Vehicule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ExportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/service/ExportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/MailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/service/MailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/PdfService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/service/PdfService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/service/ReservationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/VehiculeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/service/VehiculeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/ChiffrementAES.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/util/ChiffrementAES.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/vue/MenuConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/vue/MenuConsole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/accueil-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/accueil-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/auth-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/auth-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/flotte-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/flotte-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/AccueilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/AccueilController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/greta/tpflottejavafx/controllers/ReservationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/accueil-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/accueil-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/flotte-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/greta/tpflottejavafx/views/flotte-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="FxmlFile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">

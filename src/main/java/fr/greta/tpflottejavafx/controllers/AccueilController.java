@@ -2,6 +2,8 @@ package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.application.AuthApplication;
 import fr.greta.tpflottejavafx.dao.*;
+import fr.greta.tpflottejavafx.service.EtatService;
+import fr.greta.tpflottejavafx.service.ReservationService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,7 +23,13 @@ public class AccueilController {
     Flotte flotte = new Flotte();
 
     @FXML
-    private Button choix1;
+    private Button gestionFlotte;
+
+    @FXML
+    private Button gestionReservation;
+
+    @FXML
+    private Button gestionEtat;
 
     public void AccueilScene(Window w) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -33,175 +41,39 @@ public class AccueilController {
         stage.show();
     }
 
-
-
     @FXML
-    protected void onChoix1Click() {
-
+    protected void onGestionFlotteClick() {
         VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
         FlotteController flotteController = new FlotteController(vehiculeService);
         try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
+            flotteController.FlotteScene(gestionFlotte.getScene().getWindow());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @FXML
-    protected void onChoix2Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
+    protected void onGestionReservationClick() {
+        ReservationService reservationService = new ReservationService(vehiculeDAO, reservationDAO, salarieDAO);
+        ReservationController reservationController = new ReservationController(reservationService);
+        /*
         try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
+            reservationController.ReservationScene(gestionReservation.getScene().getWindow());
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-
-    }
-    @FXML
-    protected void onChoix3Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        }*/
     }
 
     @FXML
-    protected void onChoix4Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
+    protected void onGestionEtatClick() {
+        EtatService etatService = new EtatService(vehiculeDAO, reservationDAO);
+        EtatController etatController = new EtatController();
+        /*
         try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
+            etatController.EtatScene(gestionEtat.getScene().getWindow());
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-
+        }*/
     }
 
-    @FXML
-    protected void onChoix5Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @FXML
-    protected void onChoix6Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @FXML
-    protected void onChoix7Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @FXML
-    protected void onChoix8Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-
-    @FXML
-    protected void onChoix9Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @FXML
-    protected void onChoix10Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-
-    @FXML
-    protected void onChoix11Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @FXML
-    protected void onChoix12Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @FXML
-    protected void onChoix13Click() {
-
-        VehiculeService vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        FlotteController flotteController = new FlotteController(vehiculeService);
-        try {
-            flotteController.FlotteScene(choix1.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 }
