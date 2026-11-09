@@ -1,7 +1,7 @@
 package fr.greta.tpflottejavafx.dao;
 
 import fr.greta.tpflottejavafx.exceptions.DAOException;
-import fr.greta.tpflottejavafx.modeles.Reservations;
+import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
@@ -23,33 +23,30 @@ public class ReservationDAOImpl implements ReservationDAO {
     private final String dateRetour = "date_retour";
     private final String kmRetour = "km_retour";
 
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public void creer(Reservations<Salarie, Timestamp, Vehicule> reservations) throws DAOException {
+    public void creer(Reservation reservation, Salarie salarie) throws DAOException {
         String query = "INSERT INTO " + table + " ("
                 + matricule + ", "
                 + idVehicule + ", "
                 + dateDepart + ") "
                 + "VALUES( ?, ?, ?)";
 
-        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
+        try (PreparedStatement ps = DAOFactory.getInstance()
+                .getConnection().prepareStatement(query)) {
 
-            for (Map.Entry<Timestamp, Vehicule> entry : reservations.getListeReservations().entrySet()) {
+            ps.setString(1, salarie.getMatricule());
+            ps.setInt(2, reservation.getVehicule().getId());
+            ps.setTimestamp(3, reservation.getDateDepart());
 
-                ps.setString(1, reservations.getSalarie().getMatricule());
-                ps.setInt(2, entry.getValue().getId());
-                ps.setTimestamp(3, entry.getKey());
-                // Les dates et kilomètres de retour sont null avant la clotûre
+            ps.executeUpdate();
 
-                ps.addBatch();
-            }
-
-            ps.executeBatch();
         } catch (SQLException e) {
-            throw new DAOException("Erreur lors de la création de la réservation : " + e.getMessage());
+            throw new DAOException(
+                    "Erreur lors de la création de la réservation : " + e.getMessage()
+            );
         }
     }
 
@@ -57,34 +54,25 @@ public class ReservationDAOImpl implements ReservationDAO {
      * {@inheritDoc}
      */
     @Override
-    public Reservations<Salarie, Timestamp, Vehicule> trouverParMatricule(String matricule) throws DAOException {
+    public List<Reservation> trouverParMatricule(String matricule) throws DAOException {
         String query = "SELECT * FROM " + table
                 + " WHERE " + this.matricule + " = ?";
+
+        List<Reservation> reservations = new ArrayList<>();
 
         try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
 
             ps.setString(1, matricule);
 
             try (ResultSet rs = ps.executeQuery()) {
-                Salarie salarie = DAOFactory.getInstance().getSalarieDAO().trouverParMatricule(matricule);
-
-                if (salarie == null) {
-                    return null;
-                }
-
-                Reservations<Salarie, Timestamp, Vehicule> reservations = new Reservations<>(salarie);
 
                 while (rs.next()) {
-                    Timestamp depart = rs.getTimestamp(dateDepart);
-                    int vehiculeId = rs.getInt(idVehicule);
-
-                    Vehicule vehicule = DAOFactory.getInstance().getVehiculeDAO().trouverParId(vehiculeId);
-
-                    reservations.getListeReservations().put(depart, vehicule);
+                    reservations.add(mapperReservation(rs));
                 }
 
-                return reservations;
             }
+
+            return reservations;
 
         } catch (SQLException e) {
             throw new DAOException("Erreur lors de la recherche de la réservation : " + e.getMessage());
@@ -95,8 +83,8 @@ public class ReservationDAOImpl implements ReservationDAO {
      * {@inheritDoc}
      */
     @Override
-    public List<Reservations<Salarie, Timestamp, Vehicule>> lister() throws DAOException {
-        List<Reservations<Salarie, Timestamp, Vehicule>> liste = new ArrayList<>();
+    public List<Reservation> lister() throws DAOException {
+        List<Reservation> liste = new ArrayList<>();
 
         // Récupère uniquement les matricules qui ont des réservations, sans doublons
         String query = "SELECT DISTINCT " + matricule + " FROM " + table;
@@ -105,14 +93,7 @@ public class ReservationDAOImpl implements ReservationDAO {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                // Pour chaque matricule, va chercher les réservations associées et les ajoute à la liste
-                String matricule = rs.getString(this.matricule);
-
-                Reservations<Salarie, Timestamp, Vehicule> reservations = trouverParMatricule(matricule);
-
-                if (reservations != null) {
-                    liste.add(reservations);
-                }
+                liste.add(mapperReservation(rs));
             }
 
         } catch (SQLException e) {
@@ -120,6 +101,20 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
 
         return liste;
+    }
+
+    /**
+     * Transforme une ligne SQL en objet Reservation.
+     */
+    private Reservation mapperReservation(ResultSet rs) throws SQLException {
+        int idReservation = rs.getInt(id);
+        int vehiculeId = rs.getInt(idVehicule);
+        Vehicule vehicule = DAOFactory.getInstance().getVehiculeDAO().trouverParId(vehiculeId);
+        Timestamp depart = rs.getTimestamp(dateDepart);
+        Timestamp retour = rs.getTimestamp(dateRetour);
+        int kilometrage = rs.getInt(kmRetour);
+
+        return new Reservation(idReservation, vehicule, depart, retour, kilometrage);
     }
 
     /**

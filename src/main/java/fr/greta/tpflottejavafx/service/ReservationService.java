@@ -7,7 +7,6 @@ import fr.greta.tpflottejavafx.dao.VehiculeDAO;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
-import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
 import org.apache.logging.log4j.Logger;
@@ -16,11 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import fr.greta.tpflottejavafx.modeles.Reservations;
 
 public class ReservationService extends Service {
     private final Logger log = LogManager.getLogger(String.valueOf(ReservationService.class));
@@ -49,7 +44,8 @@ public class ReservationService extends Service {
      * Créé une nouvelle réservation.
      */
     public void creerReservation() {
-        executor.submit(() -> {// TODO new Reservation(); (attendre classe Reservation)
+        executor.submit(() -> {
+            // TODO new Reservation(); (attendre classe Reservation)
             log.info("Création d'une nouvelle réservation");
         });
     }
@@ -126,27 +122,7 @@ public class ReservationService extends Service {
         });
     }
 
-    /**
-     * Ferme le thread du service.
-     */
-    public void fermer() {
-        executor.shutdown();
-
-        try {
-            if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
-                executor.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            executor.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    public Reservations<Salarie, Timestamp, Vehicule> historiqueSalarie(String matricule) {
-        return null;
-    }
-
-    public List<Vehicule> vehiculeEnDeplacement() {
-        return new ArrayList<>();
+    public List<Reservation> historiqueSalarie(String matricule) {
+        return reservationDAO.trouverParMatricule(matricule);
     }
 }
