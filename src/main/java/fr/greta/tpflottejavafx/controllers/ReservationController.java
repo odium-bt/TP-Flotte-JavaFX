@@ -55,7 +55,7 @@ public class ReservationController {
         salaries.add(s);
         list.getSelectionModel().select(s);
         list.scrollTo(s);
-        log.info("Ajout " + s);
+        log.info("Ajout {}", s);
     }
 
     @FXML

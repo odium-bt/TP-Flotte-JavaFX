@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class AuthService {
+public class AuthService extends Service {
     private final Logger log = LogManager.getLogger(String.valueOf(AuthService.class));
 
     private int tentativesRestantes = 3;
