@@ -28,9 +28,6 @@ public class EtatService implements Runnable {
     public void run() {
     }
 
-
-
-
-
+    // TODO Faire appel à Mailer et PdfWriter (dans des thread)
 }
 
