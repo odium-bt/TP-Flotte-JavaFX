@@ -41,4 +41,6 @@ public interface SalarieDAO {
      * @param matricule Matricule du salarié
      */
     void supprimer(String matricule) throws DAOException;
+
+    List<Salarie> listerSalaries();
 }

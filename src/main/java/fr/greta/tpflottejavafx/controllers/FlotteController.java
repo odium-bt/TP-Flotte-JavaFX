@@ -27,6 +27,10 @@ public class FlotteController {
         stage.show();
     }
 
+
+
+
+
  //   public void ajouterVehicule() {
  //       String immatriculation = vue.saisieTexte("Immatriculation (AA-123-AA)").toUpperCase();
  //       String marque = vue.saisieTexte("Marque : ");
