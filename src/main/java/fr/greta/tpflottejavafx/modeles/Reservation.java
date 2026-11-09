@@ -2,15 +2,17 @@ package fr.greta.tpflottejavafx.modeles;
 
 import java.sql.Timestamp;
 
+/**
+ * Classe représentant une réservation.
+ */
 public class Reservation {
-
     private int idReservation;
     private Vehicule vehicule;
     private Timestamp dateDepart;
     private Timestamp dateRetour;
     private int kilometrage;
 
-    //Constructeur retour
+    /// Constructeur avec retour
     public Reservation(int idReservation, Vehicule vehicule, Timestamp dateDepart, Timestamp dateRetour, int kilometrage) {
         this.idReservation = idReservation;
         this.vehicule = vehicule;
@@ -19,12 +21,12 @@ public class Reservation {
         this.kilometrage = kilometrage;
     }
 
-    //Constructeur départ
-
-
-    public Reservation(Vehicule vehicule, Timestamp dateDepart) {
+    /// Constructeur
+    public Reservation(int idReservation, Vehicule vehicule, Timestamp dateDepart, int kilometrage) {
+        this.idReservation = idReservation;
         this.vehicule = vehicule;
         this.dateDepart = dateDepart;
+        this.kilometrage = kilometrage;
     }
 
     public int getIdReservation() {

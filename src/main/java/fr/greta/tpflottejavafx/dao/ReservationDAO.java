@@ -1,6 +1,7 @@
 package fr.greta.tpflottejavafx.dao;
 
-import fr.greta.tpflottejavafx.modeles.Reservations;
+import fr.greta.tpflottejavafx.exceptions.DAOException;
+import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
@@ -9,11 +10,12 @@ import java.util.List;
 
 public interface ReservationDAO {
     /**
-     * Création de nouvelles réservations dans la base de données.
+     * Création d'une nouvelle réservation dans la base de données.
      *
-     * @param reservations Les réservations à créer
+     * @param reservation La réservation à créer
+     * @param salarie     Le salarié qui effectue la réservation
      */
-    void creer(Reservations<Salarie, Timestamp, Vehicule> reservations);
+    void creer(Reservation reservation, Salarie salarie) throws DAOException;
 
     /**
      * Cherche les réservations associées au salarié à qui appartient la matricule donnée
@@ -21,14 +23,14 @@ public interface ReservationDAO {
      * @param matricule Le matricule du salarié
      * @return Un objet Reservations contenant les réservations associées à un salarié
      */
-    Reservations<Salarie, Timestamp, Vehicule> trouverParMatricule(String matricule);
+    List<Reservation> trouverParMatricule(String matricule) throws DAOException;
 
     /**
      * Récupère toutes les réservations stockées en base.
      *
-     * @return Un objet {@code List<Reservations<Salarie, Timestamp, Vehicule>>} contenant chaque réservation stockée en base
+     * @return Un objet {@code List<Reservations>} contenant chaque réservation stockée en base
      */
-    List<Reservations<Salarie, Timestamp, Vehicule>> lister();
+    List<Reservation> lister() throws DAOException;
 
     /**
      * Trouve si une réservation est actuellement en cours de déplacement.
@@ -36,7 +38,7 @@ public interface ReservationDAO {
      * @param idReservation Id de la réservation
      * @return {@code boolean}
      */
-    boolean estEnDeplacement(int idReservation);
+    boolean estEnDeplacement(int idReservation) throws DAOException;
 
     /**
      * Modifie une réservation.
@@ -45,7 +47,7 @@ public interface ReservationDAO {
      * @param dateDepart    Date de départ
      * @param vehicule      Véhicule
      */
-    void modifier(int idReservation, Timestamp dateDepart, Vehicule vehicule);
+    void modifier(int idReservation, Timestamp dateDepart, Vehicule vehicule) throws DAOException;
 
     /**
      * Clotûre une réservation.
@@ -54,12 +56,12 @@ public interface ReservationDAO {
      * @param timestamp     Date de la fermeture
      * @param kmRetour      Longueur du trajet à la cloturation
      */
-    void cloturer(int idReservation, Timestamp timestamp, int kmRetour);
+    void cloturer(int idReservation, Timestamp timestamp, int kmRetour) throws DAOException;
 
     /**
      * Supprime une réservation par son id.
      *
      * @param id Id d'une réservation
      */
-    void supprimer(int id);
+    void supprimer(int id) throws DAOException;
 }

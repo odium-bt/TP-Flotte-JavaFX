@@ -13,10 +13,11 @@ public class DataFactory {
 
     private final VehiculeDAO vehiculeDAO;
     private final ReservationDAO reservationDAO;
-    private final SalarieDAO  salarieDAO;
+    private final SalarieDAO salarieDAO;
     private final Flotte flotte;
     private final VehiculeService vehiculeService;
     private final ReservationService reservationService;
+    private final SalariesService salariesService;
     private final EtatService etatService;
 
 
@@ -27,6 +28,7 @@ public class DataFactory {
         this.flotte = new Flotte();
         this.vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
         this.reservationService = new ReservationService(vehiculeDAO, reservationDAO, salarieDAO);
+        this.salariesService = new SalariesService(salarieDAO);
         this.etatService = new EtatService(vehiculeDAO, reservationDAO);
     }
 
@@ -46,6 +48,6 @@ public class DataFactory {
     }
 
     public List<Salarie> afficherListSalaries() {
-        return reservationService.afficherSalaries();
+        return salariesService.afficherSalaries();
     }
 }

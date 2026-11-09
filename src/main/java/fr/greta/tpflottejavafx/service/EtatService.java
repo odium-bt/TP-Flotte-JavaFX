@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.format.DateTimeFormatter;
 
-public class EtatService implements Runnable {
+public class EtatService extends Service implements Runnable {
 
     private static final Logger log = LogManager.getLogger(EtatService.class);
     private static final String FICHIER_PDF = "etat_flotte.pdf";
