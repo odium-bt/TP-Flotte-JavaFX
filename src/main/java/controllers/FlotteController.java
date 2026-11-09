@@ -1,10 +1,16 @@
 package controllers;
 
+import application.AuthApplication;
 import exceptions.DAOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import vue.MenuConsole;
 import modeles.Vehicule;
 import service.VehiculeService;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -15,6 +21,18 @@ public class FlotteController {
 
     public FlotteController(VehiculeService vehiculeService) {
         this.vehiculeService = vehiculeService;
+    }
+
+    public void FlotteScene(Window w) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(AccueilController.class.getResource("flotte-view.fxml"));
+
+        Scene scene = new Scene(loader.load(), 600, 400);
+        Stage stage = (Stage) w;
+        stage.setTitle("Flotte de véhicule");
+        stage.setScene(scene);
+        stage.show();
     }
 
  //   public void ajouterVehicule() {
