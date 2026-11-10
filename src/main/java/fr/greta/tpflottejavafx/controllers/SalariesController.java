@@ -1,8 +1,10 @@
 package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.modeles.Salarie;
+import fr.greta.tpflottejavafx.service.DataFactory;
 import fr.greta.tpflottejavafx.service.ReservationService;
 import fr.greta.tpflottejavafx.service.SalariesService;
+import fr.greta.tpflottejavafx.service.VehiculeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class SalariesController {
     private final Logger log = LogManager.getLogger(String.valueOf(SalariesController.class));
 
-    private SalariesService salariesService;
+    private final SalariesService salariesService = DataFactory.getInstance().getSalariesService();
 
     // Salariés
     @FXML
@@ -38,10 +40,6 @@ public class SalariesController {
 
     // Source de données unique, partagée par la table et la ListView
     private final ObservableList<Salarie> salaries = FXCollections.observableArrayList();
-
-    public SalariesController(SalariesService salariesService) {
-        this.salariesService = salariesService;
-    }
 
     @FXML
     private void onAdd() {

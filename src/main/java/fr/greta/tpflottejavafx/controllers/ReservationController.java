@@ -1,21 +1,39 @@
 package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.modeles.Salarie;
+import fr.greta.tpflottejavafx.service.DataFactory;
 import fr.greta.tpflottejavafx.service.ReservationService;
+import fr.greta.tpflottejavafx.service.VehiculeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class ReservationController {
     private final Logger log = LogManager.getLogger(String.valueOf(ReservationController.class));
 
-    private final ReservationService reservationService;
+    private final ReservationService reservationService = DataFactory.getInstance().getReservationService();
+
+    public void ReservationScene(Window w) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(AccueilController.class.getResource("/fr/greta/tpflottejavafx/views/reservation-view.fxml"));
+        Scene scene = new Scene(loader.load());
+        Stage stage = (Stage) w;
+        stage.setTitle("Gestion des réservations");
+        stage.setScene(scene);
+        stage.show();
+    }
 
     // Salariés
     @FXML
@@ -37,10 +55,6 @@ public class ReservationController {
 
     // Source de données unique, partagée par la table et la ListView
     private final ObservableList<Salarie> salaries = FXCollections.observableArrayList();
-
-    public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
-    }
 
     @FXML
     private void onAdd() {
