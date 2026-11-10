@@ -1,5 +1,10 @@
 package fr.greta.tpflottejavafx.controllers;
 
+import fr.greta.tpflottejavafx.service.ReservationService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+/// Contrôleur gérant les réservations
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.service.DataFactory;
 import fr.greta.tpflottejavafx.service.ReservationService;
@@ -35,6 +40,8 @@ public class ReservationController {
         stage.show();
     }
 
+
+    // TODO CRUD Réservations (créer, lister, modifier (inclure clôturation avec l'ajout du retour), supprimer (vérifier si le véhicule n'est pas en déplacement))
     // Salariés
     @FXML
     private TextField matricule;
@@ -99,23 +106,11 @@ public class ReservationController {
         if (s == null) log.error("Erreur : sélectionnez d'abord un salarié");
         return s;
     }
+
 }
 
 /*
 
-    public void ajouterSalarie() {
-
-        String matricule = vue.saisieTexte("Matricule (6 chiffres) : ");
-        String nom = vue.saisieTexte("Nom : ");
-        String prenom = vue.saisieTexte("Prénom : ");
-        try {
-            Salarie salarie = new Salarie(matricule, prenom, nom);
-            reservationService.ajouterSalarie(salarie);
-            vue.afficherSucces("Le salarié matriculé " + matricule + " a bien été ajouté!");
-        } catch (RegleGestionException | IllegalArgumentException e) {
-            vue.afficherRefus(e.getMessage());
-        }
-    }
 
     public void departReservation() {
 
@@ -148,14 +143,4 @@ public class ReservationController {
         vue.afficherVehicules(reservationService.vehiculeEnDeplacement());
     }
 
-
-    public void historiqueSalarie() {
-        String matricule = vue.saisieTexte("Matricule : ");
-        Reservations<Salarie, Timestamp, Vehicule> historique = reservationService.historiqueSalarie(matricule);
-
-        if (historique == null) {
-            vue.afficherRefus("Le salarié est introuvable.");
-        } else {
-            vue.afficherHistorique(historique);
-        }
     }*/

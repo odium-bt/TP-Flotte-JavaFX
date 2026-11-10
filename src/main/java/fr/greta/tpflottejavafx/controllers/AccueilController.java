@@ -15,6 +15,7 @@ import fr.greta.tpflottejavafx.service.VehiculeService;
 
 import java.io.IOException;
 
+/// Contrôleur gérant la fenêtre d'accueil
 public class AccueilController {
 
     @FXML

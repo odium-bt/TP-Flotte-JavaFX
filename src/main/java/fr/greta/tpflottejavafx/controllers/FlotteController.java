@@ -25,10 +25,19 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
+/// Contrôleur gérant la flotte
+public class FlotteController {
+
 public class FlotteController {
 
     private final VehiculeService vehiculeService = DataFactory.getInstance().getVehiculeService();
-
+  
+    /**
+     * Création de la scène.
+     *
+     * @param w Fenêtre
+     * @throws IOException Jette une exception si le chargement de la vue échoue
+     */
     public void FlotteScene(Window w) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(AccueilController.class.getResource("/fr/greta/tpflottejavafx/views/flotte-view.fxml"));

@@ -10,6 +10,7 @@ import fr.greta.tpflottejavafx.service.AuthService;
 
 import java.io.IOException;
 
+/// Contrôleur gérant la fenêtre d'authentification
 public class AuthController {
     private AuthService authService;
 
@@ -22,7 +23,7 @@ public class AuthController {
     public Text error_msg;
 
     @FXML
-    protected  void initialize() {
+    protected void initialize() {
         this.authService = new AuthService();
     }
 
