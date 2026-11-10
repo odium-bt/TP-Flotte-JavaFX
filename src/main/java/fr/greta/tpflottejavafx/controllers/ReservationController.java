@@ -12,10 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/// Contrôleur gérant les réservations
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,11 +29,11 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.ResolverStyle;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
 
+/// Contrôleur gérant les réservations
 public class ReservationController {
     private final Logger log = LogManager.getLogger(String.valueOf(ReservationController.class));
 
@@ -65,9 +65,9 @@ public class ReservationController {
     @FXML
     private TextField id_vehicule;
     @FXML
-    private TextField date_depart;
+    private DatePicker date_depart;
     @FXML
-    private TextField date_retour;
+    private DatePicker date_retour;
     @FXML
     private TextField km;
     @FXML
@@ -96,11 +96,30 @@ public class ReservationController {
             DataFactory.getInstance().afficherListReservations()
     );
 
-    private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("dd-MM-yyyy").withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("dd-MM-uuuu");
 
     @FXML
     private void initialize() {
         log("Gestion des réservations");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        StringConverter<LocalDate> converter = new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                return date == null ? "" : date.format(formatter);
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return string == null || string.isBlank()
+                        ? null
+                        : LocalDate.parse(string, formatter);
+            }
+        };
+
+        date_depart.setConverter(converter);
+        date_retour.setConverter(converter);
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         matriculeColumn.setCellValueFactory(new PropertyValueFactory<>("matricule"));
@@ -131,8 +150,8 @@ public class ReservationController {
             id.setText(newP == null ? "" : String.valueOf(newP.getIdReservation()));
             matricule.setText(newP == null ? "" : newP.getSalarie().getMatricule());
             id_vehicule.setText(newP == null ? "" : String.valueOf(newP.getVehicule().getId()));
-            date_depart.setText(newP == null ? "" : String.valueOf(newP.getDateDepart()));
-            date_retour.setText(newP == null || newP.getDateRetour() == null ? "" : String.valueOf(newP.getDateRetour()));
+            date_depart.setValue(newP == null ? null : newP.getDateDepart().toLocalDateTime().toLocalDate());
+            date_retour.setValue(newP == null || newP.getDateRetour() == null ? null : newP.getDateRetour().toLocalDateTime().toLocalDate());
             km.setText(newP == null ? "" : String.valueOf(newP.getKilometrage()));
         });
     }
@@ -172,20 +191,18 @@ public class ReservationController {
     private void onAdd() {
         String m = matricule.getText().trim();
         String idV = id_vehicule.getText().trim();
-        String dateD = date_depart.getText().trim();
-        String dateR = date_retour.getText().trim();
+        LocalDate dateD = date_depart.getValue();
         String km = this.km.getText().trim();
 
         int idVehicule;
         LocalDate dateDepart;
         int kilometrage = Integer.parseInt(km);
 
-        if (m.isEmpty() || idV.isEmpty() || dateD.isEmpty()) {
+        if (m.isEmpty() || idV.isEmpty() || dateD == null) {
             log("Erreur : Le matricule, l'id véhicule et la date de départ sont obligatoires" + "\n");
             return;
         } else {
             idVehicule = Integer.parseInt(idV);
-            dateDepart = LocalDate.parse(dateD, FORMAT_DATE);
         }
 
         try {
@@ -200,8 +217,8 @@ public class ReservationController {
                 return;
             }
 
-            int id = reservationService.creerReservation(m, idVehicule, dateDepart);
-            Reservation r = new Reservation(id, s, v, Timestamp.valueOf(dateD), kilometrage);
+            int id = reservationService.creerReservation(m, idVehicule, dateD);
+            Reservation r = new Reservation(id, s, v, Timestamp.valueOf(dateD.atStartOfDay()), kilometrage);
 
             reservationsList.add(r);
             list.getSelectionModel().select(r);
@@ -220,36 +237,36 @@ public class ReservationController {
         int id = r.getIdReservation();
         String m = matricule.getText().trim();
         String idV = id_vehicule.getText().trim();
-        String dateD = date_depart.getText().trim();
-        String dateR = date_retour.getText().trim();
+        LocalDate dateD = date_depart.getValue();
+        LocalDate dateR = date_retour.getValue();
         String kmR = this.km.getText().trim();
 
         int idVehicule;
-        LocalDate dateDepart;
-        LocalDate dateRetour = LocalDate.parse(dateR, FORMAT_DATE);
-        int kmRetour = Integer.parseInt(kmR);
+        int kmRetour;
 
-        if (m.isEmpty() || idV.isEmpty() || dateD.isEmpty()) {
-            log("Erreur : Le matricule, l'id véhicule et la date de départ sont obligatoires" + "\n");
+        if (m.isEmpty() || idV.isEmpty() || dateD == null || kmR.isEmpty()) {
+            log("Erreur : Le matricule, l'id véhicule, la date de départ et le kilométrage sont obligatoires" + "\n");
             return;
         } else {
+            kmRetour = Integer.parseInt(kmR);
             idVehicule = Integer.parseInt(idV);
-            dateDepart = LocalDate.parse(dateD, FORMAT_DATE);
         }
 
         try {
-            reservationService.modifierReservation(id, m, idVehicule, dateDepart);
+            reservationService.modifierReservation(id, m, idVehicule, dateD);
 
             // Enregistrement du retour si entré
-            if (!dateR.isEmpty() && !kmR.isEmpty()) {
-                reservationService.enregistrerRetour(id, dateRetour, kmRetour);
+            if (dateR != null) {
+                reservationService.enregistrerRetour(id, dateR, kmRetour);
+                r.setDateRetour(Timestamp.valueOf(dateR.atStartOfDay()));
+                r.setKilometrage(kmRetour);
             }
 
             Salarie s = salarieService.rechercheParMatricule(m);
             Vehicule v = vehiculeService.rechercheParId(idVehicule);
             r.setSalarie(s);
             r.setVehicule(v);
-            r.setDateDepart(Timestamp.valueOf(dateD));
+            r.setDateDepart(Timestamp.valueOf(dateD.atStartOfDay()));
 
             list.refresh();
             list2.refresh();
