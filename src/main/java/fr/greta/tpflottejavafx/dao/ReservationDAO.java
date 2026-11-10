@@ -33,12 +33,28 @@ public interface ReservationDAO {
     List<Reservation> lister() throws DAOException;
 
     /**
-     * Trouve si une réservation est actuellement en cours de déplacement.
+     * Trouve si une réservation est actuellement en cours.
      *
      * @param idReservation Id de la réservation
      * @return {@code boolean}
      */
-    boolean estEnDeplacement(int idReservation) throws DAOException;
+    boolean estEnDeplacementParId(int idReservation) throws DAOException;
+
+    /**
+     * Trouve si un véhicule est actuellement en cours de déplacement.
+     *
+     * @param idVehicule Id du véhicule
+     * @return {@code boolean}
+     */
+    boolean estEnDeplacementParIdVehicule(int idVehicule) throws DAOException;
+
+    /**
+     * Trouve si un salarié est actuellement en cours de déplacement.
+     *
+     * @param matricule Matricule du salarié
+     * @return {@code boolean}
+     */
+    boolean estEnDeplacementParMatricule(int matricule) throws DAOException;
 
     /**
      * Modifie une réservation.
