@@ -54,4 +54,8 @@ public class DataFactory {
     public SalariesService getSalariesService() {
         return salariesService;
     }
+
+    public VehiculeService getVehiculeService() {
+        return vehiculeService;
+    }
 }
