@@ -154,7 +154,7 @@ public class VehiculeService extends Service {
                     throw new RegleGestionException("Ce véhicule n'existe pas");
                 }
 
-                if (reservationDAO.estEnDeplacement(v.getId())) {
+                if (reservationDAO.estEnDeplacementParIdVehicule(v.getId())) {
                     throw new RegleGestionException("Ce véhicule est actuellement en déplacement");
                 }
 
@@ -181,7 +181,7 @@ public class VehiculeService extends Service {
                     throw new RegleGestionException("Ce véhicule n'existe pas");
                 }
 
-                if (reservationDAO.estEnDeplacement(id)) {
+                if (reservationDAO.estEnDeplacementParIdVehicule(id)) {
                     throw new RegleGestionException("Ce véhicule est actuellement en déplacement");
                 }
 
