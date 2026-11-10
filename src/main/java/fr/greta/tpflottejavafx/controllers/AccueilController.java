@@ -9,16 +9,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import fr.greta.tpflottejavafx.modeles.Flotte;
 
 import java.io.IOException;
 
 /// Contrôleur gérant la fenêtre d'accueil
 public class AccueilController {
-    VehiculeDAO vehiculeDAO = new VehiculeDAOImpl();
-    SalarieDAO salarieDAO = new SalarieDAOImpl();
-    ReservationDAO reservationDAO = new ReservationDAOImpl();
-    Flotte flotte = new Flotte();
 
     @FXML
     private Button gestionFlotte;
@@ -41,9 +36,8 @@ public class AccueilController {
 
     @FXML
     protected void onGestionFlotteClick() {
-        FlotteController flotteController = new FlotteController(DataFactory.getInstance().getVehiculeService());
         try {
-            flotteController.FlotteScene(gestionFlotte.getScene().getWindow());
+            new FlotteController(DataFactory.getInstance().getVehiculeService()).FlotteScene(gestionFlotte.getScene().getWindow());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,16 +57,14 @@ public class AccueilController {
         reservationController.ReservationScene(gestionReservation.getScene().getWindow());
     }
 
+
     @FXML
     protected void onGestionEtatClick() {
-        EtatService etatService = new EtatService(vehiculeDAO, reservationDAO);
-        EtatController etatController = new EtatController();
-        /*
         try {
-            etatController.EtatScene(gestionEtat.getScene().getWindow());
+            new ReservationController().ReservationScene(gestionEtat.getScene().getWindow());
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
 
 }

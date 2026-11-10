@@ -1,5 +1,6 @@
 package fr.greta.tpflottejavafx.application;
 
+import fr.greta.tpflottejavafx.service.DataFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,4 +21,5 @@ public class AuthApplication extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
 }

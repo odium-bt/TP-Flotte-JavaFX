@@ -13,6 +13,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class VehiculeService extends Service {
     private final Logger log = LogManager.getLogger(String.valueOf(VehiculeService.class));
@@ -48,6 +52,7 @@ public class VehiculeService extends Service {
             throw e;
         }
     }
+
 
     /**
      * Récupère la flotte de véhicule depuis la base de donnée
@@ -108,31 +113,23 @@ public class VehiculeService extends Service {
     /**
      * Modifie un véhicule en base
      *
-     * @param idVehicule            Id
-     * @param immatriculation       Immatriculation
-     * @param marque                Marque
-     * @param modele                Modèle
-     * @param dateMiseEnCirculation Date de mise en circulation
-     * @param kilometrage           Kilométrage
+     * @param vehicule Vehicule
      */
-    public void modifierVehicule(int idVehicule, String immatriculation, String marque, String modele, LocalDate dateMiseEnCirculation, int kilometrage) {
-        executor.submit(() -> {
+    public void modifierVehicule(Vehicule vehicule) {
             log.info("Modification d'un véhicule");
 
-            try {
-                if (vehiculeDAO.trouverParId(idVehicule) == null) {
-                    throw new RegleGestionException("Ce véhicule n'existe pas");
-                }
-
-                Vehicule vehicule = new Vehicule(idVehicule, immatriculation, marque, modele, dateMiseEnCirculation, kilometrage);
-
-                vehiculeDAO.modifier(vehicule);
-
-                log.info("Véhicule modifié");
-            } catch (DAOException | RegleGestionException e) {
-                log.error(e.getMessage(), e);
+            if (vehiculeDAO.trouverParId(vehicule.getId()) == null) {
+                throw new RegleGestionException("Ce véhicule n'existe pas");
             }
-        });
+
+            // Si l'immatriculation change, elle ne doit pas appartenir à un autre véhicule
+            Vehicule existant = vehiculeDAO.trouverParImmatriculation(vehicule.getImmatriculation());
+            if (existant != null && !Objects.equals(existant.getId(), vehicule.getId())) {
+                throw new RegleGestionException("Un véhicule avec cette immatriculation existe déjà !");
+            }
+
+            vehiculeDAO.modifier(vehicule);
+            log.info("Véhicule modifié");
     }
 
 

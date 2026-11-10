@@ -3,7 +3,10 @@ package fr.greta.tpflottejavafx.controllers;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.DomainException;
 import fr.greta.tpflottejavafx.modeles.Salarie;
+import fr.greta.tpflottejavafx.service.DataFactory;
+import fr.greta.tpflottejavafx.service.ReservationService;
 import fr.greta.tpflottejavafx.service.SalariesService;
+import fr.greta.tpflottejavafx.service.VehiculeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,7 +30,7 @@ import java.io.IOException;
 public class SalariesController {
     private final Logger log = LogManager.getLogger(String.valueOf(SalariesController.class));
 
-    private final SalariesService salariesService;
+    private final SalariesService salariesService = DataFactory.getInstance().getSalariesService();
 
     /**
      * Création de la scène.
@@ -73,10 +76,6 @@ public class SalariesController {
             new Salarie("123533", "Higgins", "Clark"),
             new Salarie("253644", "Pantou", "Maurice"),
             new Salarie("867452", "Parmentier", "Yvette"));
-
-    public SalariesController(SalariesService salariesService) {
-        this.salariesService = salariesService;
-    }
 
     @FXML
     private void initialize() {
