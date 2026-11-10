@@ -19,7 +19,7 @@ public class VehiculeDAOImpl implements VehiculeDAO {
     private final String immatriculation = "immatriculation";
     private final String marque = "marque";
     private final String modele = "modele";
-    private final String date_mise_circulation = "date_mise_en_circulation";
+    private final String date_mise_circulation = "date_mise_circulation";
     private final String kilometrage = "kilometrage";
 
     /**

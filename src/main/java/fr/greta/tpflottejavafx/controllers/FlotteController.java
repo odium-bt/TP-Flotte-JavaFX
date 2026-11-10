@@ -91,6 +91,7 @@ public class FlotteController {
         immaColumn.setCellValueFactory(new PropertyValueFactory<>("immatriculation"));
         marqueColumn.setCellValueFactory(new PropertyValueFactory<>("marque"));
         modeleColumn.setCellValueFactory(new PropertyValueFactory<>("modele"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnCirculation"));
         //Formatage de l'affichage de la date de mise en circulation
         dateColumn.setCellFactory(col -> new TableCell<>() {
             @Override
