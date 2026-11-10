@@ -7,14 +7,16 @@ import java.sql.Timestamp;
  */
 public class Reservation {
     private int idReservation;
+    private Salarie salarie;
     private Vehicule vehicule;
     private Timestamp dateDepart;
     private Timestamp dateRetour;
     private int kilometrage;
 
     /// Constructeur avec retour
-    public Reservation(int idReservation, Vehicule vehicule, Timestamp dateDepart, Timestamp dateRetour, int kilometrage) {
+    public Reservation(int idReservation, Salarie salarie, Vehicule vehicule, Timestamp dateDepart, Timestamp dateRetour, int kilometrage) {
         this.idReservation = idReservation;
+        this.salarie = salarie;
         this.vehicule = vehicule;
         this.dateDepart = dateDepart;
         this.dateRetour = dateRetour;
@@ -22,8 +24,9 @@ public class Reservation {
     }
 
     /// Constructeur
-    public Reservation(int idReservation, Vehicule vehicule, Timestamp dateDepart, int kilometrage) {
+    public Reservation(int idReservation, Salarie salarie, Vehicule vehicule, Timestamp dateDepart, int kilometrage) {
         this.idReservation = idReservation;
+        this.salarie = salarie;
         this.vehicule = vehicule;
         this.dateDepart = dateDepart;
         this.kilometrage = kilometrage;
@@ -33,8 +36,13 @@ public class Reservation {
         return idReservation;
     }
 
-    public void setIdReservation(int idReservation) {
-        this.idReservation = idReservation;
+
+    public Salarie getSalarie() {
+        return salarie;
+    }
+
+    public void setSalarie(Salarie salarie) {
+        this.salarie = salarie;
     }
 
     public Vehicule getVehicule() {
@@ -73,6 +81,7 @@ public class Reservation {
     public String toString() {
         return "Reservation{" +
                 "idReservation=" + idReservation +
+                ", salarie=" + salarie +
                 ", vehicule=" + vehicule +
                 ", dateDepart=" + dateDepart +
                 ", dateRetour=" + dateRetour +

@@ -3,10 +3,8 @@ package fr.greta.tpflottejavafx.dao;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,28 +17,36 @@ public class VehiculeDAOImpl implements VehiculeDAO {
     private final String immatriculation = "immatriculation";
     private final String marque = "marque";
     private final String modele = "modele";
-    private final String date_mise_circulation = "date_mise_en_circulation";
+    private final String date_mise_circulation = "date_mise_circulation";
     private final String kilometrage = "kilometrage";
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void creer(Vehicule vehicule) throws DAOException {
+    public int creer(String vehiculeImmat, String vehiculeMarque, String vehiculeModele, LocalDate vehiculeDate, int vehiculeKilo) throws DAOException {
         String query = "insert into " + table + " (" +
                 immatriculation + ", " +
                 marque + ", " +
                 modele + ", " +
                 date_mise_circulation + ", " +
                 kilometrage + ") values (?,?,?,?,?)";
-        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
-            ps.setString(1, vehicule.getImmatriculation());
-            ps.setString(2, vehicule.getMarque());
-            ps.setString(3, vehicule.getModele());
-            ps.setDate(4, Date.valueOf(vehicule.getDateMiseEnCirculation()));
-            ps.setInt(5, vehicule.getKilometrage());
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, vehiculeImmat);
+            ps.setString(2, vehiculeMarque);
+            ps.setString(3, vehiculeModele);
+            ps.setDate(4, Date.valueOf(vehiculeDate));
+            ps.setInt(5, vehiculeKilo);
 
             ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+
+            throw new DAOException("Impossible de récupérer l'identifiant du véhicule.");
         } catch (SQLException e) {
             throw new DAOException("Erreur lors de la création du véhicule : " + e.getMessage());
         }

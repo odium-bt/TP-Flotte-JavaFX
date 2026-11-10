@@ -31,7 +31,7 @@ public class DataFactory {
         this.flotte = new Flotte();
         this.vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
         this.reservationService = new ReservationService(vehiculeDAO, reservationDAO, salarieDAO);
-        this.salariesService = new SalariesService(salarieDAO);
+        this.salariesService = new SalariesService(salarieDAO, reservationDAO);
         this.etatService = new EtatService(vehiculeDAO, reservationDAO);
     }
 
