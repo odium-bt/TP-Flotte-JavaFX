@@ -24,6 +24,12 @@ public class AccueilController {
     @FXML
     private Button gestionEtat;
 
+    /**
+     * Création de la scène.
+     *
+     * @param w Fenêtre
+     * @throws IOException Jette une exception si le chargement de la vue échoue
+     */
     public void AccueilScene(Window w) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(AuthApplication.class.getResource("/fr/greta/tpflottejavafx/views/accueil-view.fxml"));
@@ -47,19 +53,26 @@ public class AccueilController {
     protected void onGestionSalarieClick() {
         SalariesController salariesController = new SalariesController();
 
-        salariesController.SalariesScene(gestionReservation.getScene().getWindow());
+        try {
+            salariesController.SalariesScene(gestionReservation.getScene().getWindow());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
     protected void onGestionReservationClick() {
         ReservationController reservationController = new ReservationController();
-
-        reservationController.ReservationScene(gestionReservation.getScene().getWindow());
+        try {
+            reservationController.ReservationScene(gestionReservation.getScene().getWindow());
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
 
     @FXML
-    protected void onGestionEtatClick() {
+    protected void onGestionEtatClick() throws IOException {
         new ReservationController().ReservationScene(gestionEtat.getScene().getWindow());
     }
 

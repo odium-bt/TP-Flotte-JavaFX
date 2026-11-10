@@ -14,6 +14,12 @@ public class EtatController {
 
     private final EtatService vehiculeService = DataFactory.getInstance().getEtatService();
 
+    /**
+     * Création de la scène.
+     *
+     * @param w Fenêtre
+     * @throws IOException Jette une exception si le chargement de la vue échoue
+     */
     public void EtatScene(Window w) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(AccueilController.class.getResource("/fr/greta/tpflottejavafx/views/etat-view.fxml"));
@@ -22,6 +28,5 @@ public class EtatController {
         stage.setTitle("Gestion des états");
         stage.setScene(scene);
         stage.show();
-
     }
 }
