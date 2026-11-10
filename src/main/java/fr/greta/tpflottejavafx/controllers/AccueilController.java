@@ -72,8 +72,12 @@ public class AccueilController {
 
 
     @FXML
-    protected void onGestionEtatClick() throws IOException {
-        new ReservationController().ReservationScene(gestionEtat.getScene().getWindow());
+    protected void onGestionEtatClick() {
+        try {
+            new EtatController().EtatScene(gestionEtat.getScene().getWindow());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -36,16 +36,7 @@ public class EtatService extends Service implements Runnable {
 
 
 
-    public record VehiculeEtat(Vehicule vehicule, String etat) {}
 
-    public List<VehiculeEtat> listerAvecEtat() throws DAOException {
-
-        return List.of();
-    }
-    private String etatVehicule(Vehicule vehicule, List<Reservation> reservationList) {
-
-        return "";
-    }
 
 }
 
