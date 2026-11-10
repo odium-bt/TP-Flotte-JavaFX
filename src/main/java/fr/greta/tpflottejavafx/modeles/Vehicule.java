@@ -7,7 +7,7 @@ import java.time.LocalDate;
  */
 public class Vehicule {
 
-    private int id;
+    private final int id;
     private String immatriculation;
     private String marque;
     private String modele;
@@ -45,10 +45,6 @@ public class Vehicule {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getKilometrage() {

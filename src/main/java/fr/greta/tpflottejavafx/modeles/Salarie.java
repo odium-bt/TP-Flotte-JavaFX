@@ -5,7 +5,7 @@ package fr.greta.tpflottejavafx.modeles;
  */
 public class Salarie {
 
-    private String matricule;
+    private final String matricule;
     private String nom;
     private String prenom;
 
@@ -25,10 +25,6 @@ public class Salarie {
 
     public String getMatricule() {
         return matricule;
-    }
-
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
     }
 
     public String getNom() {
