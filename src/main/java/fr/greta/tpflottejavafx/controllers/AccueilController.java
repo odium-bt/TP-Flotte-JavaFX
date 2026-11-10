@@ -66,7 +66,7 @@ public class AccueilController {
         try {
             reservationController.ReservationScene(gestionReservation.getScene().getWindow());
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
