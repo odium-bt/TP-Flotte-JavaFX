@@ -108,13 +108,15 @@ public class ReservationDAOImpl implements ReservationDAO {
      */
     private Reservation mapperReservation(ResultSet rs) throws SQLException {
         int idReservation = rs.getInt(id);
+        String matriculeSalarie = rs.getString(matricule);
         int vehiculeId = rs.getInt(idVehicule);
+        Salarie salarie = DAOFactory.getInstance().getSalarieDAO().trouverParMatricule(matriculeSalarie);
         Vehicule vehicule = DAOFactory.getInstance().getVehiculeDAO().trouverParId(vehiculeId);
         Timestamp depart = rs.getTimestamp(dateDepart);
         Timestamp retour = rs.getTimestamp(dateRetour);
         int kilometrage = rs.getInt(kmRetour);
 
-        return new Reservation(idReservation, vehicule, depart, retour, kilometrage);
+        return new Reservation(idReservation, salarie, vehicule, depart, retour, kilometrage);
     }
 
     /**
