@@ -3,6 +3,7 @@ package fr.greta.tpflottejavafx.service;
 import fr.greta.tpflottejavafx.dao.*;
 import fr.greta.tpflottejavafx.dao.SalarieDAO;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
+import fr.greta.tpflottejavafx.exceptions.DomainException;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 
 import org.apache.logging.log4j.Logger;
@@ -19,9 +20,11 @@ public class SalariesService extends Service {
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private final SalarieDAO salarieDAO;
+    private final ReservationDAO reservationDAO;
 
-    public SalariesService(SalarieDAO salarieDAO) {
+    public SalariesService(SalarieDAO salarieDAO, ReservationDAO reservationDAO) {
         this.salarieDAO = salarieDAO;
+        this.reservationDAO = reservationDAO;
     }
 
     /**
@@ -29,7 +32,7 @@ public class SalariesService extends Service {
      *
      * @param salarie Le salarié
      */
-    public void ajouterSalarie(Salarie salarie) {
+    public void ajouterSalarie(Salarie salarie) throws DAOException {
         executor.submit(() -> {
             log.info("Création d'un salarié");
 
@@ -40,6 +43,7 @@ public class SalariesService extends Service {
             } catch (DAOException e) {
                 log.error(e.getMessage(), e);
                 log.trace(e.getStackTrace());
+                throw e;
             }
         });
     }
@@ -88,7 +92,7 @@ public class SalariesService extends Service {
      *
      * @param salarie Le salarié modifié.
      */
-    public void modifierSalarie(Salarie salarie) {
+    public void modifierSalarie(Salarie salarie) throws DAOException {
         executor.submit(() -> {
             log.info("Modification d'un salarié");
 
@@ -99,6 +103,23 @@ public class SalariesService extends Service {
             } catch (DAOException e) {
                 log.error(e.getMessage(), e);
                 log.trace(e.getStackTrace());
+                throw e;
+            }
+        });
+    }
+
+    public void modifierSalarie(Salarie salarie, String nom, String prenom) throws DAOException {
+        executor.submit(() -> {
+            log.info("Modification d'un salarié");
+            Salarie nouveauSalarie = new Salarie(salarie.getMatricule(), prenom, nom);
+            try {
+                salarieDAO.modifier(nouveauSalarie);
+
+                log.info("Salarié mis à jour");
+            } catch (DAOException e) {
+                log.error(e.getMessage(), e);
+                log.trace(e.getStackTrace());
+                throw e;
             }
         });
     }
@@ -108,11 +129,15 @@ public class SalariesService extends Service {
      *
      * @param matricule Son matricule
      */
-    public void supprimerParMatricule(String matricule) {
+    public void supprimerParMatricule(String matricule) throws DomainException {
         executor.submit(() -> {
             log.info("Suppression du salarié {}", matricule);
 
-            // TODO Check si le salarié est en déplacement
+            if (reservationDAO.estEnDeplacementParMatricule(Integer.parseInt(matricule))) {
+                salarieDAO.supprimer(matricule);
+            } else {
+                throw new DomainException("Erreur : Supprimer un salarié en déplacement n'est pas authorisé");
+            }
         });
     }
 }
