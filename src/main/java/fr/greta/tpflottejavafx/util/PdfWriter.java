@@ -86,7 +86,7 @@ public class PdfWriter {
             doc.add(table);
 
             // Statut du véhicule
-            boolean enDeplacement = reservationDAO.estEnDeplacement(vehicule.getId());
+            boolean enDeplacement = reservationDAO.estEnDeplacementParIdVehicule(vehicule.getId());
             Paragraph statut = new Paragraph("Disponibilité : "
                     + (enDeplacement ? "En déplacement" : "Disponible"))
                     .setFontSize(11)
