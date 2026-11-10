@@ -50,9 +50,9 @@
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="62.39992904663086" text="ID"/>
                 <TableColumn fx:id="matriculeColumn" prefWidth="108.800048828125" text="Matricule salarié"/>
-                <TableColumn fx:id="marqueColumn" prefWidth="129.59999084472656" text="ID Véhicule"/>
-                <TableColumn fx:id="modeleColumn" prefWidth="130.4000244140625" text="Date de départ"/>
-                <TableColumn fx:id="dateColumn" prefWidth="115.20001220703125" text="Date de retour"/>
+                <TableColumn fx:id="idVehiculeColumn" prefWidth="129.59999084472656" text="ID Véhicule"/>
+                <TableColumn fx:id="dateDepartColumn" prefWidth="130.4000244140625" text="Date de départ"/>
+                <TableColumn fx:id="dateRetourColumn" prefWidth="115.20001220703125" text="Date de retour"/>
                 <TableColumn fx:id="kmColumn" prefWidth="129.59991455078125" text="Kilométrage"/>
             </columns>
         </TableView>
