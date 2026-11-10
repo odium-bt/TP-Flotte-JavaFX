@@ -30,18 +30,20 @@ public class ReservationController {
 
     private final ReservationService reservationService = DataFactory.getInstance().getReservationService();
 
-    public void ReservationScene(Window window) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/greta/tpflottejavafx/views/reservation-view.fxml"));
-        loader.setController(this);
-        try {
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) window;
-            stage.setTitle("Gestion des réservations");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            log.error("Erreur lors de l'ouverture de la gestion des réservations", e);
-        }
+    /**
+     * Création de la scène.
+     *
+     * @param w Fenêtre
+     * @throws IOException Jette une exception si le chargement de la vue échoue
+     */
+    public void ReservationScene(Window w) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(AccueilController.class.getResource("/fr/greta/tpflottejavafx/views/reservation-view.fxml"));
+        Scene scene = new Scene(loader.load());
+        Stage stage = (Stage) w;
+        stage.setTitle("Gestion des réservations");
+        stage.setScene(scene);
+        stage.show();
     }
 
     // TODO CRUD Réservations (créer, lister, modifier (inclure clôturation avec l'ajout du retour), supprimer (vérifier si le véhicule n'est pas en déplacement))

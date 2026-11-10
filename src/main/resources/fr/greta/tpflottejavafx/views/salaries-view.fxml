@@ -16,7 +16,8 @@
 <?import javafx.scene.text.TextFlow?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0"
-            prefWidth="857.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+            prefWidth="857.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.greta.tpflottejavafx.controllers.SalariesController">
     <Label alignment="CENTER" layoutX="-1.0" prefHeight="51.0" prefWidth="858.0" style="-fx-background-color: blue;"
            text="===============   LISTE DES SALARIÉS   ===============" textFill="WHITE"/>
     <GridPane layoutX="-1.0" layoutY="53.0" prefHeight="489.0" prefWidth="857.0">

@@ -37,18 +37,14 @@ public class SalariesController {
      *
      * @param w Fenêtre
      */
-    public void SalariesScene(Window w) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/greta/tpflottejavafx/views/salaries-view.fxml"));
-        loader.setController(this);
-        try {
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) w;
-            stage.setTitle("Gestion des salariés");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            log.error("Erreur lors de l'ouverture de la gestion des salariés", e);
-        }
+    public void SalariesScene(Window w) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(AccueilController.class.getResource("/fr/greta/tpflottejavafx/views/salaries-view.fxml"));
+        Scene scene = new Scene(loader.load());
+        Stage stage = (Stage) w;
+        stage.setTitle("Gestion des salariés");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
