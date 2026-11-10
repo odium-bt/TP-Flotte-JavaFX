@@ -1,7 +1,9 @@
 package fr.greta.tpflottejavafx.controllers;
 
+import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 import fr.greta.tpflottejavafx.service.DataFactory;
+import fr.greta.tpflottejavafx.service.VehiculeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +25,8 @@ import java.time.format.DateTimeParseException;
 
 /// Contrôleur gérant la flotte
 public class FlotteController {
+
+    private final VehiculeService vehiculeService;
 
     /**
      * Création de la scène.
@@ -77,6 +81,10 @@ public class FlotteController {
             DataFactory.getInstance().afficherListVehicules()
     );
 
+    public FlotteController(VehiculeService vehiculeService) {
+        this.vehiculeService = vehiculeService;
+    }
+
     @FXML
     private void initialize() {
         //log("Gestion de la flotte de Véhiclues");
@@ -117,7 +125,7 @@ public class FlotteController {
 
         LocalDate date = null;
         try {
-            date=LocalDate.parse(dateTxt);
+            date = LocalDate.parse(dateTxt);
         } catch (DateTimeParseException e) {
             log("Erreur : date invalide (format attendu : AAAA-MM-JJ)");
         }
@@ -138,14 +146,18 @@ public class FlotteController {
             log("Erreur : le kilométrage ne peut pas être négatif");
             return;
         }
-
-        Vehicule v = new Vehicule(i, ma, mo, date, k);
-        listVehicules.add(v);
-        list.getSelectionModel().select(v);
-        list.scrollTo(v);
-        log("Ajout " + v);
+        try {
+            int id = vehiculeService.ajouterVehicule(i, ma, mo, date, k);
+            Vehicule v = new Vehicule(id, i, ma, mo, date, k);
+            listVehicules.add(v);
+            list.getSelectionModel().select(v);
+            list.scrollTo(v);
+            log("Ajout " + v);
+        } catch (DAOException e) {
+            log(e.getMessage());
+        }
     }
-/*
+    /*
     @FXML
     private void onUpdate() {
         Personne p = selected();
@@ -171,12 +183,6 @@ public class FlotteController {
         return p;
     }
 */
-    private void log(String text) {
-        var messages = message.getChildren();
-        messages.add(new Text((messages.isEmpty() ? "" : "\n") + text));
-    }
-
-
 
     //   public void ajouterVehicule() {
     //       String immatriculation = vue.saisieTexte("Immatriculation (AA-123-AA)").toUpperCase();
@@ -265,7 +271,9 @@ public class FlotteController {
     //       }
     //       afficherFlotte();
     //   }
-//
-//
-}//
-//
+
+    private void log(String text) {
+        var messages = message.getChildren();
+        messages.add(new Text((messages.isEmpty() ? "" : "\n") + text));
+    }
+}
