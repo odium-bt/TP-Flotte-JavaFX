@@ -7,32 +7,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="508.0" prefWidth="548.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="fr.greta.tpflottejavafx.controllers.AccueilController">
-    <Label alignment="CENTER" prefHeight="31.0" prefWidth="548.0" style="-fx-background-color: blue;"
-           text="==================   MENU PRINCIPAL   ==================" textFill="WHITE"/>
-    <VBox alignment="CENTER" layoutX="129.0" layoutY="53.0" prefHeight="186.0" prefWidth="227.0" spacing="20.0">
-        <Label alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="VÉHICULES"/>
-        <ImageView fitHeight="134.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../../../../images/categories-de-voitures.jpg"/>
+<AnchorPane prefHeight="545.0" prefWidth="548.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.tpflottejavafx.controllers.AccueilController">
+    <Label alignment="CENTER" prefHeight="31.0" prefWidth="548.0" style="-fx-background-color: blue;" text="==================   MENU PRINCIPAL   ==================" textFill="WHITE" />
+    <VBox alignment="CENTER" layoutX="37.0" layoutY="72.0" prefHeight="186.0" prefWidth="227.0" spacing="20.0">
+        <Label alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="VÉHICULES" />
+        <ImageView fitHeight="89.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../../images/categories-de-voitures.jpg" />
         </ImageView>
-        <Button fx:id="gestionFlotte" contentDisplay="CENTER" mnemonicParsing="false"
-                onAction="#onGestionFlotteClick" text="Gestion de la flotte"/>
+        <Button fx:id="gestionFlotte" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onGestionFlotteClick" text="Gestion de la flotte" />
     </VBox>
-    <VBox alignment="CENTER" layoutX="40.0" layoutY="275.0" prefHeight="202.0" prefWidth="227.0" spacing="20.0">
-        <Label alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="SALARIÉS ET RÉSERVATIONS"/>
+    <VBox alignment="CENTER" layoutX="39.0" layoutY="294.0" prefHeight="202.0" prefWidth="227.0" spacing="20.0">
+        <Label alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="RÉSERVATIONS" />
         <ImageView fitHeight="119.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../../../../images/resa-vehicule.jpg"/>
+            <Image url="@../../../../images/resa-vehicule.jpg" />
         </ImageView>
-        <Button fx:id="gestionReservation" mnemonicParsing="false" onAction="#onGestionSalarieClick"
-                text="Gestion des salariés et des réservations"/>
+        <Button fx:id="gestionReservation" mnemonicParsing="false" onAction="#onGestionReservationClick" text="Gestion des réservations" />
     </VBox>
-    <VBox alignment="CENTER" layoutX="291.0" layoutY="276.0" prefHeight="201.0" prefWidth="219.0" spacing="20.0">
-        <Label alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="ÉTATS ET EXPORTS"/>
+    <VBox alignment="CENTER" layoutX="299.0" layoutY="294.0" prefHeight="201.0" prefWidth="219.0" spacing="20.0">
+        <Label alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="ÉTATS ET EXPORTS" />
         <ImageView fitHeight="115.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../../../../images/dispo-véhicules.jpg"/>
+            <Image url="@../../../../images/dispo-véhicules.jpg" />
         </ImageView>
-        <Button fx:id="gestionEtat" mnemonicParsing="false" onAction="#onGestionEtatClick"
-                text="Gestion des exports"/>
+        <Button fx:id="gestionEtat" mnemonicParsing="false" onAction="#onGestionEtatClick" text="Gestion des exports" />
     </VBox>
+   <VBox alignment="CENTER" layoutX="299.0" layoutY="65.0" prefHeight="201.0" prefWidth="219.0" spacing="20.0">
+      <children>
+         <Label alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="SALARIÉS" />
+         <ImageView fitHeight="107.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../../images/salaries.jpg" />
+            </image>
+         </ImageView>
+         <Button fx:id="gestionSalarie" mnemonicParsing="false" onAction="#onGestionSalarieClick" text="Gestion des salariés" />
+      </children>
+   </VBox>
 </AnchorPane>
