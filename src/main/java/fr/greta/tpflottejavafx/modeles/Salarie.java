@@ -5,7 +5,7 @@ package fr.greta.tpflottejavafx.modeles;
  */
 public class Salarie {
 
-    private final String matricule;
+    private String matricule;
     private String nom;
     private String prenom;
 
