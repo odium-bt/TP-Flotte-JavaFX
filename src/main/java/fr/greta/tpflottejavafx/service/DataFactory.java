@@ -7,9 +7,6 @@ import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class DataFactory {
     private static DataFactory instance;
@@ -35,7 +32,7 @@ public class DataFactory {
         this.etatService = new EtatService(vehiculeDAO, reservationDAO);
     }
 
-    //Getteurs des services
+    // Getters des services
     public VehiculeService getVehiculeService() {
         return vehiculeService;
     }
@@ -53,7 +50,7 @@ public class DataFactory {
     }
 
 
-    //Instance de DataFactory
+    // Instance de DataFactory
     public static DataFactory getInstance() {
         if (instance == null) {
             instance = new DataFactory();
@@ -66,8 +63,6 @@ public class DataFactory {
     public List<Vehicule> afficherListVehicules() {
         return vehiculeService.afficherFlotte();
     }
-
-
 
     public List<Reservation> afficherListReservations() {
         return reservationService.afficherReservations();
