@@ -80,4 +80,11 @@ public interface ReservationDAO {
      * @param id Id d'une réservation
      */
     void supprimer(int id) throws DAOException;
+
+    /**
+     *
+     * @return
+     * @throws DAOException
+     */
+    public List<Integer> vehiculesEnDeplacement() throws DAOException;
 }

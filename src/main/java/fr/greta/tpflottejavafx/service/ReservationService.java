@@ -58,6 +58,9 @@ public class ReservationService extends Service {
         return List.of();
     }
 
+    public List<Integer> afficherVehiculeNonDisponible() {
+        return reservationDAO.vehiculesEnDeplacement();
+    }
 
     /**
      * Enregistre le retour d'un véhicule et la clotûre d'une réservation.

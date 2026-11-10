@@ -2,10 +2,14 @@ package fr.greta.tpflottejavafx.service;
 
 import fr.greta.tpflottejavafx.dao.ReservationDAO;
 import fr.greta.tpflottejavafx.dao.VehiculeDAO;
+import fr.greta.tpflottejavafx.exceptions.DAOException;
+import fr.greta.tpflottejavafx.modeles.Reservation;
+import fr.greta.tpflottejavafx.modeles.Vehicule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class EtatService extends Service implements Runnable {
 
@@ -29,5 +33,19 @@ public class EtatService extends Service implements Runnable {
     }
 
     // TODO Faire appel à Mailer et PdfWriter (dans des thread)
+
+
+
+    public record VehiculeEtat(Vehicule vehicule, String etat) {}
+
+    public List<VehiculeEtat> listerAvecEtat() throws DAOException {
+
+        return List.of();
+    }
+    private String etatVehicule(Vehicule vehicule, List<Reservation> reservationList) {
+
+        return "";
+    }
+
 }
 

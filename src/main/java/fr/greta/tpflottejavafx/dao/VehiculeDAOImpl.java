@@ -92,6 +92,24 @@ public class VehiculeDAOImpl implements VehiculeDAO {
         }
     }
 
+    public List<Vehicule> trouver(String mot) throws DAOException {
+        List<Vehicule> listRecherche = new ArrayList<>();
+        String query = "select * from " + table + " where " + immatriculation + "=? OR " + marque + "=? OR " + modele + "=?";
+
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
+            ps.setString(1, mot);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                listRecherche.add(construireVehicule(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Erreur lors de la recherche du véhicule");
+        }
+        return listRecherche;
+    }
+
     /**
      * {@inheritDoc}
      */

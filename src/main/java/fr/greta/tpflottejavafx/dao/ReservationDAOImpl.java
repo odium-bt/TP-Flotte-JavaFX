@@ -139,6 +139,26 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
     }
 
+    @Override
+    public List<Integer> vehiculesEnDeplacement() throws DAOException {
+        List<Integer> list = new ArrayList<>();
+
+        String query = "SELECT id_vehicule FROM " + table
+                + " WHERE " + dateRetour + " IS NULL";
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+
+                    list.add(rs.getInt("id_vehicule"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Erreur lors de la vérification de l'état de la réservation : " + e.getMessage());
+        }
+        return list;
+    }
+
     /**
      * {@inheritDoc}
      */

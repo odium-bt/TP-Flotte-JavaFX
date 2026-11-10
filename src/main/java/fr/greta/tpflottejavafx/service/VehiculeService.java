@@ -108,6 +108,23 @@ public class VehiculeService extends Service {
     }
 
     /**
+     * Recherche dans la liste de Véhicule à partir d'un mot
+     *
+     * @param mot String
+     * @return
+     */
+    public List<Vehicule> rechercherParString(String mot) {
+        log.info("Recherche de véhicules avec le mot clé {}", mot);
+        try {
+            List<Vehicule> listVehiculeRecherche = new ArrayList<>(vehiculeDAO.trouver(mot));
+            return listVehiculeRecherche;
+        } catch (DAOException e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    /**
      * Modifie un véhicule en base
      *
      * @param vehicule Vehicule
