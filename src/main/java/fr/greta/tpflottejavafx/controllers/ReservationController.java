@@ -184,6 +184,7 @@ public class ReservationController {
 
         int idVehicule;
         LocalDate dateDepart;
+        int kilometrage = Integer.parseInt(km);
 
         if (m.isEmpty() || idV.isEmpty() || dateD.isEmpty()) {
             log("Erreur : Le matricule, l'id véhicule et la date de départ sont obligatoires" + "\n");
@@ -206,7 +207,7 @@ public class ReservationController {
             }
 
             int id = reservationService.creerReservation(m, idVehicule, dateDepart);
-            Reservation r = new Reservation(id, s, v, Timestamp.valueOf(dateD));
+            Reservation r = new Reservation(id, s, v, Timestamp.valueOf(dateD), kilometrage);
 
             reservationsList.add(r);
             list.getSelectionModel().select(r);
