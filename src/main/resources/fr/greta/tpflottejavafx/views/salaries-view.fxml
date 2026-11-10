@@ -74,4 +74,6 @@
         </ListView>
         <TextFlow fx:id="message" prefHeight="470.0" prefWidth="285.0" GridPane.columnIndex="2"/>
     </GridPane>
+    <Button fx:id="menuPrincipal" layoutX="720.0" layoutY="13.0" mnemonicParsing="false" onAction="#onMenuClick"
+            style="-fx-background-color: white;" text="Menu principal" textFill="#5929fa"/>
 </AnchorPane>

@@ -63,6 +63,7 @@ public class SalariesService extends Service {
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
             log.trace(e.getStackTrace());
+            throw e;
         }
 
         return res;

@@ -12,10 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -65,6 +62,8 @@ public class SalariesController {
     private TableColumn<Salarie, String> surnameColumn;
     @FXML
     private ListView<Salarie> list2;
+    @FXML
+    private Button menuPrincipal;
 
     // Source de données unique, partagée par la table et la ListView
     private final ObservableList<Salarie> salaries = FXCollections.observableArrayList(
@@ -147,6 +146,17 @@ public class SalariesController {
             log("Suppression " + s + "\n");
         } catch (DomainException e) {
             log(e.getMessage() + "\n");
+        }
+    }
+
+    /// Bouton retour à l'accueil
+    @FXML
+    private void onMenuClick() {
+        try {
+            new AccueilController().AccueilScene(menuPrincipal.getScene().getWindow());
+        } catch (IOException e) {
+            log("Erreur : Impossible d'ouvrir l'accueil.");
+            e.printStackTrace();
         }
     }
 
