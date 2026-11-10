@@ -1,9 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fr.greta.tpflottejavafx.controllers.ReservationController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane prefHeight="663.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.greta.tpflottejavafx.controllers.ReservationController">
+    <Label alignment="CENTER" prefHeight="31.0" prefWidth="734.0" style="-fx-background-color: blue;"
+           text="===============   GESTION DES RÉSERVATIONS   ===============" textFill="WHITE"/>
+    <GridPane hgap="5.0" layoutX="14.0" layoutY="349.0" prefHeight="230.0" prefWidth="720.0" vgap="5.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+            <TextField fx:id="matricule" alignment="TOP_LEFT" promptText="Matricule du salarié"/>
+            <TextField fx:id="id_vehicule" alignment="TOP_LEFT" promptText="Id du véhicule"/>
+            <TextField fx:id="date_depart" alignment="TOP_LEFT" promptText="Date de départ"/>
+            <TextField fx:id="date_retour" alignment="TOP_LEFT" promptText="Date de retour (optionnel)"/>
+            <TextField fx:id="km" alignment="TOP_LEFT" promptText="Kilométrage"/>
+        </VBox>
+        <ListView fx:id="list2" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </ListView>
+        <TextFlow fx:id="message" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2"/>
+    </GridPane>
+    <VBox layoutX="18.0" layoutY="76.0" prefHeight="266.0" prefWidth="694.0">
+        <TableView fx:id="list" editable="true" maxHeight="-Infinity" prefHeight="268.0" prefWidth="694.0"
+                   tableMenuButtonVisible="true">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="62.39992904663086" text="ID"/>
+                <TableColumn fx:id="matriculeColumn" prefWidth="108.800048828125" text="Matricule salarié"/>
+                <TableColumn fx:id="marqueColumn" prefWidth="129.59999084472656" text="ID Véhicule"/>
+                <TableColumn fx:id="modeleColumn" prefWidth="130.4000244140625" text="Date de départ"/>
+                <TableColumn fx:id="dateColumn" prefWidth="115.20001220703125" text="Date de retour"/>
+                <TableColumn fx:id="kmColumn" prefWidth="129.59991455078125" text="Kilométrage"/>
+            </columns>
+        </TableView>
+    </VBox>
+    <Button fx:id="update" layoutX="101.0" layoutY="608.0" mnemonicParsing="false" onAction="#onUpdate"
+            text="Modifier"/>
+    <Button fx:id="delete" layoutX="170.0" layoutY="608.0" mnemonicParsing="false" onAction="#onDelete"
+            text="Supprimer"/>
+    <Button fx:id="add" layoutX="36.0" layoutY="608.0" mnemonicParsing="false" onAction="#onAdd" text="Ajouter"/>
+    <Button fx:id="menuPrincipal" layoutX="616.0" layoutY="608.0" mnemonicParsing="false" onAction="#onMenuClick"
+            style="-fx-background-color: blue;" text="Menu principal" textFill="WHITE"/>
 
 </AnchorPane>
