@@ -102,8 +102,8 @@ public class SalariesController {
         String m = matricule.getText().trim();
         String n = nom.getText().trim();
         String p = prenom.getText().trim();
-        if (n.isEmpty() || p.isEmpty()) {
-            log("Erreur : nom et prénom obligatoires" + "\n");
+        if (m.isEmpty() || n.isEmpty() || p.isEmpty()) {
+            log("Erreur : matricule, nom et prénom obligatoires" + "\n");
             return;
         }
         try {
@@ -122,10 +122,12 @@ public class SalariesController {
     private void onUpdate() {
         Salarie s = selected();
         if (s == null) return;
+
         String mat = matricule.getText().trim();
         if (!mat.equals(s.getMatricule())) {
             log("Erreur : Modifier le matricule d'un salarié existant n'est pas autorisé.");
         }
+
         String nouveauNom = nom.getText().trim();
         String nouveauPrenom = prenom.getText().trim();
         try {
