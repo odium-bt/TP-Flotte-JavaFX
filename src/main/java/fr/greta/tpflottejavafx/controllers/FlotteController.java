@@ -29,7 +29,7 @@ import static java.lang.Thread.sleep;
 public class FlotteController {
 
     private final VehiculeService vehiculeService = DataFactory.getInstance().getVehiculeService();
-  
+
     /**
      * Création de la scène.
      *
@@ -85,14 +85,14 @@ public class FlotteController {
 
     @FXML
     private void initialize() {
-        log("Gestion de la flotte de Véhiclues");
+        log("Gestion de la flotte de véhicules");
         log("Cliquez sur Ajouter, Modifier ou Supprimer");
 
         immaColumn.setCellValueFactory(new PropertyValueFactory<>("immatriculation"));
         marqueColumn.setCellValueFactory(new PropertyValueFactory<>("marque"));
         modeleColumn.setCellValueFactory(new PropertyValueFactory<>("modele"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnCirculation"));
-        //Formatage de l'affichage de la date de mise en circulation
+        // Formatage de l'affichage de la date de mise en circulation
         dateColumn.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDate date, boolean empty) {
@@ -106,7 +106,7 @@ public class FlotteController {
         list2.setItems(listVehicules);
         loadTableAsync();
 
-        // Remplit ou vide les champs selon la ligne sélectionnée
+        // Remplis ou vide les champs selon la ligne sélectionnée
         list.getSelectionModel().selectedItemProperty().addListener((obs, oldP, newP) -> {
             imma.setText(newP == null ? "" : newP.getImmatriculation());
             marque.setText(newP == null ? "" : newP.getMarque());
@@ -162,33 +162,37 @@ public class FlotteController {
             return;
         }
 
-        //Convertion et contrôle de la date de mise en circulation
-        LocalDate d = convertionDateMiseEnCirculation(dateTxt);
+        if (!i.matches("[A-Z]{2}-\\d{3}-[A-Z]{2}")) {
+            log("Erreur : le format de l'immatriculation est incorrect (doit être comme AA-111-AA)");
+        }
 
-        //Convertion et contrôle du kilométrage
-        Integer k = convertionKilometrage(kmTxt);
+        // Conversion et contrôle de la date de mise en circulation
+        LocalDate d = conversionDateMiseEnCirculation(dateTxt);
+
+        // Conversion et contrôle du kilométrage
+        Integer k = conversionKilometrage(kmTxt);
         if (k == null) {
             return;
         }
 
-        Vehicule v = new Vehicule(i, ma, mo, d, k);
-
         try {
-            DataFactory.getInstance().getVehiculeService().ajouterVehicule(v);
+            int id = DataFactory.getInstance().getVehiculeService().ajouterVehicule(i, ma, mo, d, k);
+            Vehicule v = new Vehicule(id, i, ma, mo, d, k);
+
+            listVehicules.add(v);
+            list.getSelectionModel().select(v);
+            list.scrollTo(v);
+            log("Ajout " + v);
         } catch (Exception e) {
             log("Erreur : " + e.getMessage());
             return;
         }
-        listVehicules.add(v);
-        list.getSelectionModel().select(v);
-        list.scrollTo(v);
-        log("Ajout " + v);
     }
 
     private static final DateTimeFormatter FORMAT_DATE =
             DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
 
-    private LocalDate convertionDateMiseEnCirculation(String d) {
+    private LocalDate conversionDateMiseEnCirculation(String d) {
         try {
             LocalDate dateMeC = LocalDate.parse(d, FORMAT_DATE);
 
@@ -203,7 +207,7 @@ public class FlotteController {
         }
     }
 
-    private Integer convertionKilometrage(String k) {
+    private Integer conversionKilometrage(String k) {
         try {
             int kilometre = Integer.parseInt(k);
             if (kilometre < 0) {
@@ -233,17 +237,16 @@ public class FlotteController {
             return;
         }
 
-        //Convertion et contrôle de la date de mise en circulation
-        LocalDate d = convertionDateMiseEnCirculation(dateTxt);
+        // Conversion et contrôle de la date de mise en circulation
+        LocalDate d = conversionDateMiseEnCirculation(dateTxt);
 
-        //Convertion et contrôle du kilométrage
-        Integer k = convertionKilometrage(kmTxt);
+        // Conversion et contrôle du kilométrage
+        Integer k = conversionKilometrage(kmTxt);
         if (k == null) {
             return;
         }
 
-        Vehicule modifie = new Vehicule(i, ma, mo, d, k);
-        modifie.setId(v.getId());
+        Vehicule modifie = new Vehicule(v.getId(), i, ma, mo, d, k);
 
         try {
             DataFactory.getInstance().getVehiculeService().modifierVehicule(modifie);

@@ -13,9 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class ReservationService extends Service {
     private final Logger log = LogManager.getLogger(String.valueOf(ReservationService.class));
@@ -78,7 +76,7 @@ public class ReservationService extends Service {
                 if (v == null) {
                     throw new RegleGestionException("Véhicule inconnu");
                 }
-                if (!reservationDAO.estEnDeplacement(v.getId())) {
+                if (!reservationDAO.estEnDeplacementParIdVehicule(v.getId())) {
                     throw new RegleGestionException("Ce véhicule n'est pas en déplacement");
                 }
                 if (kmRetour < v.getKilometrage()) {
@@ -108,7 +106,7 @@ public class ReservationService extends Service {
             log.info("Tentative de suppression d'une réservation");
 
             try {
-                if (reservationDAO.estEnDeplacement(idReservation)) {
+                if (reservationDAO.estEnDeplacementParId(idReservation)) {
                     throw new RegleGestionException("Cette réservation est en cours");
                 }
 

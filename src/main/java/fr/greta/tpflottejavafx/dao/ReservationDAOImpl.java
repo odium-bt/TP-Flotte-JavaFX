@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ReservationDAOImpl implements ReservationDAO {
 
@@ -108,20 +107,22 @@ public class ReservationDAOImpl implements ReservationDAO {
      */
     private Reservation mapperReservation(ResultSet rs) throws SQLException {
         int idReservation = rs.getInt(id);
+        String matriculeSalarie = rs.getString(matricule);
         int vehiculeId = rs.getInt(idVehicule);
+        Salarie salarie = DAOFactory.getInstance().getSalarieDAO().trouverParMatricule(matriculeSalarie);
         Vehicule vehicule = DAOFactory.getInstance().getVehiculeDAO().trouverParId(vehiculeId);
         Timestamp depart = rs.getTimestamp(dateDepart);
         Timestamp retour = rs.getTimestamp(dateRetour);
         int kilometrage = rs.getInt(kmRetour);
 
-        return new Reservation(idReservation, vehicule, depart, retour, kilometrage);
+        return new Reservation(idReservation, salarie, vehicule, depart, retour, kilometrage);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean estEnDeplacement(int idReservation) throws DAOException {
+    public boolean estEnDeplacementParId(int idReservation) throws DAOException {
         String query = "SELECT COUNT(*) FROM " + table
                 + " WHERE " + id + " = ?"
                 + " AND " + dateDepart + " <= NOW()"
@@ -134,7 +135,50 @@ public class ReservationDAOImpl implements ReservationDAO {
                 return rs.getInt(1) > 0;
             }
         } catch (SQLException e) {
-            throw new DAOException("Erreur lors de la vérification du déplacement du véhicule : " + e.getMessage());
+            throw new DAOException("Erreur lors de la vérification de l'état de la réservation " + idReservation + " : " + e.getMessage());
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean estEnDeplacementParIdVehicule(int idVehicule) throws DAOException {
+        String query = "SELECT COUNT(*) FROM " + table
+                + " WHERE " + idVehicule + " = ?"
+                + " AND " + dateDepart + " <= NOW()"
+                + " AND " + dateRetour + " IS NULL";
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
+            ps.setInt(1, idVehicule);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Erreur lors de la vérification du déplacement du véhicule" + idVehicule + " : " + e.getMessage());
+
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean estEnDeplacementParMatricule(int matricule) throws DAOException {
+        String query = "SELECT COUNT(*) FROM " + table
+                + " WHERE " + matricule + " = ?"
+                + " AND " + dateDepart + " <= NOW()"
+                + " AND " + dateRetour + " IS NULL";
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
+            ps.setInt(1, matricule);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Erreur lors de la vérification du déplacement du salarié " + matricule + " : " + e.getMessage());
         }
     }
 

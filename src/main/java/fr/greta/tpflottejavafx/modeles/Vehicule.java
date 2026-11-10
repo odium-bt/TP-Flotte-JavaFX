@@ -24,15 +24,6 @@ public class Vehicule {
         this.kilometrage = kilometrage;
     }
 
-    public Vehicule(String immatriculation, String marque, String modele, LocalDate dateMiseEnCirculation, int kilometrage) {
-        verification(immatriculation, kilometrage);
-        this.immatriculation = immatriculation;
-        this.marque = marque;
-        this.modele = modele;
-        this.dateMiseEnCirculation = dateMiseEnCirculation;
-        this.kilometrage = kilometrage;
-    }
-
     private void verification(String immatriculation, int kilometrage) {
         if (!immatriculation.matches("[A-Z]{2}-\\d{3}-[A-Z]{2}")) {
             throw new IllegalArgumentException("Format d'immatriculation invalide");
@@ -45,10 +36,6 @@ public class Vehicule {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getKilometrage() {

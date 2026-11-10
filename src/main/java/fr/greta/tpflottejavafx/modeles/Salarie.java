@@ -27,10 +27,6 @@ public class Salarie {
         return matricule;
     }
 
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
-    }
-
     public String getNom() {
         return nom;
     }
