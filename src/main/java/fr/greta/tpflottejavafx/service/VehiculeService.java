@@ -13,9 +13,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class VehiculeService extends Service {
     private final Logger log = LogManager.getLogger(String.valueOf(VehiculeService.class));

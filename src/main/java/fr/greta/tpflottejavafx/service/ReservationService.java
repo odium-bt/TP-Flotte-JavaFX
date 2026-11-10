@@ -13,9 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class ReservationService extends Service {
     private final Logger log = LogManager.getLogger(String.valueOf(ReservationService.class));
