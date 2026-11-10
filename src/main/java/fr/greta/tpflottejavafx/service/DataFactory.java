@@ -50,4 +50,8 @@ public class DataFactory {
     public List<Salarie> afficherListSalaries() {
         return salariesService.afficherSalaries();
     }
+
+    public SalariesService getSalariesService() {
+        return salariesService;
+    }
 }
