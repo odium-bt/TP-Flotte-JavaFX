@@ -205,8 +205,7 @@ public class FlotteController {
         }
     }
 
-    private static final DateTimeFormatter FORMAT_DATE =
-            DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
 
     private LocalDate conversionDateMiseEnCirculation(String d) {
         try {
@@ -304,6 +303,7 @@ public class FlotteController {
         messages.add(new Text((messages.isEmpty() ? "" : "\n") + text));
     }
 
+    /// Bouton retour à l'accueil
     @FXML
     private void onMenuClick() {
         try {
@@ -329,8 +329,6 @@ public class FlotteController {
     private boolean contient(String texte, String mot) {
         return texte != null && texte.toLowerCase().contains(mot);
     }
-
-
 
 
 //   public void ajouterVehicule() {
