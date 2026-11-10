@@ -3,8 +3,11 @@ package fr.greta.tpflottejavafx.controllers;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 import fr.greta.tpflottejavafx.service.DataFactory;
 import fr.greta.tpflottejavafx.service.VehiculeService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +24,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -57,8 +61,6 @@ public class FlotteController {
     @FXML
     private TextField km;
     @FXML
-    private TextField etat;
-    @FXML
     private TextFlow message;
     @FXML
     private TableView<Vehicule> list;
@@ -76,17 +78,25 @@ public class FlotteController {
     private TableColumn<Vehicule, String> etatColumn;
     @FXML
     private ListView<Vehicule> list2;
-
+    @FXML
+    private Button menuPrincipal;
+    @FXML
+    private TextField inputRecherche;
+    @FXML
+    private Button validerRecherche;
 
     // Source de données unique, partagée par la table et la ListView
     private final ObservableList<Vehicule> listVehicules = FXCollections.observableArrayList(
             DataFactory.getInstance().afficherListVehicules()
     );
 
+    private FilteredList<Vehicule> vehiculesFiltres;
+
     @FXML
     private void initialize() {
         log("Gestion de la flotte de véhicules");
         log("Cliquez sur Ajouter, Modifier ou Supprimer");
+        List<Integer> vehiculeDispo = DataFactory.getInstance().getReservationService().afficherVehiculeNonDisponible();
 
         immaColumn.setCellValueFactory(new PropertyValueFactory<>("immatriculation"));
         marqueColumn.setCellValueFactory(new PropertyValueFactory<>("marque"));
@@ -101,9 +111,16 @@ public class FlotteController {
             }
         });
         kmColumn.setCellValueFactory(new PropertyValueFactory<>("kilometrage"));
-        //etatColumn.setCellValueFactory(new PropertyValueFactory<>("etat"));
-        list.setItems(listVehicules);
-        list2.setItems(listVehicules);
+        etatColumn.setCellValueFactory(c ->
+                new SimpleStringProperty((vehiculeDispo.contains(c.getValue().getId()) ? "En déplacement" : "Disponible")));
+
+        // à la place de list.setItems(listVehicules) :
+        vehiculesFiltres = new FilteredList<>(listVehicules, v -> true);
+        SortedList<Vehicule> vehiculesTries = new SortedList<>(vehiculesFiltres);
+        vehiculesTries.comparatorProperty().bind(list.comparatorProperty());  // garde le tri par clic sur les colonnes
+        list.setItems(vehiculesTries);
+
+        //list2.setItems(listVehicules);
         loadTableAsync();
 
         // Remplis ou vide les champs selon la ligne sélectionnée
@@ -113,7 +130,6 @@ public class FlotteController {
             modele.setText(newP == null ? "" : newP.getModele());
             dateCircul.setText(newP == null || newP.getDateMiseEnCirculation() == null ? "" : newP.getDateMiseEnCirculation().format(FORMAT_DATE));
             km.setText(newP == null ? "" : String.valueOf(newP.getKilometrage()));
-            //etat.setText(newP == null ? "" : newP.getSurname());
         });
     }
 
@@ -122,7 +138,7 @@ public class FlotteController {
         Task<List<Vehicule>> task = new Task<>() {
             @Override
             protected List<Vehicule> call() throws Exception {
-                sleep(3000);
+                sleep(500);
                 return DataFactory.getInstance().afficherListVehicules();
             }
         };
@@ -130,7 +146,7 @@ public class FlotteController {
         // Succès : on revient dans le thread JavaFX, on met à jour l'interface
         task.setOnSucceeded(e -> {
             listVehicules.setAll(task.getValue());
-            list2.setPlaceholder(new Label("Aucun véhicule"));
+            //list2.setPlaceholder(new Label("Aucun véhicule"));
             list.setPlaceholder(new Label("Aucun véhicule"));
         });
 
@@ -288,94 +304,122 @@ public class FlotteController {
         messages.add(new Text((messages.isEmpty() ? "" : "\n") + text));
     }
 
+    @FXML
+    private void onMenuClick() {
+        try {
+            new AccueilController().AccueilScene(menuPrincipal.getScene().getWindow());
+        } catch (IOException e) {
+            log("Erreur : Impossible d'ouvrir l'accueil.");
+            e.printStackTrace();
+        }
+    }
 
-    //   public void ajouterVehicule() {
-    //       String immatriculation = vue.saisieTexte("Immatriculation (AA-123-AA)").toUpperCase();
-    //       String marque = vue.saisieTexte("Marque : ");
-    //       String modele = vue.saisieTexte("Modèle : ");
-    //       String dateSaisie = vue.saisieTexte("Mise en circulation (jj/MM/aaaa) : ");
-    //       int kilometrage = vue.saisieEntier("Kilométrage : ");
+    @FXML
+    private void onRechercheClick() {
+        String mot = inputRecherche.getText().trim().toLowerCase();
+        vehiculesFiltres.setPredicate(v ->
+                mot.isEmpty()
+                        || contient(v.getImmatriculation(), mot)
+                        || contient(v.getMarque(), mot)
+                        || contient(v.getModele(), mot));
+
+        log(vehiculesFiltres.size() + " résultat(s)");
+    }
+
+    private boolean contient(String texte, String mot) {
+        return texte != null && texte.toLowerCase().contains(mot);
+    }
+
+
+
+
+//   public void ajouterVehicule() {
+//       String immatriculation = vue.saisieTexte("Immatriculation (AA-123-AA)").toUpperCase();
+//       String marque = vue.saisieTexte("Marque : ");
+//       String modele = vue.saisieTexte("Modèle : ");
+//       String dateSaisie = vue.saisieTexte("Mise en circulation (jj/MM/aaaa) : ");
+//       int kilometrage = vue.saisieEntier("Kilométrage : ");
 //
-    //       try {
-    //           LocalDate dateMiseEnCirculation = LocalDate.parse(dateSaisie, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//       try {
+//           LocalDate dateMiseEnCirculation = LocalDate.parse(dateSaisie, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 //
-    //           new Thread(() -> {
-    //               try {
-    //                   vehiculeService.ajouterVehicule(immatriculation, marque, modele, dateMiseEnCirculation, kilometrage);
+//           new Thread(() -> {
+//               try {
+//                   vehiculeService.ajouterVehicule(immatriculation, marque, modele, dateMiseEnCirculation, kilometrage);
 //
-    //                   vue.afficherSucces("Véhicule ajouté!");
-    //               } catch (DAOException e) {
-    //                   vue.afficherRefus(e.getMessage());
-    //               }
-    //           }).start();
-    //       } catch (DateTimeParseException e) {
-    //           vue.afficherRefus(e.getMessage());
-    //       }
-    //   }
+//                   vue.afficherSucces("Véhicule ajouté!");
+//               } catch (DAOException e) {
+//                   vue.afficherRefus(e.getMessage());
+//               }
+//           }).start();
+//       } catch (DateTimeParseException e) {
+//           vue.afficherRefus(e.getMessage());
+//       }
+//   }
 //
-    //   public void afficherFlotte() {
+//   public void afficherFlotte() {
 //
-    //       List<Vehicule> vehicules = vehiculeService.afficherFlotte();
-    //       if (vehicules == null) {
-    //           vue.afficherRefus("Impossible de récupérer la liste");
-    //           return;
-    //       }
-    //       vue.afficherVehicules(vehicules);
-    //   }
+//       List<Vehicule> vehicules = vehiculeService.afficherFlotte();
+//       if (vehicules == null) {
+//           vue.afficherRefus("Impossible de récupérer la liste");
+//           return;
+//       }
+//       vue.afficherVehicules(vehicules);
+//   }
 //
-    //   public void retirerVehicule() {
-    //       String immatriculation = vue.saisieTexte("Immatriculation du véhicule à retirer").toUpperCase();
-    //       String confirmation = vue.saisieTexte("Confirmer le retrait de " + immatriculation + " ? (o/n)");
+//   public void retirerVehicule() {
+//       String immatriculation = vue.saisieTexte("Immatriculation du véhicule à retirer").toUpperCase();
+//       String confirmation = vue.saisieTexte("Confirmer le retrait de " + immatriculation + " ? (o/n)");
 //
-    //       if (confirmation.equalsIgnoreCase("o")) {
-    //           Vehicule vehicule = vehiculeService.rechercheParImmatriculation(immatriculation);
-    //           if (vehicule == null) {
-    //               vue.afficherRefus("véhicule introuvable.");
-    //           } else {
-    //               vehiculeService.retirerVehicule(immatriculation);
-    //               vue.afficherSucces("Véhicule " + immatriculation + " retiré de la flotte.");
-    //           }
-    //       } else {
-    //           vue.afficherSucces("Retrait annulé.");
-    //       }
-    //   }
+//       if (confirmation.equalsIgnoreCase("o")) {
+//           Vehicule vehicule = vehiculeService.rechercheParImmatriculation(immatriculation);
+//           if (vehicule == null) {
+//               vue.afficherRefus("véhicule introuvable.");
+//           } else {
+//               vehiculeService.retirerVehicule(immatriculation);
+//               vue.afficherSucces("Véhicule " + immatriculation + " retiré de la flotte.");
+//           }
+//       } else {
+//           vue.afficherSucces("Retrait annulé.");
+//       }
+//   }
 //
 //
-    //   public void rechercherVehicule() {
+//   public void rechercherVehicule() {
 //
-    //       String immatriculation = vue.saisieTexte("Saisissez l'immatriculation :").toUpperCase();
-    //       Vehicule vehicule = vehiculeService.rechercheParImmatriculation(immatriculation);
+//       String immatriculation = vue.saisieTexte("Saisissez l'immatriculation :").toUpperCase();
+//       Vehicule vehicule = vehiculeService.rechercheParImmatriculation(immatriculation);
 //
-    //       if (vehicule == null) {
-    //           vue.afficherRefus("Véhicule introuvable");
-    //       } else {
-    //           // List.of pour un rendu plus propre que le toString
-    //           vue.afficherVehicules(List.of(vehicule));
-    //       }
-    //   }
+//       if (vehicule == null) {
+//           vue.afficherRefus("Véhicule introuvable");
+//       } else {
+//           // List.of pour un rendu plus propre que le toString
+//           vue.afficherVehicules(List.of(vehicule));
+//       }
+//   }
 //
-    //   public void trierFlotte() {
-    //       vue.afficherSucces("1. Par marque, puis modèle");
-    //       vue.afficherSucces("2. Par date de mise en circulation (plus ancien d'abord)");
-    //       vue.afficherSucces("3. Par kilométrage décroissant");
-    //       int choix = vue.saisieEntier("Tri");
+//   public void trierFlotte() {
+//       vue.afficherSucces("1. Par marque, puis modèle");
+//       vue.afficherSucces("2. Par date de mise en circulation (plus ancien d'abord)");
+//       vue.afficherSucces("3. Par kilométrage décroissant");
+//       int choix = vue.saisieEntier("Tri");
 //
-    //       switch (choix) {
-    //           case 1:
-    //               vehiculeService.trierMarque();
-    //               break;
-    //           case 2:
-    //               vehiculeService.trierDate();
-    //               break;
-    //           case 3:
-    //               vehiculeService.trierKilometrageDecroissant();
-    //               break;
-    //           default:
-    //               vue.afficherRefus("choix de tri inconnu.");
-    //               return;
-    //       }
-    //       afficherFlotte();
-    //   }
+//       switch (choix) {
+//           case 1:
+//               vehiculeService.trierMarque();
+//               break;
+//           case 2:
+//               vehiculeService.trierDate();
+//               break;
+//           case 3:
+//               vehiculeService.trierKilometrageDecroissant();
+//               break;
+//           default:
+//               vue.afficherRefus("choix de tri inconnu.");
+//               return;
+//       }
+//       afficherFlotte();
+//   }
 //
 //
 }//

@@ -37,6 +37,14 @@ public interface VehiculeDAO {
     Vehicule trouverParImmatriculation(String immat) throws DAOException;
 
     /**
+     * Cherche un véhicule dans la base de données selon un mot clé.
+     *
+     * @param mot String
+     * @return Un objet {@code Vehicule}, ou {@code null} aucun véhicule n'a pas été trouvé
+     */
+    public List<Vehicule> trouver(String mot) throws DAOException;
+
+    /**
      * Récupère tous les véhicules stockés en base.
      *
      * @return Un objet {@code List<Vehicule>} contenant chaque véhicule stocké en base

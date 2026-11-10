@@ -62,10 +62,12 @@ public class DataFactory {
     }
 
 
-    //Récupération des listes pour toute l'aapli
+    //Récupération des listes pour toute l'appli
     public List<Vehicule> afficherListVehicules() {
         return vehiculeService.afficherFlotte();
     }
+
+
 
     public List<Reservation> afficherListReservations() {
         return reservationService.afficherReservations();
