@@ -74,16 +74,4 @@ public class DataFactory {
     public List<Salarie> afficherListSalaries() {
         return salariesService.afficherSalaries();
     }
-
-    public SalariesService getSalariesService() {
-        return salariesService;
-    }
-
-    public VehiculeService getVehiculeService() {
-        return vehiculeService;
-    }
-
-    public ReservationService getReservationService() {
-        return reservationService;
-    }
 }

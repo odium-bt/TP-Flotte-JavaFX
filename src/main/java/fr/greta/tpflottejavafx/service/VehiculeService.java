@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class VehiculeService extends Service {
     private final Logger log = LogManager.getLogger(String.valueOf(VehiculeService.class));
@@ -116,20 +113,20 @@ public class VehiculeService extends Service {
      * @param vehicule Vehicule
      */
     public void modifierVehicule(Vehicule vehicule) {
-            log.info("Modification d'un véhicule");
+        log.info("Modification d'un véhicule");
 
-            if (vehiculeDAO.trouverParId(vehicule.getId()) == null) {
-                throw new RegleGestionException("Ce véhicule n'existe pas");
-            }
+        if (vehiculeDAO.trouverParId(vehicule.getId()) == null) {
+            throw new RegleGestionException("Ce véhicule n'existe pas");
+        }
 
-            // Si l'immatriculation change, elle ne doit pas appartenir à un autre véhicule
-            Vehicule existant = vehiculeDAO.trouverParImmatriculation(vehicule.getImmatriculation());
-            if (existant != null && !Objects.equals(existant.getId(), vehicule.getId())) {
-                throw new RegleGestionException("Un véhicule avec cette immatriculation existe déjà !");
-            }
+        // Si l'immatriculation change, elle ne doit pas appartenir à un autre véhicule
+        Vehicule existant = vehiculeDAO.trouverParImmatriculation(vehicule.getImmatriculation());
+        if (existant != null && !Objects.equals(existant.getId(), vehicule.getId())) {
+            throw new RegleGestionException("Un véhicule avec cette immatriculation existe déjà !");
+        }
 
-            vehiculeDAO.modifier(vehicule);
-            log.info("Véhicule modifié");
+        vehiculeDAO.modifier(vehicule);
+        log.info("Véhicule modifié");
     }
 
 
@@ -187,54 +184,5 @@ public class VehiculeService extends Service {
                 log.error(e.getMessage(), e);
             }
         });
-    }
-
-    /**
-     * Trie les véhicules par marque puis par modèle.
-     *
-     * @return {@code List<Vehicule>}
-     */
-    public List<Vehicule> trierMarque() {
-        Comparator<Vehicule> parMarqueModele = Comparator.comparing(Vehicule::getMarque)
-                .thenComparing(Vehicule::getModele);
-
-        return vehiculeDAO.lister().stream().sorted(parMarqueModele).toList();
-    }
-
-    /**
-     * Trie les véhicules par modèle puis par marque.
-     *
-     * @return {@code List<Vehicule>}
-     */
-    public List<Vehicule> trierModele() {
-        Comparator<Vehicule> parModeleMarque = Comparator.comparing(Vehicule::getModele)
-                .thenComparing(Vehicule::getMarque);
-
-        return vehiculeDAO.lister().stream().sorted(parModeleMarque).toList();
-    }
-
-    /**
-     * Trie les véhicules par date de mise en circulation.
-     *
-     * @return {@code List<Vehicule>}
-     */
-    public List<Vehicule> trierDate() {
-        Comparator<Vehicule> parDate =
-                Comparator.comparing(Vehicule::getDateMiseEnCirculation);
-
-        return vehiculeDAO.lister().stream().sorted(parDate).toList();
-    }
-
-    /**
-     * Trie les véhicules par kilométrage décroissant.
-     *
-     * @return {@code List<Vehicule>}
-     */
-    public List<Vehicule> trierKilometrageDecroissant() {
-        Comparator<Vehicule> parKmDecroissant =
-                Comparator.comparingInt(Vehicule::getKilometrage)
-                        .reversed();
-
-        return vehiculeDAO.lister().stream().sorted(parKmDecroissant).toList();
     }
 }

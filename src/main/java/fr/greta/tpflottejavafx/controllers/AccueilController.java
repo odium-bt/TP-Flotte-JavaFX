@@ -37,7 +37,7 @@ public class AccueilController {
     @FXML
     protected void onGestionFlotteClick() {
         try {
-            new FlotteController(DataFactory.getInstance().getVehiculeService()).FlotteScene(gestionFlotte.getScene().getWindow());
+            new FlotteController().FlotteScene(gestionFlotte.getScene().getWindow());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -45,14 +45,14 @@ public class AccueilController {
 
     @FXML
     protected void onGestionSalarieClick() {
-        SalariesController salariesController = new SalariesController(DataFactory.getInstance().getSalariesService());
+        SalariesController salariesController = new SalariesController();
 
         salariesController.SalariesScene(gestionReservation.getScene().getWindow());
     }
 
     @FXML
     protected void onGestionReservationClick() {
-        ReservationController reservationController = new ReservationController(DataFactory.getInstance().getReservationService());
+        ReservationController reservationController = new ReservationController();
 
         reservationController.ReservationScene(gestionReservation.getScene().getWindow());
     }
@@ -60,11 +60,7 @@ public class AccueilController {
 
     @FXML
     protected void onGestionEtatClick() {
-        try {
-            new ReservationController().ReservationScene(gestionEtat.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        new ReservationController().ReservationScene(gestionEtat.getScene().getWindow());
     }
 
 }

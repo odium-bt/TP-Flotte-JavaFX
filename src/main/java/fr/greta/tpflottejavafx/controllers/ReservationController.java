@@ -28,7 +28,7 @@ import java.io.IOException;
 public class ReservationController {
     private final Logger log = LogManager.getLogger(String.valueOf(ReservationController.class));
 
-    private final ReservationService reservationService;
+    private final ReservationService reservationService = DataFactory.getInstance().getReservationService();
 
     public void ReservationScene(Window window) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/greta/tpflottejavafx/views/reservation-view.fxml"));
@@ -42,10 +42,6 @@ public class ReservationController {
         } catch (IOException e) {
             log.error("Erreur lors de l'ouverture de la gestion des réservations", e);
         }
-    }
-
-    public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
     }
 
     // TODO CRUD Réservations (créer, lister, modifier (inclure clôturation avec l'ajout du retour), supprimer (vérifier si le véhicule n'est pas en déplacement))
