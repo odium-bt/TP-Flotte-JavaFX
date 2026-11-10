@@ -2,8 +2,7 @@ package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.application.AuthApplication;
 import fr.greta.tpflottejavafx.dao.*;
-import fr.greta.tpflottejavafx.service.EtatService;
-import fr.greta.tpflottejavafx.service.ReservationService;
+import fr.greta.tpflottejavafx.service.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import fr.greta.tpflottejavafx.modeles.Flotte;
-import fr.greta.tpflottejavafx.service.VehiculeService;
 
 import java.io.IOException;
 
@@ -53,15 +51,10 @@ public class AccueilController {
 
 
     @FXML
-    protected void onGestionReservationClick() {
-        ReservationService reservationService = new ReservationService(vehiculeDAO, reservationDAO, salarieDAO);
-        ReservationController reservationController = new ReservationController(reservationService);
-        /*
-        try {
-            reservationController.ReservationScene(gestionReservation.getScene().getWindow());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
+    protected void onGestionSalarieClick() {
+        SalariesController salariesController = new SalariesController(DataFactory.getInstance().getSalariesService());
+
+        salariesController.SalariesScene(gestionReservation.getScene().getWindow());
     }
 
     @FXML
