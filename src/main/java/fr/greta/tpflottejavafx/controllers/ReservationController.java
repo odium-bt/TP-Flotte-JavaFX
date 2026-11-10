@@ -96,15 +96,11 @@ public class ReservationController {
             DataFactory.getInstance().afficherListReservations()
     );
 
-    private FilteredList<Reservation> reservationsFiltres;
-
     private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("dd-MM-yyyy").withResolverStyle(ResolverStyle.STRICT);
 
     @FXML
     private void initialize() {
-        log("Gestion de la flotte de véhicules");
-        log("Cliquez sur Ajouter, Modifier ou Supprimer");
-        List<Integer> reservations = DataFactory.getInstance().getReservationService().afficherVehiculeNonDisponible();
+        log("Gestion des réservations");
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         matriculeColumn.setCellValueFactory(new PropertyValueFactory<>("matricule"));
@@ -123,12 +119,11 @@ public class ReservationController {
         kmColumn.setCellValueFactory(new PropertyValueFactory<>("kilometrage"));
 
         // à la place de list.setItems(listReservation) :
-        reservationsFiltres = new FilteredList<>(reservationsList, v -> true);
+        FilteredList<Reservation> reservationsFiltres = new FilteredList<>(reservationsList, v -> true);
         SortedList<Reservation> reservationTries = new SortedList<>(reservationsFiltres);
         reservationTries.comparatorProperty().bind(list.comparatorProperty());  // garde le tri par clic sur les colonnes
         list.setItems(reservationTries);
 
-        //list2.setItems(reservationList);
         loadTableAsync();
 
         // Remplis ou vide les champs selon la ligne sélectionnée
@@ -155,13 +150,12 @@ public class ReservationController {
         // Succès : on revient dans le thread JavaFX, on met à jour l'interface
         task.setOnSucceeded(e -> {
             reservationsList.setAll(task.getValue());
-            //list2.setPlaceholder(new Label("Aucun véhicule"));
-            list.setPlaceholder(new Label("Aucun véhicule"));
+            list.setPlaceholder(new Label("Aucune réservation"));
         });
 
         // Échec : message d'erreur (immatriculation déjà existante, base inaccessible...)
         task.setOnFailed(e -> {
-            task.getException().printStackTrace();
+            log.trace(task.getException());
             list.setPlaceholder(new Label("Erreur de chargement : "
                     + task.getException().getMessage()));
         });
@@ -286,7 +280,8 @@ public class ReservationController {
             new AccueilController().AccueilScene(menuPrincipal.getScene().getWindow());
         } catch (IOException e) {
             log("Erreur : Impossible d'ouvrir l'accueil.");
-            e.printStackTrace();
+            log.error(e.getMessage());
+            log.trace(e);
         }
     }
 
