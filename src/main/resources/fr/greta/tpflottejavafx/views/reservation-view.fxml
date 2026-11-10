@@ -64,5 +64,4 @@
     <Button fx:id="add" layoutX="36.0" layoutY="608.0" mnemonicParsing="false" onAction="#onAdd" text="Ajouter"/>
     <Button fx:id="menuPrincipal" layoutX="616.0" layoutY="608.0" mnemonicParsing="false" onAction="#onMenuClick"
             style="-fx-background-color: blue;" text="Menu principal" textFill="WHITE"/>
-
 </AnchorPane>

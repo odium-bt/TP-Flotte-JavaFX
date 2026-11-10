@@ -28,7 +28,6 @@
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-
         </rowConstraints>
         <TableView fx:id="list" editable="true" maxHeight="-Infinity" prefHeight="360.0" prefWidth="278.0"
                    tableMenuButtonVisible="true">
@@ -68,9 +67,7 @@
                 </HBox.margin>
             </Button>
         </HBox>
-
         <ListView fx:id="list2" prefHeight="489.0" prefWidth="260.0" GridPane.columnIndex="1">
-
         </ListView>
         <TextFlow fx:id="message" prefHeight="470.0" prefWidth="285.0" GridPane.columnIndex="2"/>
     </GridPane>
