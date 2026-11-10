@@ -3,15 +3,22 @@ package fr.greta.tpflottejavafx.dao;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface VehiculeDAO {
+
     /**
      * Création d'un nouveau véhicule dans la base de données.
      *
-     * @param vehicule Le véhicule à créer
+     * @param vehiculeImmat  Immatriculation
+     * @param vehiculeMarque Marque
+     * @param vehiculeModele Modèle
+     * @param vehiculeDate   Date de mise en circulation
+     * @param vehiculeKilo   Kilométrage
+     * @return L'id du véhicule
      */
-    void creer(Vehicule vehicule) throws DAOException; // renseigne l'id généré
+    int creer(String vehiculeImmat, String vehiculeMarque, String vehiculeModele, LocalDate vehiculeDate, int vehiculeKilo) throws DAOException; // renseigne l'id généré
 
     /**
      * Cherche un véhicule dans la base de données selon son id.
