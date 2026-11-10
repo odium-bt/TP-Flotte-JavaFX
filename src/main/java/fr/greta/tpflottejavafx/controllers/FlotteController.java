@@ -28,8 +28,6 @@ import static java.lang.Thread.sleep;
 /// Contrôleur gérant la flotte
 public class FlotteController {
 
-public class FlotteController {
-
     private final VehiculeService vehiculeService = DataFactory.getInstance().getVehiculeService();
   
     /**
