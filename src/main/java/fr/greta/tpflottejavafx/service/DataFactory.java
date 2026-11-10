@@ -58,4 +58,8 @@ public class DataFactory {
     public VehiculeService getVehiculeService() {
         return vehiculeService;
     }
+
+    public ReservationService getReservationService() {
+        return reservationService;
+    }
 }
