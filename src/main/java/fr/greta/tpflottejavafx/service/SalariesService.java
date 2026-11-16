@@ -5,19 +5,14 @@ import fr.greta.tpflottejavafx.dao.SalarieDAO;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.DomainException;
 import fr.greta.tpflottejavafx.modeles.Salarie;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SalariesService extends Service {
     private final Logger log = LogManager.getLogger(String.valueOf(SalariesService.class));
-
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private final SalarieDAO salarieDAO;
     private final ReservationDAO reservationDAO;
@@ -42,7 +37,6 @@ public class SalariesService extends Service {
                 log.info("Salarié créé");
             } catch (DAOException e) {
                 log.error(e.getMessage(), e);
-                log.trace(e.getStackTrace());
                 throw e;
             }
         });
@@ -62,7 +56,6 @@ public class SalariesService extends Service {
             salarieDAO.listerSalaries();
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
 
@@ -82,31 +75,9 @@ public class SalariesService extends Service {
             return salarieDAO.trouverParMatricule(matricule);
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
         }
 
         return null;
-    }
-
-    /**
-     * Modifie les données d'un salarié.
-     *
-     * @param salarie Le salarié modifié.
-     */
-    public void modifierSalarie(Salarie salarie) throws DAOException {
-        executor.submit(() -> {
-            log.info("Modification d'un salarié");
-
-            try {
-                salarieDAO.modifier(salarie);
-
-                log.info("Salarié mis à jour");
-            } catch (DAOException e) {
-                log.error(e.getMessage(), e);
-                log.trace(e.getStackTrace());
-                throw e;
-            }
-        });
     }
 
     public void modifierSalarie(Salarie salarie, String nom, String prenom) throws DAOException {
@@ -119,7 +90,6 @@ public class SalariesService extends Service {
                 log.info("Salarié mis à jour");
             } catch (DAOException e) {
                 log.error(e.getMessage(), e);
-                log.trace(e.getStackTrace());
                 throw e;
             }
         });

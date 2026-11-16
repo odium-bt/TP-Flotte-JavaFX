@@ -8,7 +8,6 @@ import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -22,12 +21,10 @@ public class ReservationService extends Service {
 
     private final VehiculeDAO vehiculeDAO;
     private final ReservationDAO reservationDAO;
-    private final SalarieDAO salarieDAO;
 
-    public ReservationService(VehiculeDAO vehiculeDAO, ReservationDAO reservationDAO, SalarieDAO salarieDAO) {
+    public ReservationService(VehiculeDAO vehiculeDAO, ReservationDAO reservationDAO) {
         this.vehiculeDAO = vehiculeDAO;
         this.reservationDAO = reservationDAO;
-        this.salarieDAO = salarieDAO;
     }
 
     /**
@@ -42,7 +39,6 @@ public class ReservationService extends Service {
             return id;
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
     }
@@ -61,7 +57,6 @@ public class ReservationService extends Service {
             res = reservationDAO.lister();
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
 
@@ -77,7 +72,6 @@ public class ReservationService extends Service {
             log.info("Réservation mise à jour");
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
     }
@@ -117,7 +111,6 @@ public class ReservationService extends Service {
             log.info("Retour de {} à {} km", v.getImmatriculation(), kmRetour);
         } catch (DAOException | RegleGestionException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
     }
@@ -140,7 +133,6 @@ public class ReservationService extends Service {
             log.info("Réservation supprimée avec succès");
         } catch (DAOException | RegleGestionException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
     }

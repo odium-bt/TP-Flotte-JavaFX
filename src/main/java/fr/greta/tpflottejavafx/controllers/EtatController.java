@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class EtatController {
     private static final Logger log = LogManager.getLogger(EtatController.class);
@@ -60,8 +59,7 @@ public class EtatController {
         try {
             new AccueilController().AccueilScene(menuPrincipal.getScene().getWindow());
         } catch (IOException e) {
-            log.info("Erreur : Impossible d'ouvrir l'accueil.");
-            e.printStackTrace();
+            log.error("Erreur : Impossible d'ouvrir l'accueil.", e);
         }
     }
 
@@ -74,7 +72,7 @@ public class EtatController {
 
     @FXML
     private void onEnvoiMailClick() {
-        Task<Void> tache = new Task<Void>() {
+        Task<Void> tache = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 Path fichier = pdfService.creerPdfEtatFlotte().get();   // attend le PDF
@@ -87,7 +85,7 @@ public class EtatController {
 
         tache.setOnFailed(e -> {
             Throwable ex = tache.getException();
-            ex.printStackTrace();
+            log.trace(ex.getMessage());
             log.error("Erreur : " + (ex.getMessage() != null ? ex.getMessage() : "l'envoi a échoué"));
         });
 
@@ -110,9 +108,9 @@ public class EtatController {
         Task<String> tache = new Task<>() {
 
             @Override
-            protected String  call() throws Exception {
+            protected String call() throws Exception {
                 exportService.chiffrerEnregistrerSalariesReservations(type).get();
-                return exportService.dechifrerEtAfficherFichierExport(type).get();
+                return exportService.dechiffrerEtAfficherFichierExport(type).get();
             }
         };
 

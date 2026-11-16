@@ -37,7 +37,7 @@ public class DataFactory {
         this.salarieDAO = new SalarieDAOImpl();
         this.flotte = new Flotte();
         this.vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        this.reservationService = new ReservationService(vehiculeDAO, reservationDAO, salarieDAO);
+        this.reservationService = new ReservationService(vehiculeDAO, reservationDAO);
         this.salariesService = new SalariesService(salarieDAO, reservationDAO);
         this.pdfService = new PdfService(flotte, reservationDAO, executor);
         this.mailService = new MailService(executor);
