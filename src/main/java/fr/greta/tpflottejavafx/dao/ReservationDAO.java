@@ -69,6 +69,22 @@ public interface ReservationDAO {
     boolean estEnDeplacementParMatricule(int matricule) throws DAOException;
 
     /**
+     * Trouve si un véhicule sera pris par une réservation non-clôturée avant la date donnée.
+     *
+     * @param idVehicule Id du véhicule
+     * @param dateDepart Date à comparer
+     */
+    boolean existeReservationNonClotureeAvantDate(int idVehicule, LocalDate dateDepart) throws DAOException;
+
+    /**
+     * Récupère les id des véhicules en déplacement
+     *
+     * @return la liste des id (int) des véhicules qui font lobjet d'une réservation en cours
+     * @throws DAOException si la recherche échoue
+     */
+    List<Integer> vehiculesEnDeplacement() throws DAOException;
+
+    /**
      * Modifie une réservation.
      *
      * @param idReservation Id de la réservation
@@ -93,12 +109,4 @@ public interface ReservationDAO {
      * @param id Id d'une réservation
      */
     void supprimer(int id) throws DAOException;
-
-    /**
-     * Récupère les id des véhicules en déplacement
-     *
-     * @return la liste des id (int) des véhicules qui font lobjet d'une réservation en cours
-     * @throws DAOException si la recherche échoue
-     */
-    public List<Integer> vehiculesEnDeplacement() throws DAOException;
 }
