@@ -7,6 +7,9 @@ import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Classe d'instantiation des DAOs, des services et de la flotte.
