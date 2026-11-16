@@ -42,7 +42,7 @@ public interface VehiculeDAO {
      * @param mot String
      * @return Un objet {@code Vehicule}, ou {@code null} aucun véhicule n'a pas été trouvé
      */
-    public List<Vehicule> trouver(String mot) throws DAOException;
+    List<Vehicule> trouver(String mot) throws DAOException;
 
     /**
      * Récupère tous les véhicules stockés en base.
