@@ -6,6 +6,7 @@ import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,26 +24,49 @@ public class ReservationDAOImpl implements ReservationDAO {
      * {@inheritDoc}
      */
     @Override
-    public void creer(Reservation reservation, Salarie salarie) throws DAOException {
+    public int creer(String matricule, int idVehicule, LocalDate dateDepart) throws DAOException {
         String query = "INSERT INTO " + table + " ("
-                + matricule + ", "
-                + idVehicule + ", "
-                + dateDepart + ") "
+                + this.matricule + ", "
+                + this.idVehicule + ", "
+                + this.dateDepart + ") "
                 + "VALUES( ?, ?, ?)";
 
-        try (PreparedStatement ps = DAOFactory.getInstance()
-                .getConnection().prepareStatement(query)) {
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setString(1, salarie.getMatricule());
-            ps.setInt(2, reservation.getVehicule().getId());
-            ps.setTimestamp(3, reservation.getDateDepart());
+            ps.setString(1, matricule);
+            ps.setInt(2, idVehicule);
+            ps.setTimestamp(3, Timestamp.valueOf(dateDepart.atStartOfDay()));
 
             ps.executeUpdate();
 
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
         } catch (SQLException e) {
-            throw new DAOException(
-                    "Erreur lors de la création de la réservation : " + e.getMessage()
-            );
+            throw new DAOException("Erreur lors de la création de la réservation : " + e.getMessage());
+        }
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Reservation trouverParId(int id) throws DAOException {
+        String query = "select * from " + table + " where " + this.id + "=?";
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapperReservation(rs);
+                }
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Erreur lors de la recherche de la réservation");
         }
     }
 

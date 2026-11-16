@@ -66,7 +66,7 @@ public class EtatController {
     }
 
     private void affichageText(String text) {
-        var messages = data.getChildren();
+        javafx.collections.ObservableList<javafx.scene.Node> messages = data.getChildren();
         messages.clear();
         messages.add(new Text(text));
     }
