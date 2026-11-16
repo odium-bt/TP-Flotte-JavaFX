@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -33,6 +35,7 @@ import static java.lang.Thread.sleep;
  * ajout, suppression, modification, retour au menu principal
  */
 public class FlotteController {
+    private final Logger log = LogManager.getLogger(String.valueOf(FlotteController.class));
 
     private final VehiculeService vehiculeService = DataFactory.getInstance().getVehiculeService();
 
@@ -66,6 +69,8 @@ public class FlotteController {
     private TextFlow message;
     @FXML
     private TableView<Vehicule> list;
+    @FXML
+    private TableColumn<Vehicule, String> idColumn;
     @FXML
     private TableColumn<Vehicule, String> immaColumn;
     @FXML
@@ -106,6 +111,7 @@ public class FlotteController {
         log("Cliquez sur Ajouter, Modifier ou Supprimer");
         List<Integer> vehiculeDispo = DataFactory.getInstance().getReservationService().afficherVehiculeNonDisponible();
 
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         immaColumn.setCellValueFactory(new PropertyValueFactory<>("immatriculation"));
         marqueColumn.setCellValueFactory(new PropertyValueFactory<>("marque"));
         modeleColumn.setCellValueFactory(new PropertyValueFactory<>("modele"));
@@ -154,13 +160,13 @@ public class FlotteController {
         // Succès : on revient dans le thread JavaFX, on met à jour l'interface
         task.setOnSucceeded(e -> {
             listVehicules.setAll(task.getValue());
-            //list2.setPlaceholder(new Label("Aucun véhicule"));
+            //list2.setPlaceholder(new Label("Aucun véhicule")) ;
             list.setPlaceholder(new Label("Aucun véhicule"));
         });
 
         // Échec : message d'erreur (immatriculation déjà existante, base inaccessible...)
         task.setOnFailed(e -> {
-            task.getException().printStackTrace();
+            log.trace(task.getException());
             list.setPlaceholder(new Label("Erreur de chargement : "
                     + task.getException().getMessage()));
         });
@@ -206,7 +212,7 @@ public class FlotteController {
 
         Task<Vehicule> tacheAjoutV = new Task<>() {
             @Override
-            protected Vehicule call() throws Exception {
+            protected Vehicule call() {
                 int id = vehiculeService.ajouterVehicule(i, ma, mo, d, k);
                 return new Vehicule(id, i, ma, mo, d, k);
             }
@@ -217,13 +223,13 @@ public class FlotteController {
             listVehicules.add(v);
             list.getSelectionModel().select(v);
             list.scrollTo(v);
-            log("Ajout " + v);
+            log("Véhicule ajouté : " + v);
             //Réactive le bouton pour éviter les double cliques
             btnAdd.setDisable(false);
         });
 
         tacheAjoutV.setOnFailed(e -> {
-            tacheAjoutV.getException().printStackTrace();
+            log.trace(tacheAjoutV.getException());
             log("Erreur : " + tacheAjoutV.getException().getMessage());
             btnAdd.setDisable(false);
         });
@@ -295,7 +301,7 @@ public class FlotteController {
         Task<Vehicule> tacheUpdateV = new Task<>() {
 
             @Override
-            protected Vehicule call() throws Exception {
+            protected Vehicule call() {
                 Vehicule modifie = new Vehicule(v.getId(), i, ma, mo, d, k);
                 vehiculeService.modifierVehicule(modifie);
                 return modifie;
@@ -312,7 +318,7 @@ public class FlotteController {
         });
 
         tacheUpdateV.setOnFailed(e -> {
-            tacheUpdateV.getException().printStackTrace();
+            log.trace(tacheUpdateV.getException());
             log("Erreur : " + tacheUpdateV.getException().getMessage());
             btnUpdate.setDisable(false);
         });
@@ -334,7 +340,7 @@ public class FlotteController {
         Task<Void> tacheRetirerV = new Task<>() {
 
             @Override
-            protected Void call() throws Exception {
+            protected Void call() {
                 vehiculeService.retirerVehicule(v.getImmatriculation());
                 // Return null à la fin d'une tache de type Void
                 return null;
@@ -343,13 +349,13 @@ public class FlotteController {
 
         tacheRetirerV.setOnSucceeded(e -> {
             listVehicules.remove(v);
-            log("Suppression " + v);
+            log("Véhicule supprimé : " + v);
             btnDelete.setDisable(false);
         });
 
         tacheRetirerV.setOnFailed(e -> {
             Throwable ex = tacheRetirerV.getException();
-            ex.printStackTrace();
+            log.trace(ex);
             log("Erreur, l'ajout a échoué : " + tacheRetirerV.getException().getMessage());
             btnDelete.setDisable(false);
         });
@@ -366,18 +372,13 @@ public class FlotteController {
         return v;
     }
 
-    private void log(String text) {
-        var messages = message.getChildren();
-        messages.add(new Text((messages.isEmpty() ? "" : "\n") + text));
-    }
-
     @FXML
     private void onMenuClick() {
         try {
             new AccueilController().AccueilScene(menuPrincipal.getScene().getWindow());
         } catch (IOException e) {
             log("Erreur : Impossible d'ouvrir l'accueil.");
-            e.printStackTrace();
+            log.trace(e);
         }
     }
 
@@ -397,4 +398,8 @@ public class FlotteController {
         return texte != null && texte.toLowerCase().contains(mot);
     }
 
+    private void log(String text) {
+        var messages = message.getChildren();
+        messages.add(new Text((messages.isEmpty() ? "" : "\n") + text));
+    }
 }
