@@ -22,4 +22,9 @@ public class AuthApplication extends Application {
         stage.show();
     }
 
+    /// A l'arrêt de l'application : arrêt des threads
+    @Override
+    public void stop() {
+        DataFactory.arreterSiCree();
+    }
 }

@@ -75,9 +75,9 @@
             </TableView>
         </children>
     </VBox>
-    <Button fx:id="update" layoutX="87.0" layoutY="608.0" mnemonicParsing="false" onAction="#onUpdate" text="Modifier" />
-    <Button fx:id="delete" layoutX="161.0" layoutY="608.0" mnemonicParsing="false" onAction="#onDelete" text="Supprimer" />
-    <Button fx:id="add" layoutX="18.0" layoutY="608.0" mnemonicParsing="false" onAction="#onAdd" style="-fx-background-color: green;" text="Ajouter" textFill="WHITE" />
+    <Button fx:id="btnUpdate" layoutX="87.0" layoutY="608.0" mnemonicParsing="false" onAction="#onUpdate" text="Modifier" />
+    <Button fx:id="btnDelete" layoutX="161.0" layoutY="608.0" mnemonicParsing="false" onAction="#onDelete" text="Supprimer" />
+    <Button fx:id="btnAdd" layoutX="18.0" layoutY="608.0" mnemonicParsing="false" onAction="#onAdd" style="-fx-background-color: green;" text="Ajouter" textFill="WHITE" />
    <Button fx:id="menuPrincipal" layoutX="616.0" layoutY="608.0" mnemonicParsing="false" onAction="#onMenuClick" style="-fx-background-color: blue;" text="Menu principal" textFill="WHITE" />
 
 </AnchorPane>

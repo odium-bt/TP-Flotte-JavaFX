@@ -5,10 +5,7 @@ import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +83,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         List<Reservation> liste = new ArrayList<>();
 
         // Récupère uniquement les matricules qui ont des réservations, sans doublons
-        String query = "SELECT DISTINCT " + matricule + " FROM " + table;
+        String query = "SELECT * FROM " + table;
 
         try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
@@ -96,7 +93,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Erreur lors de la recherche des réservations : " + e.getMessage());
+            throw new DAOException("Erreur lors de la recherche des réservations"+ e.getMessage());
         }
 
         return liste;

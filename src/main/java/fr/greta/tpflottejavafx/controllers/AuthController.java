@@ -1,12 +1,11 @@
 package fr.greta.tpflottejavafx.controllers;
 
-import fr.greta.tpflottejavafx.service.DataFactory;
+import fr.greta.tpflottejavafx.service.AuthService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import fr.greta.tpflottejavafx.service.AuthService;
 
 import java.io.IOException;
 
