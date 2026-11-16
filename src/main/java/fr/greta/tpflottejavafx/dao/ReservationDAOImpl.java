@@ -18,7 +18,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     private final String idVehicule = "id_vehicule";
     private final String dateDepart = "date_depart";
     private final String dateRetour = "date_retour";
-    private final String kmRetour = "km_retour";
+    private final String kmRetour = "kmRetour";
 
     /**
      * {@inheritDoc}
