@@ -5,6 +5,8 @@ import fr.greta.tpflottejavafx.exceptions.DomainException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 import fr.greta.tpflottejavafx.service.*;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
@@ -33,6 +35,9 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
+// TODO : Ajout d'une date de retour
+// TODO : Probablement permettre la suppression d'une réservation en cours
+
 /// Contrôleur gérant les réservations
 public class ReservationController {
     private final Logger log = LogManager.getLogger(String.valueOf(ReservationController.class));
@@ -58,8 +63,6 @@ public class ReservationController {
     }
 
     // Salariés
-    @FXML
-    TextField id;
     @FXML
     private TextField matricule;
     @FXML
@@ -121,12 +124,18 @@ public class ReservationController {
         date_depart.setConverter(converter);
         date_retour.setConverter(converter);
 
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        matriculeColumn.setCellValueFactory(new PropertyValueFactory<>("matricule"));
-        idVehiculeColumn.setCellValueFactory(new PropertyValueFactory<>("id_vehicule"));
-        dateDepartColumn.setCellValueFactory(new PropertyValueFactory<>("date_depart"));
-        dateRetourColumn.setCellValueFactory(new PropertyValueFactory<>("date_retour"));
-        kmColumn.setCellValueFactory(new PropertyValueFactory<>("kmRetour"));
+        idColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getIdReservation()));
+        matriculeColumn.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getSalarie().getMatricule()));
+        idVehiculeColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getVehicule().getId()));
+        dateDepartColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getDateDepart().toLocalDateTime().toLocalDate()));
+        dateRetourColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getDateRetour() == null ? null : cell.getValue().getDateRetour().toLocalDateTime().toLocalDate()));
+        kmColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getKilometrage()));
         // Formatage de l'affichage de la date de mise en circulation
         dateDepartColumn.setCellFactory(col -> new TableCell<>() {
             @Override
@@ -147,7 +156,6 @@ public class ReservationController {
 
         // Remplis ou vide les champs selon la ligne sélectionnée
         list.getSelectionModel().selectedItemProperty().addListener((obs, oldP, newP) -> {
-            id.setText(newP == null ? "" : String.valueOf(newP.getIdReservation()));
             matricule.setText(newP == null ? "" : newP.getSalarie().getMatricule());
             id_vehicule.setText(newP == null ? "" : String.valueOf(newP.getVehicule().getId()));
             date_depart.setValue(newP == null ? null : newP.getDateDepart().toLocalDateTime().toLocalDate());
@@ -190,16 +198,15 @@ public class ReservationController {
     @FXML
     private void onAdd() {
         String m = matricule.getText().trim();
-        String idV = id_vehicule.getText().trim();
+        String idV = id_vehicule.getText();
         LocalDate dateD = date_depart.getValue();
         String km = this.km.getText().trim();
 
         int idVehicule;
-        LocalDate dateDepart;
         int kilometrage = Integer.parseInt(km);
 
         if (m.isEmpty() || idV.isEmpty() || dateD == null) {
-            log("Erreur : Le matricule, l'id véhicule et la date de départ sont obligatoires" + "\n");
+            log("Erreur : Le matricule du salarié, l'id du véhicule et la date de départ sont obligatoires" + "\n");
             return;
         } else {
             idVehicule = Integer.parseInt(idV);
@@ -211,9 +218,14 @@ public class ReservationController {
                 log("Erreur : Aucun salarié ne possède ce matricule." + "\n");
                 return;
             }
-            Vehicule v = vehiculeService.rechercheParImmatriculation(idV);
+            Vehicule v = vehiculeService.rechercheParId(idVehicule);
             if (v == null) {
                 log("Erreur : Aucun véhicule ne possède cet id." + "\n");
+                return;
+            }
+
+            if (reservationService.existeReservationNonClotureeAvantDate(idVehicule, dateD)) {
+                log("Erreur : Ce véhicule est déjà utilisé par une autre réservation à cette date.");
                 return;
             }
 
@@ -223,7 +235,7 @@ public class ReservationController {
             reservationsList.add(r);
             list.getSelectionModel().select(r);
             list.scrollTo(r);
-            log("Ajout " + s + "\n");
+            log("Ajout " + r + "\n");
         } catch (DAOException e) {
             log("Erreur : Impossible d'enregistrer la réservation. Veuillez ré-essayer plus tard" + "\n");
         }
