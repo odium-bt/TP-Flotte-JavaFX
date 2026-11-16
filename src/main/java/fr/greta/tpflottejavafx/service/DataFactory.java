@@ -42,6 +42,8 @@ public class DataFactory {
         this.pdfService = new PdfService(flotte, reservationDAO, executor);
         this.mailService = new MailService(executor);
         this.exportService = new ExportService(executor, salarieDAO, reservationDAO);
+        DatabaseInitializer databaseInitializer = new DatabaseInitializer(getSalariesService());
+        databaseInitializer.initialize();
     }
 
     // Getters des services
@@ -78,7 +80,7 @@ public class DataFactory {
     }
 
 
-    //Récupération des listes pour toute l'appli
+    // Récupération des listes pour toute l'appli
 
     /**
      * Récupération de la flotte
@@ -98,7 +100,7 @@ public class DataFactory {
     }
 
 
-    //Arrête les threads
+    /// Arrête les threads
     public void arreter() {
         executor.shutdown();                                     // n'accepte plus de nouvelles tâches
         try {
