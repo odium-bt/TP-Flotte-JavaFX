@@ -168,7 +168,6 @@ public class VehiculeService extends Service {
         log.info("Véhicule modifié");
     }
 
-
     /**
      * Tente de supprimer un véhicule par son immatriculation.
      *

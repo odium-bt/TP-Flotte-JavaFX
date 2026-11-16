@@ -16,9 +16,6 @@ public class SalarieDAOImpl implements SalarieDAO {
     private final String nom = "nom";
     private final String prenom = "prenom";
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void creer(Salarie salarie) throws DAOException {
         String query = "insert into " + table + " (" +
@@ -37,9 +34,6 @@ public class SalarieDAOImpl implements SalarieDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Salarie trouverParMatricule(String matricule) throws DAOException {
         String query = "select * from " + table + " where " + this.matricule + "=?";
@@ -64,9 +58,6 @@ public class SalarieDAOImpl implements SalarieDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Salarie> lister() throws DAOException {
         List<Salarie> salaries = new ArrayList<>();
@@ -91,9 +82,6 @@ public class SalarieDAOImpl implements SalarieDAO {
         return salaries;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void modifier(Salarie salarie) throws DAOException {
         String query = "update " + table + " set "
@@ -112,9 +100,6 @@ public class SalarieDAOImpl implements SalarieDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void supprimer(String matricule) throws DAOException {
         String query = "delete from " + table + " where " + this.matricule + " =?";
