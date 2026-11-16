@@ -86,6 +86,28 @@ public class VehiculeService extends Service {
     }
 
     /**
+     * Cherche un véhicule par son id.
+     *
+     * @param id L'id du véhicule
+     * @return {@code Vehicule}
+     */
+    public Vehicule rechercheParId(int id) {
+        log.info("Recherche du véhicule {}", id);
+        try {
+            Vehicule v = vehiculeDAO.trouverParId(id);
+            if (v == null) {
+                log.info("Aucun véhicule trouvé pour cet id.");
+            } else {
+                log.info("Véhicule {} trouvé", id);
+            }
+            return v;
+        } catch (DAOException e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    /**
      * Cherche un véhicule par son immatriculation.
      *
      * @param immatriculation L'immatriculation du véhicule
@@ -96,9 +118,9 @@ public class VehiculeService extends Service {
         try {
             Vehicule v = vehiculeDAO.trouverParImmatriculation(immatriculation);
             if (v == null) {
-                log.info("Aucun véhicule trouvé pour cette immatriculation.");
+                log.info("Aucun véhicule trouvé pour l'immatriculation {}'.", immatriculation);
             } else {
-                log.info("Véhicule trouvé");
+                log.info("Véhicule immatriculé {} trouvé", immatriculation);
             }
             return v;
         } catch (DAOException e) {

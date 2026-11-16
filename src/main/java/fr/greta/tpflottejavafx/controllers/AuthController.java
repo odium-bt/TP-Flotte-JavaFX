@@ -49,7 +49,7 @@ public class AuthController {
                     accueilController.AccueilScene(login.getScene().getWindow());
                 } catch (IOException e) {
                     error_msg.setText("Impossible d'ouvrir l'accueil.");
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
 
             } else {

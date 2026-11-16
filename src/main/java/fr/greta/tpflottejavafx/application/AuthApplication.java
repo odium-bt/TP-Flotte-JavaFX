@@ -1,6 +1,5 @@
 package fr.greta.tpflottejavafx.application;
 
-import fr.greta.tpflottejavafx.service.DataFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

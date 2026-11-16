@@ -11,27 +11,28 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" prefHeight="366.0" prefWidth="479.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.tpflottejavafx.controllers.AuthController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-  </padding>
-  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-    <Image url="@../../../../images/auth-image.jpg" />
-  </ImageView>
-  <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0">
-    <Label prefHeight="26.0" prefWidth="110.0" text="Login" />
-    <TextField fx:id="login" prefHeight="26.0" prefWidth="220.0" />
-  </HBox>
-  <HBox alignment="CENTER" prefHeight="0.0" prefWidth="330.0">
-    <Label prefHeight="26.0" prefWidth="110.0" text="Mot de passe" />
-    <PasswordField fx:id="pass" prefHeight="26.0" prefWidth="220.0" />
-  </HBox>
-  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-    <Text fx:id="error_msg" strokeType="OUTSIDE" strokeWidth="0.0" />
-  </HBox>
-  <HBox alignment="BOTTOM_CENTER" prefHeight="27.0" prefWidth="439.0" spacing="25.0">
-    <Button mnemonicParsing="false" onAction="#chkAuth" text="Valider" />
-    <Button mnemonicParsing="false" onAction="#onClearClick" text="Effacer" />
-    <Button mnemonicParsing="false" onAction="#onCloseClick" text="Fermer" />
-  </HBox>
+<VBox alignment="CENTER" prefHeight="366.0" prefWidth="479.0" spacing="20.0" xmlns="http://javafx.com/javafx/26"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.tpflottejavafx.controllers.AuthController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../../../images/auth-image.jpg"/>
+    </ImageView>
+    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0">
+        <Label prefHeight="26.0" prefWidth="110.0" text="Login"/>
+        <TextField fx:id="login" prefHeight="26.0" prefWidth="220.0"/>
+    </HBox>
+    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="330.0">
+        <Label prefHeight="26.0" prefWidth="110.0" text="Mot de passe"/>
+        <PasswordField fx:id="pass" prefHeight="26.0" prefWidth="220.0"/>
+    </HBox>
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+        <Text fx:id="error_msg" strokeType="OUTSIDE" strokeWidth="0.0"/>
+    </HBox>
+    <HBox alignment="BOTTOM_CENTER" prefHeight="27.0" prefWidth="439.0" spacing="25.0">
+        <Button mnemonicParsing="false" onAction="#chkAuth" text="Valider"/>
+        <Button mnemonicParsing="false" onAction="#onClearClick" text="Effacer"/>
+        <Button mnemonicParsing="false" onAction="#onCloseClick" text="Fermer"/>
+    </HBox>
 </VBox>

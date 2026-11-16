@@ -162,9 +162,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     @Override
     public boolean estEnDeplacementParIdVehicule(int idVehicule) throws DAOException {
         String query = "SELECT COUNT(*) FROM " + table
-                + " WHERE " + idVehicule + " = ?"
-                + " AND " + dateDepart + " <= NOW()"
-                + " AND " + dateRetour + " IS NULL";
+                + " WHERE " + this.idVehicule + " = ?"
+                + " AND " + this.dateDepart + " <= NOW()"
+                + " AND " + this.dateRetour + " IS NULL";
         try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
             ps.setInt(1, idVehicule);
 
@@ -184,9 +184,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     @Override
     public boolean estEnDeplacementParMatricule(int matricule) throws DAOException {
         String query = "SELECT COUNT(*) FROM " + table
-                + " WHERE " + matricule + " = ?"
-                + " AND " + dateDepart + " <= NOW()"
-                + " AND " + dateRetour + " IS NULL";
+                + " WHERE " + this.matricule + " = ?"
+                + " AND " + this.dateDepart + " <= NOW()"
+                + " AND " + this.dateRetour + " IS NULL";
         try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
             ps.setInt(1, matricule);
 
@@ -203,16 +203,18 @@ public class ReservationDAOImpl implements ReservationDAO {
      * {@inheritDoc}
      */
     @Override
-    public void modifier(int idReservation, Timestamp dateDepart, Vehicule vehicule) throws DAOException {
+    public void modifier(int idReservation, String matricule, int idVehicule, Timestamp dateDepart) throws DAOException {
         String query = "UPDATE " + table + " SET "
-                + idVehicule + " = ?, "
-                + dateDepart + " = ? "
+                + this.matricule + " = ?, "
+                + this.idVehicule + " = ?, "
+                + this.dateDepart + " = ? "
                 + "WHERE " + id + " = ?";
 
         try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
-            ps.setInt(1, vehicule.getId());
-            ps.setTimestamp(2, dateDepart);
-            ps.setInt(3, idReservation);
+            ps.setString(1, matricule);
+            ps.setInt(2, idVehicule);
+            ps.setTimestamp(3, dateDepart);
+            ps.setInt(4, idReservation);
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -224,15 +226,15 @@ public class ReservationDAOImpl implements ReservationDAO {
      * {@inheritDoc}
      */
     @Override
-    public void cloturer(int idReservation, Timestamp timestamp, int kmRetour) throws DAOException {
+    public void cloturer(int idReservation, Timestamp dateRetour, int kmRetour) throws DAOException {
         String query = "UPDATE " + table + " SET "
-                + dateRetour + " = ?, "
+                + this.dateRetour + " = ?, "
                 + this.kmRetour + " = ? "
                 + "WHERE " + id + " = ? "
-                + "AND " + dateRetour + " IS NULL";
+                + "AND " + this.dateRetour + " IS NULL";
 
         try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
-            ps.setTimestamp(1, timestamp);
+            ps.setTimestamp(1, dateRetour);
             ps.setInt(2, kmRetour);
             ps.setInt(3, idReservation);
 

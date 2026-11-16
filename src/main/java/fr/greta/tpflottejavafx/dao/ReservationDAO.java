@@ -2,20 +2,32 @@ package fr.greta.tpflottejavafx.dao;
 
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
-import fr.greta.tpflottejavafx.modeles.Salarie;
-import fr.greta.tpflottejavafx.modeles.Vehicule;
 
+import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ReservationDAO {
+
     /**
      * Création d'une nouvelle réservation dans la base de données.
      *
-     * @param reservation La réservation à créer
-     * @param salarie     Le salarié qui effectue la réservation
+     * @param matricule  Matricule
+     * @param idVehicule Id du véhicule
+     * @param dateDepart Date de départ
+     * @return L'id de la réservation
      */
-    void creer(Reservation reservation, Salarie salarie) throws DAOException;
+    int creer(String matricule, int idVehicule, LocalDate dateDepart) throws DAOException;
+
+    /**
+     * Cherche une réservation par son id.
+     *
+     * @param id L'id de la réservation
+     * @return L'objet Reservation
+     */
+    Reservation trouverParId(int id) throws DAOException;
+
 
     /**
      * Cherche les réservations associées au salarié à qui appartient la matricule donnée
@@ -60,19 +72,20 @@ public interface ReservationDAO {
      * Modifie une réservation.
      *
      * @param idReservation Id de la réservation
-     * @param dateDepart    Date de départ
-     * @param vehicule      Véhicule
+     * @param matricule     Matricule du salarié
+     * @param idVehicule    Id du véhicule
+     * @param dateDepart    Date du départ
      */
-    void modifier(int idReservation, Timestamp dateDepart, Vehicule vehicule) throws DAOException;
+    void modifier(int idReservation, String matricule, int idVehicule, Timestamp dateDepart) throws DAOException;
 
     /**
      * Clotûre une réservation.
      *
      * @param idReservation Id de la réservation
-     * @param timestamp     Date de la fermeture
+     * @param dateRetour    Date de la fermeture
      * @param kmRetour      Longueur du trajet à la cloturation
      */
-    void cloturer(int idReservation, Timestamp timestamp, int kmRetour) throws DAOException;
+    void cloturer(int idReservation, Timestamp dateRetour, int kmRetour) throws DAOException;
 
     /**
      * Supprime une réservation par son id.

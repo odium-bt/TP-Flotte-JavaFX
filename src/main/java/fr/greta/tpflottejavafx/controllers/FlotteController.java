@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -235,8 +236,7 @@ public class FlotteController {
         thread.start();
     }
 
-    private static final DateTimeFormatter FORMAT_DATE =
-            DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
 
     private LocalDate conversionDateMiseEnCirculation(String d) {
         try {
