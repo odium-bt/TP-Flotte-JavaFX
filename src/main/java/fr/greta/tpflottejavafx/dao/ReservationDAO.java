@@ -95,9 +95,10 @@ public interface ReservationDAO {
     void supprimer(int id) throws DAOException;
 
     /**
+     * Récupère les id des véhicules en déplacement
      *
-     * @return
-     * @throws DAOException
+     * @return la liste des id (int) des véhicules qui font lobjet d'une réservation en cours
+     * @throws DAOException si la recherche échoue
      */
     public List<Integer> vehiculesEnDeplacement() throws DAOException;
 }

@@ -87,6 +87,20 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>26.7.0</version>
         </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/com.sendinblue/sib-api-v3-sdk -->
+        <dependency>
+            <groupId>com.sendinblue</groupId>
+            <artifactId>sib-api-v3-sdk</artifactId>
+            <version>7.0.0</version>
+            <scope>compile</scope>
+            <!-- okio 1.x entre en conflit avec okio-jvm 3.x requis par okhttp 4 (NoSuchFieldError à l'envoi) -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.squareup.okio</groupId>
+                    <artifactId>okio</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>

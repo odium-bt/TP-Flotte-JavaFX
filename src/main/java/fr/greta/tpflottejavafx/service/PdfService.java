@@ -1,4 +1,4 @@
-package fr.greta.tpflottejavafx.util;
+package fr.greta.tpflottejavafx.service;
 
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -11,28 +11,70 @@ import com.itextpdf.layout.properties.UnitValue;
 import fr.greta.tpflottejavafx.dao.ReservationDAO;
 import fr.greta.tpflottejavafx.modeles.Flotte;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /**
- * Classe utilitaire permettant de créer un compte rendu d'état de la flotte dans le fichier etat-flotte.pdf
+ * Service de préparation de l'état de la flotte en PDF.
+ * <p>
+ * La création du pdf est exécutée en arrière-plan sur l'executor fourni à la construction
+ * depuis une tâche du pool de 2 threads, créé et arrêté par le main : elle met en place une
+ * chaîne PDF puis l'envoi par mail dans l'ordre voulu (l'envoi du mail démarre après la fin
+ * de la création du pdf. Elles renvoient un {@link Future} : l'appelant peut attendre la
+ * fin avec {@code get()} (facultatif) et récupère alors l'éventuelle erreur sous la forme
+ * d'une {@link java.util.concurrent.ExecutionException}.
+ * <p>
  */
-public class PdfWriter {
-    private final ReservationDAO reservationDAO;
+public class PdfService {
+    private static final Logger log = LogManager.getLogger(PdfService.class);
+    private static final String FICHIER_PDF = "etat_flotte.pdf";
+    private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("dd/MM/yyyy");;
+    private final ExecutorService executor;
     private final Flotte flotte;
+    private final ReservationDAO reservationDAO;
 
-    private final String path = "etat-flotte.pdf";
-
-    public PdfWriter(ReservationDAO reservationDAO, Flotte flotte) {
-        this.reservationDAO = reservationDAO;
+    // Constructeur
+    public PdfService(Flotte flotte, ReservationDAO reservationDAO, ExecutorService executor) {
         this.flotte = flotte;
+        this.reservationDAO = reservationDAO;
+        this.executor = executor;
     }
+
+
+    /**
+     * Génère un pdf de l'état de la flotte
+     * avec submit -> renvoie un Future : son get() attend la fin de la têche et renvoie son résultat
+     * Plus de try/catch : si quelque chose échoue, l’exception arrive à l’appelant via get() et log
+     *
+     * @return un Future : le chemin du fichier pdf généré
+     */
+    public Future<Path> creerPdfEtatFlotte() {
+        return executor.submit(() -> {
+            log.info("Début de la génération du fichier pdf de l'état de la flotte");
+
+            // lister() renvoie aussi une liste vide en cas d'erreur SQL : on n'envoie pas un état vide
+            if (flotte.getListeVehicules().isEmpty()) {
+                throw new IllegalArgumentException("Aucun véhicule trouvé : état non généré");
+            }
+
+            ecrireFlotteStatut();
+            return Path.of(FICHIER_PDF);
+        });
+    }
+
+
 
     public void ecrireFlotteStatut() throws IOException {
         // Gestionnaire de l'écriture dans le fichier pdf
-        com.itextpdf.kernel.pdf.PdfWriter writer = new com.itextpdf.kernel.pdf.PdfWriter(path);
+        com.itextpdf.kernel.pdf.PdfWriter writer = new com.itextpdf.kernel.pdf.PdfWriter(FICHIER_PDF);
         // Création d'un document avec plusieurs pages
         PdfDocument pdfDoc = new PdfDocument(writer);
         // Création du contenu de la page du document
@@ -60,7 +102,7 @@ public class PdfWriter {
                 .setTextAlignment(TextAlignment.CENTER));
 
         // Date de génération
-        doc.add(new Paragraph("Généré le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+        doc.add(new Paragraph("Généré le " + LocalDate.now().format(FORMAT_DATE))
                 .setFontSize(9)
                 .setFontColor(gris)
                 .setTextAlignment(TextAlignment.CENTER)
@@ -104,6 +146,13 @@ public class PdfWriter {
         doc.close();
     }
 
+    /**
+     * Construit le contenu d'un tableau avec les données de la flotte
+     *
+     * @param table
+     * @param libelle
+     * @param valeur
+     */
     private void ajouterLigne(Table table, String libelle, String valeur) {
         DeviceRgb grisClair = new DeviceRgb(241, 245, 249);
 
@@ -117,4 +166,6 @@ public class PdfWriter {
         table.addCell(celluleLibelle);
         table.addCell(celluleValeur);
     }
+
 }
+

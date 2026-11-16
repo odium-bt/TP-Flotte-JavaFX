@@ -8,6 +8,7 @@ module fr.greta.tpflottejavafx {
     requires tools.jackson.databind;
     requires kernel;
     requires layout;
+    requires sib.api.v3.sdk;
 
     exports fr.greta.tpflottejavafx.application;
     opens fr.greta.tpflottejavafx.application to javafx.fxml;

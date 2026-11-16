@@ -38,5 +38,14 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/src/main/resources/dao.properties
 /logs/flotte.log
+
+
+/src/main/resources/dao.properties
+/src/main/resources/mail.json
+/src/main/resources/mail.properties
+/src/main/resources/mail2.properties
+/aes.key
+/etat_flotte.pdf
+/reservations.enc
+/salaries.enc

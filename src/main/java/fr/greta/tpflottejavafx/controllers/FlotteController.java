@@ -29,7 +29,10 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
-/// Contrôleur gérant la flotte
+/**
+ * Contrôleur de la flotte : affichage de la fenêtre de gestion de la flotte,
+ * ajout, suppression, modification, retour au menu principal
+ */
 public class FlotteController {
 
     private final VehiculeService vehiculeService = DataFactory.getInstance().getVehiculeService();
@@ -84,6 +87,12 @@ public class FlotteController {
     private TextField inputRecherche;
     @FXML
     private Button validerRecherche;
+    @FXML
+    private Button btnAdd;
+    @FXML
+    private Button btnUpdate;
+    @FXML
+    private Button btnDelete;
 
     // Source de données unique, partagée par la table et la ListView
     private final ObservableList<Vehicule> listVehicules = FXCollections.observableArrayList(
@@ -180,10 +189,14 @@ public class FlotteController {
 
         if (!i.matches("[A-Z]{2}-\\d{3}-[A-Z]{2}")) {
             log("Erreur : le format de l'immatriculation est incorrect (doit être comme AA-111-AA)");
+            return;
         }
 
         // Conversion et contrôle de la date de mise en circulation
         LocalDate d = conversionDateMiseEnCirculation(dateTxt);
+        if (d == null) {
+            return;
+        }
 
         // Conversion et contrôle du kilométrage
         Integer k = conversionKilometrage(kmTxt);
@@ -191,18 +204,36 @@ public class FlotteController {
             return;
         }
 
-        try {
-            int id = DataFactory.getInstance().getVehiculeService().ajouterVehicule(i, ma, mo, d, k);
-            Vehicule v = new Vehicule(id, i, ma, mo, d, k);
 
+        Task<Vehicule> tacheAjoutV = new Task<>() {
+            @Override
+            protected Vehicule call() throws Exception {
+                int id = vehiculeService.ajouterVehicule(i, ma, mo, d, k);
+                return new Vehicule(id, i, ma, mo, d, k);
+            }
+        };
+
+        tacheAjoutV.setOnSucceeded(e -> {
+            Vehicule v = tacheAjoutV.getValue();
             listVehicules.add(v);
             list.getSelectionModel().select(v);
             list.scrollTo(v);
             log("Ajout " + v);
-        } catch (Exception e) {
-            log("Erreur : " + e.getMessage());
-            return;
-        }
+            //Réactive le bouton pour éviter les double cliques
+            btnAdd.setDisable(false);
+        });
+
+        tacheAjoutV.setOnFailed(e -> {
+            tacheAjoutV.getException().printStackTrace();
+            log("Erreur : " + tacheAjoutV.getException().getMessage());
+            btnAdd.setDisable(false);
+        });
+
+        //Désactive le bouton
+        btnAdd.setDisable(true);
+        Thread thread = new Thread(tacheAjoutV, "vehicule-service");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
@@ -261,19 +292,36 @@ public class FlotteController {
             return;
         }
 
-        Vehicule modifie = new Vehicule(v.getId(), i, ma, mo, d, k);
+        //modification réalisée dans une Task
+        Task<Vehicule> tacheUpdateV = new Task<>() {
 
-        try {
-            DataFactory.getInstance().getVehiculeService().modifierVehicule(modifie);
-        } catch (Exception e) {
-            log("Erreur : " + e.getMessage());
-            return;
-        }
+            @Override
+            protected Vehicule call() throws Exception {
+                Vehicule modifie = new Vehicule(v.getId(), i, ma, mo, d, k);
+                vehiculeService.modifierVehicule(modifie);
+                return modifie;
+            }
+        };
 
-        int index = listVehicules.indexOf(v);
-        listVehicules.set(index, modifie);
-        list.getSelectionModel().select(modifie);
-        log("Modif " + modifie);
+        tacheUpdateV.setOnSucceeded(e -> {
+            Vehicule modifie = tacheUpdateV.getValue();
+            int index = listVehicules.indexOf(v);
+            listVehicules.set(index, modifie);
+            list.getSelectionModel().select(modifie);
+            log("Modification du véhicule enregistrée :  " + modifie);
+            btnUpdate.setDisable(false);
+        });
+
+        tacheUpdateV.setOnFailed(e -> {
+            tacheUpdateV.getException().printStackTrace();
+            log("Erreur : " + tacheUpdateV.getException().getMessage());
+            btnUpdate.setDisable(false);
+        });
+
+        btnUpdate.setDisable(true);
+        Thread thread = new Thread(tacheUpdateV, "vehicule-service");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @FXML
@@ -281,15 +329,36 @@ public class FlotteController {
         Vehicule v = selected();
         if (v == null) return;
 
-        try {
-            DataFactory.getInstance().getVehiculeService().retirerVehicule(v.getImmatriculation());
-        } catch (Exception e) {
-            log("Erreur : " + e.getMessage());
-            return;
-        }
+        //TODO bouton de confirmation de la suppression ? (genre Alert)
 
-        listVehicules.remove(v);
-        log("Suppression " + v);
+        //modification réalisée dans une Task
+        Task<Void> tacheRetirerV = new Task<>() {
+
+            @Override
+            protected Void call() throws Exception {
+                vehiculeService.retirerVehicule(v.getImmatriculation());
+                // Return null à la fin d'une tache de type Void
+                return null;
+            }
+        };
+
+        tacheRetirerV.setOnSucceeded(e -> {
+            listVehicules.remove(v);
+            log("Suppression " + v);
+            btnDelete.setDisable(false);
+        });
+
+        tacheRetirerV.setOnFailed(e -> {
+            Throwable ex = tacheRetirerV.getException();
+            ex.printStackTrace();
+            log("Erreur, l'ajout a échoué : " + tacheRetirerV.getException().getMessage());
+            btnDelete.setDisable(false);
+        });
+
+        btnDelete.setDisable(true);
+        Thread thread = new Thread(tacheRetirerV, "vehicule-service");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private Vehicule selected() {
@@ -303,7 +372,6 @@ public class FlotteController {
         messages.add(new Text((messages.isEmpty() ? "" : "\n") + text));
     }
 
-    /// Bouton retour à l'accueil
     @FXML
     private void onMenuClick() {
         try {
@@ -330,95 +398,4 @@ public class FlotteController {
         return texte != null && texte.toLowerCase().contains(mot);
     }
 
-
-//   public void ajouterVehicule() {
-//       String immatriculation = vue.saisieTexte("Immatriculation (AA-123-AA)").toUpperCase();
-//       String marque = vue.saisieTexte("Marque : ");
-//       String modele = vue.saisieTexte("Modèle : ");
-//       String dateSaisie = vue.saisieTexte("Mise en circulation (jj/MM/aaaa) : ");
-//       int kilometrage = vue.saisieEntier("Kilométrage : ");
-//
-//       try {
-//           LocalDate dateMiseEnCirculation = LocalDate.parse(dateSaisie, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-//
-//           new Thread(() -> {
-//               try {
-//                   vehiculeService.ajouterVehicule(immatriculation, marque, modele, dateMiseEnCirculation, kilometrage);
-//
-//                   vue.afficherSucces("Véhicule ajouté!");
-//               } catch (DAOException e) {
-//                   vue.afficherRefus(e.getMessage());
-//               }
-//           }).start();
-//       } catch (DateTimeParseException e) {
-//           vue.afficherRefus(e.getMessage());
-//       }
-//   }
-//
-//   public void afficherFlotte() {
-//
-//       List<Vehicule> vehicules = vehiculeService.afficherFlotte();
-//       if (vehicules == null) {
-//           vue.afficherRefus("Impossible de récupérer la liste");
-//           return;
-//       }
-//       vue.afficherVehicules(vehicules);
-//   }
-//
-//   public void retirerVehicule() {
-//       String immatriculation = vue.saisieTexte("Immatriculation du véhicule à retirer").toUpperCase();
-//       String confirmation = vue.saisieTexte("Confirmer le retrait de " + immatriculation + " ? (o/n)");
-//
-//       if (confirmation.equalsIgnoreCase("o")) {
-//           Vehicule vehicule = vehiculeService.rechercheParImmatriculation(immatriculation);
-//           if (vehicule == null) {
-//               vue.afficherRefus("véhicule introuvable.");
-//           } else {
-//               vehiculeService.retirerVehicule(immatriculation);
-//               vue.afficherSucces("Véhicule " + immatriculation + " retiré de la flotte.");
-//           }
-//       } else {
-//           vue.afficherSucces("Retrait annulé.");
-//       }
-//   }
-//
-//
-//   public void rechercherVehicule() {
-//
-//       String immatriculation = vue.saisieTexte("Saisissez l'immatriculation :").toUpperCase();
-//       Vehicule vehicule = vehiculeService.rechercheParImmatriculation(immatriculation);
-//
-//       if (vehicule == null) {
-//           vue.afficherRefus("Véhicule introuvable");
-//       } else {
-//           // List.of pour un rendu plus propre que le toString
-//           vue.afficherVehicules(List.of(vehicule));
-//       }
-//   }
-//
-//   public void trierFlotte() {
-//       vue.afficherSucces("1. Par marque, puis modèle");
-//       vue.afficherSucces("2. Par date de mise en circulation (plus ancien d'abord)");
-//       vue.afficherSucces("3. Par kilométrage décroissant");
-//       int choix = vue.saisieEntier("Tri");
-//
-//       switch (choix) {
-//           case 1:
-//               vehiculeService.trierMarque();
-//               break;
-//           case 2:
-//               vehiculeService.trierDate();
-//               break;
-//           case 3:
-//               vehiculeService.trierKilometrageDecroissant();
-//               break;
-//           default:
-//               vue.afficherRefus("choix de tri inconnu.");
-//               return;
-//       }
-//       afficherFlotte();
-//   }
-//
-//
-}//
-//
+}
