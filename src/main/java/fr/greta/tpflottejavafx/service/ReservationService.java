@@ -58,7 +58,7 @@ public class ReservationService extends Service {
         List<Reservation> res = new ArrayList<>();
 
         try {
-            reservationDAO.lister();
+            res = reservationDAO.lister();
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
             log.trace(e.getStackTrace());
