@@ -6,7 +6,7 @@ import java.sql.Timestamp;
  * Classe représentant une réservation.
  */
 public class Reservation {
-    private int idReservation;
+    private final int idReservation;
     private Salarie salarie;
     private Vehicule vehicule;
     private Timestamp dateDepart;

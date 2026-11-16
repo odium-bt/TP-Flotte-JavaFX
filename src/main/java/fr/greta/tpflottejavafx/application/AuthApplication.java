@@ -16,9 +16,11 @@ public class AuthApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(AuthApplication.class.getResource("/fr/greta/tpflottejavafx/views/auth-view.fxml"));
 
         // Chargement de la fenêtre
-        Scene scene = new Scene(fxmlLoader.load(), 400, 600);
-        stage.setTitle("Login");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Authentification");
         stage.setScene(scene);
+        stage.sizeToScene();
+        stage.centerOnScreen();
         stage.show();
     }
 

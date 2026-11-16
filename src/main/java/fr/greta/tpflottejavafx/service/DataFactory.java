@@ -37,11 +37,13 @@ public class DataFactory {
         this.salarieDAO = new SalarieDAOImpl();
         this.flotte = new Flotte();
         this.vehiculeService = new VehiculeService(vehiculeDAO, reservationDAO, flotte);
-        this.reservationService = new ReservationService(vehiculeDAO, reservationDAO, salarieDAO);
+        this.reservationService = new ReservationService(vehiculeDAO, reservationDAO);
         this.salariesService = new SalariesService(salarieDAO, reservationDAO);
         this.pdfService = new PdfService(flotte, reservationDAO, executor);
         this.mailService = new MailService(executor);
         this.exportService = new ExportService(executor, salarieDAO, reservationDAO);
+        DatabaseInitializer databaseInitializer = new DatabaseInitializer(getSalariesService());
+        databaseInitializer.initialize();
     }
 
     // Getters des services
@@ -78,7 +80,7 @@ public class DataFactory {
     }
 
 
-    //Récupération des listes pour toute l'appli
+    // Récupération des listes pour toute l'appli
 
     /**
      * Récupération de la flotte
@@ -98,7 +100,7 @@ public class DataFactory {
     }
 
 
-    //Arrête les threads
+    /// Arrête les threads
     public void arreter() {
         executor.shutdown();                                     // n'accepte plus de nouvelles tâches
         try {

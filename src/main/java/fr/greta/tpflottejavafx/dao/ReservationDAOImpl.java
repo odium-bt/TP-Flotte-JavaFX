@@ -11,18 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationDAOImpl implements ReservationDAO {
-
     private final String table = "reservation";
     private final String id = "id";
     private final String matricule = "matricule";
     private final String idVehicule = "id_vehicule";
     private final String dateDepart = "date_depart";
     private final String dateRetour = "date_retour";
-    private final String kmRetour = "kmRetour";
+    private final String kmRetour = "km_retour";
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int creer(String matricule, int idVehicule, LocalDate dateDepart) throws DAOException {
         String query = "INSERT INTO " + table + " ("
@@ -50,9 +46,6 @@ public class ReservationDAOImpl implements ReservationDAO {
         return 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Reservation trouverParId(int id) throws DAOException {
         String query = "select * from " + table + " where " + this.id + "=?";
@@ -70,9 +63,6 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Reservation> trouverParMatricule(String matricule) throws DAOException {
         String query = "SELECT * FROM " + table
@@ -99,9 +89,6 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Reservation> lister() throws DAOException {
         List<Reservation> liste = new ArrayList<>();
@@ -117,31 +104,12 @@ public class ReservationDAOImpl implements ReservationDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Erreur lors de la recherche des réservations"+ e.getMessage());
+            throw new DAOException("Erreur lors de la recherche des réservations" + e.getMessage());
         }
 
         return liste;
     }
 
-    /**
-     * Transforme une ligne SQL en objet Reservation.
-     */
-    private Reservation mapperReservation(ResultSet rs) throws SQLException {
-        int idReservation = rs.getInt(id);
-        String matriculeSalarie = rs.getString(matricule);
-        int vehiculeId = rs.getInt(idVehicule);
-        Salarie salarie = DAOFactory.getInstance().getSalarieDAO().trouverParMatricule(matriculeSalarie);
-        Vehicule vehicule = DAOFactory.getInstance().getVehiculeDAO().trouverParId(vehiculeId);
-        Timestamp depart = rs.getTimestamp(dateDepart);
-        Timestamp retour = rs.getTimestamp(dateRetour);
-        int kilometrage = rs.getInt(kmRetour);
-
-        return new Reservation(idReservation, salarie, vehicule, depart, retour, kilometrage);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean estEnDeplacementParId(int idReservation) throws DAOException {
         String query = "SELECT COUNT(*) FROM " + table
@@ -161,29 +129,6 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    public List<Integer> vehiculesEnDeplacement() throws DAOException {
-        List<Integer> list = new ArrayList<>();
-
-        String query = "SELECT id_vehicule FROM " + table
-                + " WHERE " + dateRetour + " IS NULL";
-        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-
-                    list.add(rs.getInt("id_vehicule"));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DAOException("Erreur lors de la vérification de l'état de la réservation : " + e.getMessage());
-        }
-        return list;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean estEnDeplacementParIdVehicule(int idVehicule) throws DAOException {
         String query = "SELECT COUNT(*) FROM " + table
                 + " WHERE " + this.idVehicule + " = ?"
@@ -198,13 +143,9 @@ public class ReservationDAOImpl implements ReservationDAO {
             }
         } catch (SQLException e) {
             throw new DAOException("Erreur lors de la vérification du déplacement du véhicule" + idVehicule + " : " + e.getMessage());
-
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean estEnDeplacementParMatricule(int matricule) throws DAOException {
         String query = "SELECT COUNT(*) FROM " + table
@@ -223,9 +164,46 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    public boolean existeReservationNonClotureeAvantDate(int idVehicule, LocalDate dateDepart) throws DAOException {
+        String query = "SELECT COUNT(*) FROM " + table
+                + " WHERE " + this.idVehicule + " = ?"
+                + " AND " + this.dateDepart + " < ?"
+                + " AND " + this.dateRetour + " IS NULL";
+
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
+            ps.setInt(1, idVehicule);
+            ps.setTimestamp(2, Timestamp.valueOf(dateDepart.atStartOfDay()));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Erreur lors de la vérification de la disponibilité du véhicule : " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Integer> vehiculesEnDeplacement() throws DAOException {
+        List<Integer> list = new ArrayList<>();
+
+        String query = "SELECT id_vehicule FROM " + table
+                + " WHERE " + dateRetour + " IS NULL";
+        try (PreparedStatement ps = DAOFactory.getInstance().getConnection().prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(rs.getInt("id_vehicule"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Erreur lors de la vérification de l'état de la réservation : " + e.getMessage());
+        }
+
+        return list;
+    }
+
     @Override
     public void modifier(int idReservation, String matricule, int idVehicule, Timestamp dateDepart) throws DAOException {
         String query = "UPDATE " + table + " SET "
@@ -246,9 +224,6 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void cloturer(int idReservation, Timestamp dateRetour, int kmRetour) throws DAOException {
         String query = "UPDATE " + table + " SET "
@@ -272,9 +247,6 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void supprimer(int id) throws DAOException {
         String query = "DELETE FROM " + table
@@ -287,5 +259,21 @@ public class ReservationDAOImpl implements ReservationDAO {
         } catch (SQLException e) {
             throw new DAOException("Erreur lors de la suppression de la réservation : " + e.getMessage());
         }
+    }
+
+    /**
+     * Transforme une ligne SQL en objet Reservation.
+     */
+    private Reservation mapperReservation(ResultSet rs) throws SQLException {
+        int idReservation = rs.getInt(id);
+        String matriculeSalarie = rs.getString(matricule);
+        int vehiculeId = rs.getInt(idVehicule);
+        Salarie salarie = DAOFactory.getInstance().getSalarieDAO().trouverParMatricule(matriculeSalarie);
+        Vehicule vehicule = DAOFactory.getInstance().getVehiculeDAO().trouverParId(vehiculeId);
+        Timestamp depart = rs.getTimestamp(dateDepart);
+        Timestamp retour = rs.getTimestamp(dateRetour);
+        int kilometrage = rs.getInt(kmRetour);
+
+        return new Reservation(idReservation, salarie, vehicule, depart, retour, kilometrage);
     }
 }
