@@ -43,9 +43,9 @@ public class SalariesService extends Service {
     }
 
     /**
-     * Récupère chaque salarié sous forme de string.
+     * Récupère chaque salarié.
      *
-     * @return Une {@code List<String>} contenant chaque salarié sous forme de string
+     * @return Une {@code List<Salarie>} contenant chaque salarié
      */
     public List<Salarie> afficherSalaries() {
         log.info("Affichage des salariés");
