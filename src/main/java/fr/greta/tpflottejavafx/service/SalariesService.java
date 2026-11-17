@@ -3,7 +3,6 @@ package fr.greta.tpflottejavafx.service;
 import fr.greta.tpflottejavafx.dao.*;
 import fr.greta.tpflottejavafx.dao.SalarieDAO;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
-import fr.greta.tpflottejavafx.exceptions.DomainException;
 import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import org.apache.logging.log4j.Logger;
@@ -101,7 +100,7 @@ public class SalariesService extends Service {
      *
      * @param matricule Son matricule
      */
-    public void supprimerParMatricule(String matricule) throws DomainException {
+    public void supprimerParMatricule(String matricule) throws RegleGestionException {
         executor.submit(() -> {
             log.info("Suppression du salarié {}", matricule);
 

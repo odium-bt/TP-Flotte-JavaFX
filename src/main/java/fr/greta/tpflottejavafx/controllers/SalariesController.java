@@ -1,12 +1,10 @@
 package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.exceptions.DAOException;
-import fr.greta.tpflottejavafx.exceptions.DomainException;
+import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import fr.greta.tpflottejavafx.service.DataFactory;
-import fr.greta.tpflottejavafx.service.ReservationService;
 import fr.greta.tpflottejavafx.service.SalariesService;
-import fr.greta.tpflottejavafx.service.VehiculeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -148,7 +146,7 @@ public class SalariesController {
             salariesService.supprimerParMatricule(s.getMatricule());
             salaries.remove(s);
             log("Suppression " + s + "\n");
-        } catch (DomainException e) {
+        } catch (RegleGestionException e) {
             log(e.getMessage() + "\n");
         }
     }
@@ -160,7 +158,7 @@ public class SalariesController {
             new AccueilController().AccueilScene(menuPrincipal.getScene().getWindow());
         } catch (IOException e) {
             log("Erreur : Impossible d'ouvrir l'accueil.");
-            e.printStackTrace();
+            log.trace(e.getStackTrace());
         }
     }
 
