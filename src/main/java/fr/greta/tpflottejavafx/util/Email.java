@@ -9,14 +9,10 @@ import sendinblue.Configuration;
 import sendinblue.auth.ApiKeyAuth;
 import sibApi.TransactionalEmailsApi;
 import sibModel.*;
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -38,23 +34,23 @@ public class Email {
     private String corps;
 
 
-    //Les erreurs sont propagées à l'appelant : c'est lui qui sait si l'envoi a réussi ou échoué
+    // Les erreurs sont propagées à l'appelant : c'est lui qui sait si l'envoi a réussi ou échoué
     public void sendEmail(Path pieceJointe, String mailPath) throws IOException {
         //Clé API
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         final String CONSTANTES_PROPERTIES = "mail2.properties";
         Properties props = new Properties();
         try (InputStream in = DAOFactory.class.getClassLoader().getResourceAsStream(CONSTANTES_PROPERTIES)) {
-            //fichier non présent, on leve une exception
+            // Fichier non présent, on lève une exception
             if (in == null) {
                 throw new IOException();
             }
-            //chargement des proprriétes
+            // Chargement des propriétés
             props.load(in);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Erreur : ", e);
         }
-        //récuperation du parametre
+        // Récuperation du paramètre
         String apikey = props.getProperty("API_KEY");
 
         // Configuration de la clé API
@@ -67,7 +63,7 @@ public class Email {
                 throw new FileNotFoundException("Fichier introuvable : " + mailPath);
             }
 
-            Map<String, String> dataEnvoiMail = new StockageJson(Path.of(mailPath)).chargerRessource("mail.json");
+            Map<String, String> dataEnvoiMail = StockageJson.chargerRessource("mail.json");
 
             nomExpediteur = dataEnvoiMail.get("expediteur-nom");
             expediteur = dataEnvoiMail.get("expediteur");

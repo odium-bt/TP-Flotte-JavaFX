@@ -8,7 +8,6 @@ import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -22,12 +21,10 @@ public class ReservationService extends Service {
 
     private final VehiculeDAO vehiculeDAO;
     private final ReservationDAO reservationDAO;
-    private final SalarieDAO salarieDAO;
 
-    public ReservationService(VehiculeDAO vehiculeDAO, ReservationDAO reservationDAO, SalarieDAO salarieDAO) {
+    public ReservationService(VehiculeDAO vehiculeDAO, ReservationDAO reservationDAO) {
         this.vehiculeDAO = vehiculeDAO;
         this.reservationDAO = reservationDAO;
-        this.salarieDAO = salarieDAO;
     }
 
     /**
@@ -42,7 +39,6 @@ public class ReservationService extends Service {
             return id;
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
     }
@@ -55,17 +51,35 @@ public class ReservationService extends Service {
     public List<Reservation> afficherReservations() {
         log.info("Affichage des réservations");
 
-        List<Reservation> res = new ArrayList<>();
+        List<Reservation> res;
 
         try {
             res = reservationDAO.lister();
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
 
         return res;
+    }
+
+    /**
+     * Retourne une liste des véhicules actuellement indisponibles.
+     *
+     * @return {@code List<Integer>}
+     */
+    public List<Integer> afficherVehiculeNonDisponible() {
+        return reservationDAO.vehiculesEnDeplacement();
+    }
+
+    /**
+     * Regarde si le véhicule est utilisé par une réservation non-clôturée avant cette date.
+     *
+     * @param idVehicule Id du véhicule
+     * @param dateDepart Date
+     */
+    public boolean existeReservationNonClotureeAvantDate(int idVehicule, LocalDate dateDepart) throws DAOException {
+        return reservationDAO.existeReservationNonClotureeAvantDate(idVehicule, dateDepart);
     }
 
     public void modifierReservation(int id, String matricule, int idVehicule, LocalDate dateDepart) {
@@ -77,14 +91,10 @@ public class ReservationService extends Service {
             log.info("Réservation mise à jour");
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
     }
 
-    public List<Integer> afficherVehiculeNonDisponible() {
-        return reservationDAO.vehiculesEnDeplacement();
-    }
 
     /**
      * Enregistre le retour d'un véhicule et la clotûre d'une réservation.
@@ -95,11 +105,16 @@ public class ReservationService extends Service {
      */
     public void enregistrerRetour(int id, LocalDate dateRetour, int kmRetour) throws DAOException, RegleGestionException {
         log.info("Enregistrement d'un retour");
+
         try {
             Reservation r = reservationDAO.trouverParId(id);
+
+            if (r == null) {
+                throw new RegleGestionException("Réservation inconnue");
+            }
+
             Vehicule v = r.getVehicule();
 
-            // Règles de gestion
             if (v == null) {
                 throw new RegleGestionException("Véhicule inconnu");
             }
@@ -110,14 +125,13 @@ public class ReservationService extends Service {
                 throw new RegleGestionException("Kilométrage inférieur au compteur actuel");
             }
 
-            reservationDAO.cloturer(v.getId(), Timestamp.valueOf(dateRetour.atStartOfDay()), kmRetour);
+            reservationDAO.cloturer(r.getIdReservation(), Timestamp.valueOf(dateRetour.atStartOfDay()), kmRetour);
             v.setKilometrage(kmRetour);
             vehiculeDAO.modifier(v);
 
             log.info("Retour de {} à {} km", v.getImmatriculation(), kmRetour);
         } catch (DAOException | RegleGestionException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
     }
@@ -131,18 +145,17 @@ public class ReservationService extends Service {
         log.info("Tentative de suppression d'une réservation");
 
         try {
-            if (reservationDAO.estEnDeplacementParId(idReservation)) {
-                throw new RegleGestionException("Cette réservation est en cours");
-            }
-
             reservationDAO.supprimer(idReservation);
 
             log.info("Réservation supprimée avec succès");
         } catch (DAOException | RegleGestionException e) {
             log.error(e.getMessage(), e);
-            log.trace(e.getStackTrace());
             throw e;
         }
+    }
+
+    public boolean estEnCours(int id) {
+        return reservationDAO.estEnDeplacementParId(id);
     }
 
     public List<Reservation> historiqueSalarie(String matricule) {

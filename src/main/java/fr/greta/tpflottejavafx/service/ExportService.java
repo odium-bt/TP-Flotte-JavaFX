@@ -49,6 +49,7 @@ public class ExportService {
         public String getLibelle() {
             return libelle;
         }
+
         public String getFichier() {
             return fichier;
         }
@@ -65,15 +66,16 @@ public class ExportService {
      *   <li>{@link IOException} si un fichier ne peut pas être lu ou écrit ;</li>
      *   <li>{@link GeneralSecurityException} si le chiffrement échoue ;</li>
      * </ul>
+     *
      * @param type le type de données à chiffrer
      * @return un {@link Future} qui se termine quand le fichier choisi est écrit
      */
     public Future<Void> chiffrerEnregistrerSalariesReservations(TypeExport type) {
         return executor.submit(() -> {
             String contenu = switch (type) {
-                    case SALARIES -> construireBackupSalaries();
-                    case RESERVATIONS -> construireBackupReservations();
-                };
+                case SALARIES -> construireBackupSalaries();
+                case RESERVATIONS -> construireBackupReservations();
+            };
 
             //Chiffrement des données avec AES
             SecretKey cle = aesKey();
@@ -159,7 +161,7 @@ public class ExportService {
      * @param type le type du fichier à déchiffrer
      * @return un {@link Future} : les données du fichier déchiffré
      */
-    public Future<String> dechifrerEtAfficherFichierExport(TypeExport type) {
+    public Future<String> dechiffrerEtAfficherFichierExport(TypeExport type) {
         return executor.submit(() -> {
             String fichierDechiffre;
             //Chemin des fichiers

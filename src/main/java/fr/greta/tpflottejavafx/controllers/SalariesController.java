@@ -66,11 +66,7 @@ public class SalariesController {
     private Button menuPrincipal;
 
     // Source de données unique, partagée par la table et la ListView
-    private final ObservableList<Salarie> salaries = FXCollections.observableArrayList(
-            new Salarie("111111", "Dupond", "Valérie"),
-            new Salarie("123533", "Higgins", "Clark"),
-            new Salarie("253644", "Pantou", "Maurice"),
-            new Salarie("867452", "Parmentier", "Yvette"));
+    private final ObservableList<Salarie> salaries = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
@@ -80,6 +76,14 @@ public class SalariesController {
         matriculeColumn.setCellValueFactory(new PropertyValueFactory<>("matricule"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+
+        try {
+            salaries.setAll(salariesService.afficherSalaries());
+        } catch (DAOException e) {
+            log("Erreur : Impossible de récupérer les salariés.");
+            log(e.getMessage());
+        }
+
         list.setItems(salaries);
         list2.setItems(salaries);
 

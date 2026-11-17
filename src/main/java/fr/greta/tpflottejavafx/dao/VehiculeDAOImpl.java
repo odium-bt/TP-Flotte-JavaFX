@@ -20,9 +20,6 @@ public class VehiculeDAOImpl implements VehiculeDAO {
     private final String date_mise_circulation = "date_mise_circulation";
     private final String kilometrage = "kilometrage";
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int creer(String vehiculeImmat, String vehiculeMarque, String vehiculeModele, LocalDate vehiculeDate, int vehiculeKilo) throws DAOException {
         String query = "insert into " + table + " (" +
@@ -52,9 +49,6 @@ public class VehiculeDAOImpl implements VehiculeDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Vehicule trouverParId(int id) throws DAOException {
         String query = "select * from " + table + " where " + this.id + "=?";
@@ -72,9 +66,6 @@ public class VehiculeDAOImpl implements VehiculeDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Vehicule trouverParImmatriculation(String immat) throws DAOException {
         String query = "select * from " + table + " where " + immatriculation + "=?";
@@ -110,9 +101,6 @@ public class VehiculeDAOImpl implements VehiculeDAO {
         return listRecherche;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Vehicule> lister() throws DAOException {
         List<Vehicule> vehicules = new ArrayList<>();
@@ -132,9 +120,6 @@ public class VehiculeDAOImpl implements VehiculeDAO {
         return vehicules;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void modifier(Vehicule vehicule) throws DAOException {
         String query = "update " + table + " set "
@@ -158,9 +143,6 @@ public class VehiculeDAOImpl implements VehiculeDAO {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void supprimer(int id) throws DAOException {
         String query = "delete from " + table + " where " + this.id + " =?";
@@ -172,6 +154,12 @@ public class VehiculeDAOImpl implements VehiculeDAO {
         }
     }
 
+    /**
+     * Construit un objet Vehicule à partir de lignes sql.
+     *
+     * @param rs ResultSet
+     * @return {@code Vehicule}
+     */
     private Vehicule construireVehicule(ResultSet rs) throws SQLException {
         return new Vehicule(
                 rs.getInt(id),

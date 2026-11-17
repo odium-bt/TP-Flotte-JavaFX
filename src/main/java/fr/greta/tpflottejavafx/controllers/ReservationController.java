@@ -2,9 +2,12 @@ package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.DomainException;
+import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 import fr.greta.tpflottejavafx.service.*;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
@@ -15,7 +18,6 @@ import javafx.scene.text.TextFlow;
 import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -58,8 +60,6 @@ public class ReservationController {
     }
 
     // Salariés
-    @FXML
-    TextField id;
     @FXML
     private TextField matricule;
     @FXML
@@ -121,12 +121,18 @@ public class ReservationController {
         date_depart.setConverter(converter);
         date_retour.setConverter(converter);
 
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        matriculeColumn.setCellValueFactory(new PropertyValueFactory<>("matricule"));
-        idVehiculeColumn.setCellValueFactory(new PropertyValueFactory<>("id_vehicule"));
-        dateDepartColumn.setCellValueFactory(new PropertyValueFactory<>("date_depart"));
-        dateRetourColumn.setCellValueFactory(new PropertyValueFactory<>("date_retour"));
-        kmColumn.setCellValueFactory(new PropertyValueFactory<>("kmRetour"));
+        idColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getIdReservation()));
+        matriculeColumn.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getSalarie().getMatricule()));
+        idVehiculeColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getVehicule().getId()));
+        dateDepartColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getDateDepart().toLocalDateTime().toLocalDate()));
+        dateRetourColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getDateRetour() == null ? null : cell.getValue().getDateRetour().toLocalDateTime().toLocalDate()));
+        kmColumn.setCellValueFactory(cell ->
+                new SimpleObjectProperty<>(cell.getValue().getKilometrage()));
         // Formatage de l'affichage de la date de mise en circulation
         dateDepartColumn.setCellFactory(col -> new TableCell<>() {
             @Override
@@ -147,7 +153,6 @@ public class ReservationController {
 
         // Remplis ou vide les champs selon la ligne sélectionnée
         list.getSelectionModel().selectedItemProperty().addListener((obs, oldP, newP) -> {
-            id.setText(newP == null ? "" : String.valueOf(newP.getIdReservation()));
             matricule.setText(newP == null ? "" : newP.getSalarie().getMatricule());
             id_vehicule.setText(newP == null ? "" : String.valueOf(newP.getVehicule().getId()));
             date_depart.setValue(newP == null ? null : newP.getDateDepart().toLocalDateTime().toLocalDate());
@@ -190,16 +195,15 @@ public class ReservationController {
     @FXML
     private void onAdd() {
         String m = matricule.getText().trim();
-        String idV = id_vehicule.getText().trim();
+        String idV = id_vehicule.getText();
         LocalDate dateD = date_depart.getValue();
         String km = this.km.getText().trim();
 
         int idVehicule;
-        LocalDate dateDepart;
         int kilometrage = Integer.parseInt(km);
 
         if (m.isEmpty() || idV.isEmpty() || dateD == null) {
-            log("Erreur : Le matricule, l'id véhicule et la date de départ sont obligatoires" + "\n");
+            log("Erreur : Le matricule du salarié, l'id du véhicule et la date de départ sont obligatoires" + "\n");
             return;
         } else {
             idVehicule = Integer.parseInt(idV);
@@ -211,9 +215,14 @@ public class ReservationController {
                 log("Erreur : Aucun salarié ne possède ce matricule." + "\n");
                 return;
             }
-            Vehicule v = vehiculeService.rechercheParImmatriculation(idV);
+            Vehicule v = vehiculeService.rechercheParId(idVehicule);
             if (v == null) {
                 log("Erreur : Aucun véhicule ne possède cet id." + "\n");
+                return;
+            }
+
+            if (reservationService.existeReservationNonClotureeAvantDate(idVehicule, dateD)) {
+                log("Erreur : Ce véhicule est déjà utilisé par une autre réservation à cette date.");
                 return;
             }
 
@@ -223,7 +232,7 @@ public class ReservationController {
             reservationsList.add(r);
             list.getSelectionModel().select(r);
             list.scrollTo(r);
-            log("Ajout " + s + "\n");
+            log("Ajout " + r + "\n");
         } catch (DAOException e) {
             log("Erreur : Impossible d'enregistrer la réservation. Veuillez ré-essayer plus tard" + "\n");
         }
@@ -241,15 +250,33 @@ public class ReservationController {
         LocalDate dateR = date_retour.getValue();
         String kmR = this.km.getText().trim();
 
-        int idVehicule;
-        int kmRetour;
 
-        if (m.isEmpty() || idV.isEmpty() || dateD == null || kmR.isEmpty()) {
-            log("Erreur : Le matricule, l'id véhicule, la date de départ et le kilométrage sont obligatoires" + "\n");
+        if (m.isEmpty() || idV.isEmpty() || dateD == null) {
+            log("Erreur : Le matricule, l'id véhicule et la date de départ sont obligatoires" + "\n");
             return;
-        } else {
-            kmRetour = Integer.parseInt(kmR);
+        }
+
+        int idVehicule;
+        try {
             idVehicule = Integer.parseInt(idV);
+        } catch (NumberFormatException e) {
+            log("Erreur : Identifiant de véhicule invalide\n");
+            return;
+        }
+
+        int kmRetour = 0;
+        if (dateR != null) {
+            if (kmR.isEmpty()) {
+                log("Erreur : Le kilométrage est obligatoire pour enregistrer un retour\n");
+                return;
+            }
+
+            try {
+                kmRetour = Integer.parseInt(kmR);
+            } catch (NumberFormatException e) {
+                log("Erreur : Kilométrage invalide\n");
+                return;
+            }
         }
 
         try {
@@ -274,6 +301,8 @@ public class ReservationController {
             log("Modification effectuée : " + r + "\n");
         } catch (DAOException e) {
             log("Erreur : Impossible de modifier le salarié. Veuillez réessayer plus tard" + "\n");
+        } catch (RegleGestionException e) {
+            log("Erreur : " + e.getMessage() + "\n");
         }
     }
 
