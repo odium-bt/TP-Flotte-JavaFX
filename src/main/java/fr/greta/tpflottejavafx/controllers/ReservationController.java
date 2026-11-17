@@ -2,6 +2,7 @@ package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.DomainException;
+import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
 import fr.greta.tpflottejavafx.service.*;
@@ -17,7 +18,6 @@ import javafx.scene.text.TextFlow;
 import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,9 +34,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
-
-// TODO : Ajout d'une date de retour
-// TODO : Probablement permettre la suppression d'une réservation en cours
 
 /// Contrôleur gérant les réservations
 public class ReservationController {
@@ -253,15 +250,33 @@ public class ReservationController {
         LocalDate dateR = date_retour.getValue();
         String kmR = this.km.getText().trim();
 
-        int idVehicule;
-        int kmRetour;
 
-        if (m.isEmpty() || idV.isEmpty() || dateD == null || kmR.isEmpty()) {
-            log("Erreur : Le matricule, l'id véhicule, la date de départ et le kilométrage sont obligatoires" + "\n");
+        if (m.isEmpty() || idV.isEmpty() || dateD == null) {
+            log("Erreur : Le matricule, l'id véhicule et la date de départ sont obligatoires" + "\n");
             return;
-        } else {
-            kmRetour = Integer.parseInt(kmR);
+        }
+
+        int idVehicule;
+        try {
             idVehicule = Integer.parseInt(idV);
+        } catch (NumberFormatException e) {
+            log("Erreur : Identifiant de véhicule invalide\n");
+            return;
+        }
+
+        int kmRetour = 0;
+        if (dateR != null) {
+            if (kmR.isEmpty()) {
+                log("Erreur : Le kilométrage est obligatoire pour enregistrer un retour\n");
+                return;
+            }
+
+            try {
+                kmRetour = Integer.parseInt(kmR);
+            } catch (NumberFormatException e) {
+                log("Erreur : Kilométrage invalide\n");
+                return;
+            }
         }
 
         try {
@@ -286,6 +301,8 @@ public class ReservationController {
             log("Modification effectuée : " + r + "\n");
         } catch (DAOException e) {
             log("Erreur : Impossible de modifier le salarié. Veuillez réessayer plus tard" + "\n");
+        } catch (RegleGestionException e) {
+            log("Erreur : " + e.getMessage() + "\n");
         }
     }
 

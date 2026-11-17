@@ -105,11 +105,16 @@ public class ReservationService extends Service {
      */
     public void enregistrerRetour(int id, LocalDate dateRetour, int kmRetour) throws DAOException, RegleGestionException {
         log.info("Enregistrement d'un retour");
+
         try {
             Reservation r = reservationDAO.trouverParId(id);
+
+            if (r == null) {
+                throw new RegleGestionException("Réservation inconnue");
+            }
+
             Vehicule v = r.getVehicule();
 
-            // Règles de gestion
             if (v == null) {
                 throw new RegleGestionException("Véhicule inconnu");
             }
@@ -120,7 +125,7 @@ public class ReservationService extends Service {
                 throw new RegleGestionException("Kilométrage inférieur au compteur actuel");
             }
 
-            reservationDAO.cloturer(v.getId(), Timestamp.valueOf(dateRetour.atStartOfDay()), kmRetour);
+            reservationDAO.cloturer(r.getIdReservation(), Timestamp.valueOf(dateRetour.atStartOfDay()), kmRetour);
             v.setKilometrage(kmRetour);
             vehiculeDAO.modifier(v);
 
@@ -140,10 +145,6 @@ public class ReservationService extends Service {
         log.info("Tentative de suppression d'une réservation");
 
         try {
-            if (estEnCours(idReservation)) {
-                throw new RegleGestionException("Cette réservation est en cours");
-            }
-
             reservationDAO.supprimer(idReservation);
 
             log.info("Réservation supprimée avec succès");
