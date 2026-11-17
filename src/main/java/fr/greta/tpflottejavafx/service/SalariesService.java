@@ -4,6 +4,7 @@ import fr.greta.tpflottejavafx.dao.*;
 import fr.greta.tpflottejavafx.dao.SalarieDAO;
 import fr.greta.tpflottejavafx.exceptions.DAOException;
 import fr.greta.tpflottejavafx.exceptions.DomainException;
+import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Salarie;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -107,7 +108,7 @@ public class SalariesService extends Service {
             if (reservationDAO.estEnDeplacementParMatricule(Integer.parseInt(matricule))) {
                 salarieDAO.supprimer(matricule);
             } else {
-                throw new DomainException("Erreur : Supprimer un salarié en déplacement n'est pas authorisé");
+                throw new RegleGestionException("Erreur : Supprimer un salarié en déplacement n'est pas authorisé");
             }
         });
     }
