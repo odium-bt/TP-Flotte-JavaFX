@@ -55,13 +55,13 @@
             <GridPane.margin>
                 <Insets top="455.0"/>
             </GridPane.margin>
-            <Button fx:id="add" mnemonicParsing="false" onAction="#onAdd" text="Ajout">
+            <Button mnemonicParsing="false" onAction="#onAdd" text="Ajout">
                 <HBox.margin>
                     <Insets right="40.0"/>
                 </HBox.margin>
             </Button>
-            <Button fx:id="update" mnemonicParsing="false" onAction="#onUpdate" text="Modifier"/>
-            <Button fx:id="delete" mnemonicParsing="false" onAction="#onDelete" text="Supprimer">
+            <Button mnemonicParsing="false" onAction="#onUpdate" text="Modifier"/>
+            <Button mnemonicParsing="false" onAction="#onDelete" text="Supprimer">
                 <HBox.margin>
                     <Insets left="40.0"/>
                 </HBox.margin>

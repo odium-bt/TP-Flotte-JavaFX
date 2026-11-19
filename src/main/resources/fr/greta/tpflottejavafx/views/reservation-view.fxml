@@ -62,11 +62,11 @@
             </columns>
         </TableView>
     </VBox>
-    <Button fx:id="update" layoutX="101.0" layoutY="608.0" mnemonicParsing="false" onAction="#onUpdate"
+    <Button layoutX="101.0" layoutY="608.0" mnemonicParsing="false" onAction="#onUpdate"
             text="Modifier"/>
-    <Button fx:id="delete" layoutX="170.0" layoutY="608.0" mnemonicParsing="false" onAction="#onDelete"
+    <Button layoutX="170.0" layoutY="608.0" mnemonicParsing="false" onAction="#onDelete"
             text="Supprimer"/>
-    <Button fx:id="add" layoutX="36.0" layoutY="608.0" mnemonicParsing="false" onAction="#onAdd" text="Ajouter"/>
+    <Button layoutX="36.0" layoutY="608.0" mnemonicParsing="false" onAction="#onAdd" text="Ajouter"/>
     <Button fx:id="menuPrincipal" layoutX="616.0" layoutY="608.0" mnemonicParsing="false" onAction="#onMenuClick"
             style="-fx-background-color: blue;" text="Menu principal" textFill="WHITE"/>
 </AnchorPane>
