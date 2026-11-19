@@ -186,7 +186,7 @@ public class ReservationController {
         reservationsList.clear();                          // vide la table
         list.setPlaceholder(new ProgressIndicator());   // affiche l'indicateur de chargement
 
-        Thread thread = new Thread(task, "load-flotte");
+        Thread thread = new Thread(task, "load-reservations");
         thread.setDaemon(true);
         thread.start();
     }
