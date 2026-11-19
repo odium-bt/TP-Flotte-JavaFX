@@ -1,7 +1,6 @@
 package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.exceptions.DAOException;
-import fr.greta.tpflottejavafx.exceptions.DomainException;
 import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
@@ -314,7 +313,7 @@ public class ReservationController {
             reservationService.supprimerReservation(r.getIdReservation());
             reservationsList.remove(r);
             log("Suppression " + r + "\n");
-        } catch (DAOException | DomainException e) {
+        } catch (DAOException | RegleGestionException e) {
             log(e.getMessage() + "\n");
         }
     }
