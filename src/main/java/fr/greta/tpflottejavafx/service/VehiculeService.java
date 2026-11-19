@@ -74,11 +74,11 @@ public class VehiculeService extends Service {
         log.info("Récupération de la flotte...");
 
         try {
-            List<Vehicule> flotte = new ArrayList<>(this.flotte.getListeVehicules());
-            if (flotte.isEmpty()) {
+            flotte.setListeVehicules(this.flotte.getListeVehicules());
+            if (flotte.getListeVehicules().isEmpty()) {
                 log.info("La flotte est actuellement vide, aucun véhicule à afficher.");
             }
-            return flotte;
+            return flotte.getListeVehicules();
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
             return null;

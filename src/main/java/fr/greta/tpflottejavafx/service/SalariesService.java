@@ -50,10 +50,10 @@ public class SalariesService extends Service {
     public List<Salarie> afficherSalaries() {
         log.info("Affichage des salariés");
 
-        List<Salarie> res = new ArrayList<>();
+        List<Salarie> res;
 
         try {
-            salarieDAO.listerSalaries();
+            res = salarieDAO.listerSalaries();
         } catch (DAOException e) {
             log.error(e.getMessage(), e);
             throw e;

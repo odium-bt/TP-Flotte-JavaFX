@@ -76,7 +76,7 @@ public class SalariesController {
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("prenom"));
 
         try {
-            salaries.setAll(salariesService.afficherSalaries());
+            salaries.setAll(DataFactory.getInstance().afficherListSalaries());
         } catch (DAOException e) {
             log("Erreur : Impossible de récupérer les salariés.");
             log(e.getMessage());
