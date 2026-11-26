@@ -15,8 +15,12 @@ import java.io.IOException;
 /// Contrôleur gérant la fenêtre d'accueil
 public class AccueilController {
 
+
     @FXML
     private Button gestionFlotte;
+
+    @FXML
+    private Button gestionSalarie;
 
     @FXML
     private Button gestionReservation;
@@ -54,7 +58,7 @@ public class AccueilController {
         SalariesController salariesController = new SalariesController();
 
         try {
-            salariesController.SalariesScene(gestionReservation.getScene().getWindow());
+            salariesController.SalariesScene(gestionSalarie.getScene().getWindow());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
