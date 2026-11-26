@@ -1,7 +1,6 @@
 package fr.greta.tpflottejavafx.controllers;
 
 import fr.greta.tpflottejavafx.exceptions.DAOException;
-import fr.greta.tpflottejavafx.exceptions.DomainException;
 import fr.greta.tpflottejavafx.exceptions.RegleGestionException;
 import fr.greta.tpflottejavafx.modeles.Reservation;
 import fr.greta.tpflottejavafx.modeles.Vehicule;
@@ -187,7 +186,7 @@ public class ReservationController {
         reservationsList.clear();                          // vide la table
         list.setPlaceholder(new ProgressIndicator());   // affiche l'indicateur de chargement
 
-        Thread thread = new Thread(task, "load-flotte");
+        Thread thread = new Thread(task, "load-reservations");
         thread.setDaemon(true);
         thread.start();
     }
@@ -314,7 +313,7 @@ public class ReservationController {
             reservationService.supprimerReservation(r.getIdReservation());
             reservationsList.remove(r);
             log("Suppression " + r + "\n");
-        } catch (DAOException | DomainException e) {
+        } catch (DAOException | RegleGestionException e) {
             log(e.getMessage() + "\n");
         }
     }
